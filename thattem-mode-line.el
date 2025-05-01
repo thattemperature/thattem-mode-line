@@ -87,6 +87,38 @@
             (setq mode-line-format
                   thattem-default-mode-line-format)))
 
+;;; Hook settings
+
+(defun thattem-add-mode-hook (MODE FUNCTION)
+  "A helper function to add hook FUNCTION to the MODE ."
+  (add-hook (intern (concat (symbol-name MODE) "-hook")) FUNCTION))
+
+(defun thattem-shell-mode-hook-function ()
+  "A function called by the hook of shell-like mode.
+like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
+  ;; Set header line and mode line
+  (setq header-line-format
+        thattem-shell-header-line-format)
+  (setq mode-line-format nil)
+  ;; Set font size
+  (text-scale-set -1))
+
+(dolist (mode thattem-shell-like-modes)
+  (thattem-add-mode-hook mode 'thattem-shell-mode-hook-function))
+
+(defun thattem-help-mode-hook-function ()
+  "A function called by the hook of help mode."
+  ;; Set header line and mode line
+  (when (eq header-line-format thattem-default-header-line-format)
+    (setq header-line-format thattem-help-header-line-format))
+  (when (eq mode-line-format thattem-default-mode-line-format)
+    (setq mode-line-format thattem-help-mode-line-format))
+  ;; Do not show line number at the left
+  (display-line-numbers-mode 0))
+
+(dolist (mode thattem-help-modes)
+  (thattem-add-mode-hook mode 'thattem-help-mode-hook-function))
+
 
 (provide 'thattem-mode-line)
 ;;; thattem-mode-line.el ends here

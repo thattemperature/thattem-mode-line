@@ -5,9 +5,8 @@
 ;;; Code:
 
 (require 'flymake)
-;; TODO: require thattem window actions
-;; (require 'thattem-window-actions)
 (require 'dash)
+(require 'thattem-mode-line-window-actions)
 
 
 ;; This function is a helper for flymake information
