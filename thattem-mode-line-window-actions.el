@@ -14,7 +14,7 @@
     compilation-mode
     process-menu-mode)
   "A list of major mode which should be seen as shell."
-  :type '(list symbol)
+  :type '(repeat symbol)
   :group 'thattem-mode-line)
 
 (defcustom thattem-help-modes
@@ -24,13 +24,13 @@
     fanyi-mode
     shortdoc-mode)
   "A list of major mode which should be seen as helper."
-  :type '(list symbol)
+  :type '(repeat symbol)
   :group 'thattem-mode-line)
 
 (defcustom thattem-fundamental-modes
   '(fundamental-mode)
   "A list of major mode which is fundamental mode."
-  :type '(list symbol)
+  :type '(repeat symbol)
   :group 'thattem-mode-line)
 
 (defcustom thattem-special-mode-list
@@ -38,7 +38,7 @@
         thattem-help-modes
         thattem-fundamental-modes)
   "A list of all above mode lists."
-  :type '(list (list symbol))
+  :type '(repeat (repeat symbol))
   :group 'thattem-mode-line)
 
 ;;; Define helper functions.

@@ -10,6 +10,9 @@
 (require 'flymake)
 (require 'dash)
 
+(defgroup thattem-mode-line nil
+  "Modified mode line."
+  :group 'convenience)
 
 (require 'thattem-mode-line-small-elements)
 (require 'thattem-mode-line-big-elements)
