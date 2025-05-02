@@ -75,15 +75,19 @@ End of line style:
                                     :face
                                     (thattem-mode-line/dark-face-when-active)
                                     :v-adjust 0 :height 1.25))
-        (propertize
-         (let ((name (buffer-name))
-               (max-length (max (/ (window-width) 6) 12)))
-           (if (> (length name) max-length)
-               (format " %s%s "
-                       (substring name 0 (- max-length 1))
-                       (nerd-icons-faicon "nf-fa-ellipsis_v"))
-             (format " %s " name)))
-         'face (thattem-mode-line/dark-face-when-active)))
+        (let ((name (buffer-name))
+              (max-length (max (/ (window-width) 6) 12)))
+          (if (> (length name) max-length)
+              (concat
+               (propertize
+                (format " %s" (substring name 0 (- max-length 1)))
+                'face (thattem-mode-line/dark-face-when-active))
+               (nerd-icons-faicon "nf-fa-ellipsis_v"
+                                  :face
+                                  (thattem-mode-line/dark-face-when-active)))
+            (propertize
+             (format " %s " name)
+             'face (thattem-mode-line/dark-face-when-active)))))
        'mouse-face '(:box (:line-width (0 . -4)))
        'help-echo (concat "The name of this buffer is:\n"
                           (buffer-name)
@@ -102,16 +106,20 @@ End of line style:
                                     :face
                                     (thattem-mode-line/dark-face-when-active)
                                     :v-adjust 0 :height 1.25))
-        (propertize
-         (let ((name (buffer-name))
-               (length (length (buffer-name)))
-               (max-length (max (/ (window-width) 6) 12)))
-           (if (> (length name) max-length)
-               (format " %s%s "
-                       (nerd-icons-faicon "nf-fa-ellipsis_v")
-                       (substring name (- length max-length -1) length))
-             (format " %s " name)))
-         'face (thattem-mode-line/dark-face-when-active)))
+        (let ((name (buffer-name))
+              (length (length (buffer-name)))
+              (max-length (max (/ (window-width) 6) 12)))
+          (if (> (length name) max-length)
+              (concat
+               (nerd-icons-faicon "nf-fa-ellipsis_v"
+                                  :face
+                                  (thattem-mode-line/dark-face-when-active))
+               (propertize
+                (format "%s " (substring name (- length max-length -1) length))
+                'face (thattem-mode-line/dark-face-when-active)))
+            (propertize
+             (format " %s " name)
+             'face (thattem-mode-line/dark-face-when-active)))))
        'mouse-face '(:box (:line-width (0 . -4)))
        'help-echo (concat "The name of this buffer is:\n"
                           (buffer-name)
@@ -217,15 +225,18 @@ The width of this window is: %d"
                              :face (thattem-mode-line/bright-face-when-active)
                              :v-adjust 0 :height 1.25))
         (unless (equal (projectile-project-name) "-")
-          (propertize
-           (let ((name (projectile-project-name))
-                 (max-length (max (/ (window-width) 8) 8)))
-             (if (> (length name) max-length)
-                 (format " %s%s "
-                         (substring name 0 (- max-length 1))
-                         (nerd-icons-faicon "nf-fa-ellipsis_v"))
-               (format " %s " name)))
-           'face (thattem-mode-line/bright-face-when-active))))
+          (let ((name (projectile-project-name))
+                (max-length (max (/ (window-width) 8) 8)))
+            (if (> (length name) max-length)
+                (concat
+                 (propertize
+                  (format " %s" (substring name 0 (- max-length 1)))
+                  'face (thattem-mode-line/bright-face-when-active))
+                 (nerd-icons-faicon "nf-fa-ellipsis_v"
+                                    :face (thattem-mode-line/bright-face-when-active)))
+              (propertize
+               (format " %s " name)
+               'face (thattem-mode-line/bright-face-when-active))))))
        'mouse-face '(:box (:line-width (0 . -4)))
        'help-echo (if (equal (projectile-project-name) "-")
                       "This buffer does not belong to a project.
