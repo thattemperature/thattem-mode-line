@@ -19,8 +19,10 @@
 
 (defface thattem-mode-line/bright
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color
+     :foreground
+     ,thattem-mode-line/dark-theme/bright-foreground)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color
@@ -31,8 +33,11 @@
 
 (defface thattem-mode-line/bright-2
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color-2
+     :foreground
+     ,thattem-mode-line/dark-theme/bright-foreground-2
+     :weight heavy)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color-2
@@ -44,8 +49,10 @@
 
 (defface thattem-mode-line/bright-inactive
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/default-dark
+     :foreground
+     ,thattem-mode-line/dark-theme/default-bright)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/default-bright
@@ -56,8 +63,10 @@
 
 (defface thattem-mode-line/dark
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/bright-color
+     :foreground
+     ,thattem-mode-line/dark-theme/dark-foreground)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/dark-color
@@ -68,8 +77,11 @@
 
 (defface thattem-mode-line/dark-2
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/bright-color-2
+     :foreground
+     ,thattem-mode-line/dark-theme/dark-foreground-2
+     :weight heavy)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/dark-color-2
@@ -81,8 +93,10 @@
 
 (defface thattem-mode-line/dark-inactive
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/default-bright
+     :foreground
+     ,thattem-mode-line/dark-theme/default-dark)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/default-dark
@@ -93,8 +107,10 @@
 
 (defface thattem-mode-line/edge
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/bright-color
+     :foreground
+     ,thattem-mode-line/dark-theme/dark-color)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/dark-color
@@ -105,8 +121,10 @@
 
 (defface thattem-mode-line/edge-2
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/bright-color-2
+     :foreground
+     ,thattem-mode-line/dark-theme/dark-color-2)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/dark-color-2
@@ -117,8 +135,10 @@
 
 (defface thattem-mode-line/edge-reverse
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color
+     :foreground
+     ,thattem-mode-line/dark-theme/bright-color)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color
@@ -129,8 +149,10 @@
 
 (defface thattem-mode-line/edge-2-reverse
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color-2
+     :foreground
+     ,thattem-mode-line/dark-theme/bright-color-2)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color-2
@@ -141,8 +163,10 @@
 
 (defface thattem-mode-line/bright-small
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :inherit
+     thattem-mode-line/bright
+     :height
+     ,thattem-mode-line/small-font-height)
     (((class color) (background light))
      :inherit
      thattem-mode-line/bright
@@ -153,8 +177,10 @@
 
 (defface thattem-mode-line/bright-inactive-small
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :inherit
+     thattem-mode-line/bright-inactive
+     :height
+     ,thattem-mode-line/small-font-height)
     (((class color) (background light))
      :inherit
      thattem-mode-line/bright-inactive
@@ -165,8 +191,11 @@
 
 (defface thattem-mode-line/error
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color
+     :foreground
+     ,thattem-mode-line/error-color
+     :weight bold)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color
@@ -178,8 +207,11 @@
 
 (defface thattem-mode-line/warning
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color
+     :foreground
+     ,thattem-mode-line/warning-color
+     :weight bold)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color
@@ -191,8 +223,11 @@
 
 (defface thattem-mode-line/note
   `((((class color) (background dark))
-     ;; TODO
-     )
+     :background
+     ,thattem-mode-line/dark-theme/dark-color
+     :foreground
+     ,thattem-mode-line/note-color
+     :weight bold)
     (((class color) (background light))
      :background
      ,thattem-mode-line/light-theme/bright-color

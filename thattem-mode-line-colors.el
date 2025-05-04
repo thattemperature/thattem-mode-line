@@ -56,6 +56,56 @@
   :type 'string
   :group 'thattem-mode-line)
 
+(defcustom thattem-mode-line/dark-theme/bright-color "#286098"
+  "The basic bright background color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/dark-color "#1c2c38"
+  "The basic dark background color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/bright-foreground "#60f8c0"
+  "The basic bright foreground color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/dark-foreground "#c88c00"
+  "The basic dark foreground color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/bright-color-2 "#c08800"
+  "The alternative bright background color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/dark-color-2 "#303020"
+  "The alternative dark background color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/bright-foreground-2 "#c8bcb0"
+  "The alternative bright foreground color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/dark-foreground-2 "#383c50"
+  "The alternative dark foreground color for mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/default-bright "#505050"
+  "The bright color for inactive mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
+(defcustom thattem-mode-line/dark-theme/default-dark "#101820"
+  "The dark color for inactive mode line in dark theme."
+  :type 'string
+  :group 'thattem-mode-line)
+
 (defcustom thattem-mode-line/error-color "#b31212"
   "The color for flymake error in mode line."
   :type 'string
