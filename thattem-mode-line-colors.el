@@ -106,17 +106,17 @@
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/error-color "#b31212"
+(defcustom thattem-mode-line/error-color "#980000"
   "The color for flymake error in mode line."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/warning-color "#b3b312"
+(defcustom thattem-mode-line/warning-color "#989800"
   "The color for flymake warning in mode line."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/note-color "#12b312"
+(defcustom thattem-mode-line/note-color "#009800"
   "The color for flymake note in mode line."
   :type 'string
   :group 'thattem-mode-line)
