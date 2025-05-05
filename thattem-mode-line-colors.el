@@ -51,27 +51,27 @@
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/light-theme/default-dark "dark gray"
+(defcustom thattem-mode-line/light-theme/default-dark "#a8a8a8"
   "The dark color for inactive mode line in light theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/bright-color "#286098"
+(defcustom thattem-mode-line/dark-theme/bright-color "#28639a"
   "The basic bright background color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/dark-color "#1c2c38"
+(defcustom thattem-mode-line/dark-theme/dark-color "#1e2c37"
   "The basic dark background color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/bright-foreground "#60f8c0"
+(defcustom thattem-mode-line/dark-theme/bright-foreground "#50d5b0"
   "The basic bright foreground color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/dark-foreground "#c88c00"
+(defcustom thattem-mode-line/dark-theme/dark-foreground "#ca8600"
   "The basic dark foreground color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
@@ -81,22 +81,22 @@
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/dark-color-2 "#303020"
+(defcustom thattem-mode-line/dark-theme/dark-color-2 "#303022"
   "The alternative dark background color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/bright-foreground-2 "#c8bcb0"
+(defcustom thattem-mode-line/dark-theme/bright-foreground-2 "#c8bcae"
   "The alternative bright foreground color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/dark-foreground-2 "#383c50"
+(defcustom thattem-mode-line/dark-theme/dark-foreground-2 "#383c53"
   "The alternative dark foreground color for mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
 
-(defcustom thattem-mode-line/dark-theme/default-bright "#505050"
+(defcustom thattem-mode-line/dark-theme/default-bright "#606060"
   "The bright color for inactive mode line in dark theme."
   :type 'string
   :group 'thattem-mode-line)
