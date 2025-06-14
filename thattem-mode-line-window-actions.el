@@ -22,6 +22,7 @@
     Info-mode
     messages-buffer-mode
     fanyi-mode
+    sdcv-mode
     shortdoc-mode)
   "A list of major mode which should be seen as helper."
   :type '(repeat symbol)
