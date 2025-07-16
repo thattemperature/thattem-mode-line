@@ -1,6 +1,23 @@
-;;; Mode-line-colors --- define colors used in mode line. ;; -*- lexical-binding: t; -*-
+;;; Mode-line-colors --- define colors used in mode line  -*- lexical-binding: t; -*-
+
+;; Author: That Temperature <2719023332@qq.com>
+;; URL: https://github.com/thattemperature/thattem-mode-line
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
 ;; Mode-line-colors defines the default colors used in Thattem-mode-line.
 ;; You can customize these colors.
 
