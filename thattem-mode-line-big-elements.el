@@ -360,37 +360,44 @@ Open project's root folder."))
              (car
               (-reduce
                (lambda (lefts item)
-                 (cons
-                  (concat
-                   (car lefts)
-                   (nerd-icons-powerline
-                    "nf-ple-lower_right_triangle"
-                    :face edge-reverse-face
-                    :v-adjust 0 :height 1.25)
-                   (nerd-icons-powerline
-                    "nf-ple-upper_left_triangle"
-                    :face edge-reverse-face
-                    :v-adjust 0 :height 1.25)
-                   (propertize item
-                               'face bright-face
-                               'mouse-face '(:box (:line-width (0 . -4)))
-                               'help-echo
-                               (concat
-                                (thattem-mode-line-dir-builder
-                                 (cdr lefts) item)
-                                "\n\nMouse-1: Go to directory
+                 (let ((whole-path (thattem-mode-line-dir-builder
+                                    (cdr lefts) item)))
+                   (cons
+                    (concat
+                     (car lefts)
+                     (nerd-icons-powerline
+                      "nf-ple-lower_right_triangle"
+                      :face edge-reverse-face
+                      :v-adjust 0 :height 1.25)
+                     (nerd-icons-powerline
+                      "nf-ple-upper_left_triangle"
+                      :face edge-reverse-face
+                      :v-adjust 0 :height 1.25)
+                     (propertize item
+                                 'face bright-face
+                                 'mouse-face '(:box (:line-width (0 . -4)))
+                                 'help-echo
+                                 (concat
+                                  whole-path
+                                  "\n\nMouse-1: Go to directory
 Mouse-3: Go to sub-directories")
-                               'directory
-                               (thattem-mode-line-dir-builder
-                                (cdr lefts) item)
-                               'keymap
-                               thattem-mode-line-file-dir-keymap))
-                  (thattem-mode-line-dir-builder (cdr lefts) item)))
-               (cons (cons "" "")
-                     (thattem-mode-line-dir-preprocess
-                      (butlast
-                       (file-name-split
-                        (f-expand(buffer-file-name))))))))
+                                 'directory
+                                 whole-path
+                                 'keymap
+                                 thattem-mode-line-file-dir-keymap))
+                    whole-path)))
+               (thattem-mode-line-dir-deal-root
+                (thattem-mode-line-dir-preprocess
+                 (butlast
+                  (file-name-split
+                   (f-expand (buffer-file-name)))))
+                'face bright-face
+                'mouse-face '(:box (:line-width (0 . -4)))
+                'help-echo
+                "root\n\nMouse-1: Go to directory
+Mouse-3: Go to sub-directories"
+                'keymap
+                thattem-mode-line-file-dir-keymap)))
            (concat (nerd-icons-powerline
                     "nf-ple-lower_right_triangle"
                     :face edge-reverse-face
@@ -498,37 +505,44 @@ Date: %d
          (car
           (-reduce
            (lambda (lefts item)
-             (cons
-              (concat
-               (car lefts)
-               (nerd-icons-powerline
-                "nf-ple-lower_right_triangle"
-                :face edge-2-reverse-face
-                :v-adjust 0 :height 1.25)
-               (nerd-icons-powerline
-                "nf-ple-upper_left_triangle"
-                :face edge-2-reverse-face
-                :v-adjust 0 :height 1.25)
-               (propertize (if (string-empty-p item)
-                               " "
-                             item)
-                           'face bright-face-2
-                           'mouse-face '(:box (:line-width (0 . -4)))
-                           'help-echo
-                           (concat
-                            (thattem-mode-line-dir-builder
-                             (cdr lefts) item)
-                            "\n\nMouse-1: Go to directory
+             (let ((whole-path (thattem-mode-line-dir-builder
+                                (cdr lefts) item)))
+               (cons
+                (concat
+                 (car lefts)
+                 (nerd-icons-powerline
+                  "nf-ple-lower_right_triangle"
+                  :face edge-2-reverse-face
+                  :v-adjust 0 :height 1.25)
+                 (nerd-icons-powerline
+                  "nf-ple-upper_left_triangle"
+                  :face edge-2-reverse-face
+                  :v-adjust 0 :height 1.25)
+                 (propertize (if (string-empty-p item)
+                                 " "
+                               item)
+                             'face bright-face-2
+                             'mouse-face '(:box (:line-width (0 . -4)))
+                             'help-echo
+                             (concat
+                              whole-path
+                              "\n\nMouse-1: Go to directory
 Mouse-3: Go to sub-directories")
-                           'directory
-                           (thattem-mode-line-dir-builder
-                            (cdr lefts) item)
-                           'keymap
-                           thattem-mode-line-file-dir-keymap))
-              (thattem-mode-line-dir-builder (cdr lefts) item)))
-           (cons (cons "" "")
-                 (thattem-mode-line-dir-preprocess
-                  (file-name-split (f-expand default-directory)))))))))
+                             'directory
+                             whole-path
+                             'keymap
+                             thattem-mode-line-file-dir-keymap))
+                whole-path)))
+           (thattem-mode-line-dir-deal-root
+            (thattem-mode-line-dir-preprocess
+             (file-name-split (f-expand default-directory)))
+            'face bright-face-2
+            'mouse-face '(:box (:line-width (0 . -4)))
+            'help-echo
+            "root\n\nMouse-1: Go to directory
+Mouse-3: Go to sub-directories"
+            'keymap
+            thattem-mode-line-file-dir-keymap))))))
   "Mode line construct for displaying full path to default directory.
 In another style.")
 

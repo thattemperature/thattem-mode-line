@@ -100,6 +100,10 @@ temporarily select EVENT's windows."
 
 (defun thattem-mode-line-dir-preprocess (dir-list)
   "Preprocessing the split file path DIR-LIST."
+  (while-let ((continue
+               (and (length> dir-list 1)
+                    (string-blank-p (car (last dir-list))))))
+    (setq dir-list (butlast dir-list)))
   (car
    (-reduce-r
     (lambda (item rights)
@@ -110,10 +114,27 @@ temporarily select EVENT's windows."
                     (cdr rights))
         (car rights))
        (cons item (cdr rights))))
-    (append (if (string-blank-p (car (last dir-list)))
-                (butlast dir-list)
-              dir-list)
+    (append dir-list
             '((nil nil))))))
+
+(defun thattem-mode-line-dir-deal-root (dir-list &rest properties)
+  "Deal with the root (car) of the DIR-LIST, with PROPERTIES."
+  (let ((root (car dir-list))
+        (tail (cdr dir-list))
+        (tramp-regexp-1 "^/\\([^:]+\\):$")
+        (tramp-regexp-2 "^/\\([^:]+\\):\\([^:]+\\):$"))
+    (let ((left root)
+          (right (substring-no-properties root)))
+      (cond ((string-match tramp-regexp-2 root)
+             (setq left (match-string 1 root)))
+            ((string-match tramp-regexp-1 root)
+             (setq left (match-string 1 root))))
+      (cons (cons (apply #'propertize left
+                         'directory
+                         (thattem-mode-line-dir-builder right "")
+                         properties)
+                  right)
+            tail))))
 
 (defun thattem-mode-line-dir-builder (lefts item)
   "Build the whole path form the list \
@@ -123,15 +144,9 @@ or the return value of this function.
 ITEM is the next element."
   (substring-no-properties
    (cond ((string-blank-p lefts)
-          (cond ((string-blank-p item)
-                 "/")
-                ((and (string= (substring item 0 1) "/")
-                      (not (string= (substring item -1 nil) ":")))
-                 (concat item ":"))
-                (t
-                 item)))
-         ((equal lefts "/")
           (concat "/" item))
+         ((string-suffix-p "/" lefts)
+          (concat lefts item))
          (t
           (concat lefts "/" item)))))
 
