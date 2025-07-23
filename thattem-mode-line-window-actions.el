@@ -103,9 +103,7 @@ the return value when used."
 itself.
 This function return a function that FUNC recursive call itself."
   (lambda (&rest arguments)
-    (apply (lambda (func &rest arguments)
-             (apply func func arguments))
-           func arguments)))
+    (apply func func arguments)))
 
 (defun thattem--build-member (equal-func)
   "Return a function which behave like \\='member\\='.
