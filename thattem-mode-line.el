@@ -83,24 +83,6 @@
     thattem-mode-line-end-space)
   "Mode line format for help buffer.")
 
-;;; Other settings
-
-(setq-default header-line-format thattem-default-header-line-format)
-(setq-default mode-line-format thattem-default-mode-line-format)
-
-;; Unset global key binding
-(dolist (position '(mode-line header-line))
-  (dolist (action '(mouse-1 mouse-2 mouse-3))
-    (global-set-key (vector position action)
-                    'ignore)))
-(setq mode-line-default-help-echo nil)
-
-;; make eaf use my mode line format
-(add-hook 'eaf-mode-hook
-          (lambda ()
-            (setq mode-line-format
-                  thattem-default-mode-line-format)))
-
 ;;; Hook settings
 
 (defun thattem-add-mode-hook (MODE FUNCTION)
@@ -117,9 +99,6 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   ;; Set font size
   (text-scale-set -1))
 
-(dolist (mode thattem-shell-like-modes)
-  (thattem-add-mode-hook mode 'thattem-shell-mode-hook-function))
-
 (defun thattem-help-mode-hook-function ()
   "A function called by the hook of help mode."
   ;; Set header line and mode line
@@ -130,8 +109,30 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   ;; Do not show line number at the left
   (display-line-numbers-mode 0))
 
-(dolist (mode thattem-help-modes)
-  (thattem-add-mode-hook mode 'thattem-help-mode-hook-function))
+;;; Define load function
+
+(defun thattem-mode-line-load ()
+  "Set variables for thattem-mode-line."
+  (setq display-buffer-alist thattem-display-buffer-alist-default)
+  ;; Set default mode line format
+  (setq-default header-line-format thattem-default-header-line-format)
+  (setq-default mode-line-format thattem-default-mode-line-format)
+  ;; Add special mode hooks
+  (dolist (mode thattem-shell-like-modes)
+    (thattem-add-mode-hook mode 'thattem-shell-mode-hook-function))
+  (dolist (mode thattem-help-modes)
+    (thattem-add-mode-hook mode 'thattem-help-mode-hook-function))
+  ;; Make eaf use my mode line format
+  (add-hook 'eaf-mode-hook
+            (lambda ()
+              (setq mode-line-format
+                    thattem-default-mode-line-format)))
+  ;; Unset global key binding
+  (dolist (position '(mode-line header-line))
+    (dolist (action '(mouse-1 mouse-2 mouse-3))
+      (global-set-key (vector position action)
+                      'ignore)))
+  (setq mode-line-default-help-echo nil))
 
 
 (provide 'thattem-mode-line)

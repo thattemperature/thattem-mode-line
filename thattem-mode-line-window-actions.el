@@ -70,31 +70,32 @@ the return value when used."
             (thattem-mode-list-for-buffer-match (cdr MODE-LIST)))
     nil))
 
-;;; Important: set variable "display-buffer-alist"
+;;; Define new value of variable "display-buffer-alist"
 
-(setq display-buffer-alist
-      (let ((shell-like-action
-             `((display-buffer-reuse-mode-window
-                display-buffer-at-bottom)
-               (mode . ,thattem-shell-like-modes)
-               (window-height . 10)))
-            (help-action
-             `((display-buffer-reuse-mode-window
-                display-buffer-pop-up-window)
-               (mode . ,thattem-help-modes)
-               (window-width . 40))))
-        ;; shell-like regexp settings
-        `((,(concat "\\(^\\*eshell\\*\\(<[[:digit:]]+>\\)?$\\)\\|"
-                    "\\(^\\*shell\\*\\(<[[:digit:]]+>\\)?$\\)")
-           . ,shell-like-action)
-          ;; shell-like mode settings
-          (,(cons 'or (thattem-mode-list-for-buffer-match
-                       thattem-shell-like-modes))
-           . ,shell-like-action)
-          ;; help mode settings
-          (,(cons 'or (thattem-mode-list-for-buffer-match
-                       thattem-help-modes))
-           . ,help-action))))
+(defvar thattem-display-buffer-alist-default
+  (let ((shell-like-action
+         `((display-buffer-reuse-mode-window
+            display-buffer-at-bottom)
+           (mode . ,thattem-shell-like-modes)
+           (window-height . 10)))
+        (help-action
+         `((display-buffer-reuse-mode-window
+            display-buffer-pop-up-window)
+           (mode . ,thattem-help-modes)
+           (window-width . 40))))
+    ;; shell-like regexp settings
+    `((,(concat "\\(^\\*eshell\\*\\(<[[:digit:]]+>\\)?$\\)\\|"
+                "\\(^\\*shell\\*\\(<[[:digit:]]+>\\)?$\\)")
+       . ,shell-like-action)
+      ;; shell-like mode settings
+      (,(cons 'or (thattem-mode-list-for-buffer-match
+                   thattem-shell-like-modes))
+       . ,shell-like-action)
+      ;; help mode settings
+      (,(cons 'or (thattem-mode-list-for-buffer-match
+                   thattem-help-modes))
+       . ,help-action)))
+  "New value for \\='display-buffer-alist\\='.")
 
 ;;; Switch buffer functions
 
