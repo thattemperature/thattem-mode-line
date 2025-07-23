@@ -132,7 +132,11 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
     (dolist (action '(mouse-1 mouse-2 mouse-3))
       (global-set-key (vector position action)
                       'ignore)))
-  (setq mode-line-default-help-echo nil))
+  (setq mode-line-default-help-echo nil)
+  ;; Run special mode hooks for already exists buffers
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (run-hooks (intern (concat (symbol-name major-mode) "-hook"))))))
 
 
 (provide 'thattem-mode-line)
