@@ -69,15 +69,19 @@ temporarily select EVENT's windows."
   (with-selected-window (posn-window (event-start event))
     (thattem-next-buffer)))
 
-(defun thattem-mode-line--mode-list-menu (mode-list name)
-  "Build menu of MODE-LIST, with NAME."
+(defun thattem-mode-line--mode-list-menu
+    (mode-list name &optional global)
+  "Build menu of MODE-LIST, with NAME.
+If GLOBAL is not nil, remove \"global-\" prefix in each items."
   (let ((menu (make-sparse-keymap name)))
     (dolist (minor-mode (seq-sort 'string> mode-list))
       (let ((pretty-minors
              (capitalize
               (replace-regexp-in-string
-               "\\(\\(-minor\\)?-mode\\)?\\'" ""
-               (symbol-name minor-mode)))))
+               (if global "\\(-?global-?\\)?" "") ""
+               (replace-regexp-in-string
+                "\\(\\(-minor\\)?-mode\\)?\\'" ""
+                (symbol-name minor-mode))))))
         (bindings--define-key menu (vector minor-mode)
           `(menu-item ,pretty-minors
                       ,(lambda ()
@@ -96,7 +100,7 @@ temporarily select EVENT's windows."
 (defun thattem-mode-line-global-minor-mode-menu (_)
   "Build menu for active global minor modes."
   (thattem-mode-line--mode-list-menu
-   global-minor-modes "Global minor modes"))
+   global-minor-modes "Global minor modes" t))
 
 (defun thattem-mode-line-dir-preprocess (dir-list)
   "Preprocessing the split file path DIR-LIST."

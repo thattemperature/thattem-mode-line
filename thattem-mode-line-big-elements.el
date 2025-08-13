@@ -159,7 +159,8 @@ End of line style:
                                     :face
                                     bright-face
                                     :v-adjust 0 :height 1.25)
-          (propertize (format " %s " (symbol-name major-mode))
+          (propertize (format " %s "
+                              (format-mode-line mode-name))
                       'face
                       bright-small-face))
          'mouse-face '(:box (:line-width (0 . -4)))
@@ -425,7 +426,8 @@ Mouse-3: Go to sub-directories"
           (nerd-icons-icon-for-mode major-mode
                                     :face bright-face-2
                                     :v-adjust 0 :height 1.25)
-          (propertize (format " %s " (symbol-name major-mode))
+          (propertize (format " %s "
+                              (format-mode-line mode-name))
                       'face bright-face-2))
          'mouse-face '(:box (:line-width (0 . -4)))
          'help-echo (concat "The major mode of this buffer is:\n"
