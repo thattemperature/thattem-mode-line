@@ -26,20 +26,19 @@
 
 (defvar thattem-mode-line-buffer-name-keymap
   (let ((map (make-sparse-keymap)))
-    ;; mouse-1 to go to previous buffer
-    (define-key map [mode-line down-mouse-1]
-                #'thattem-mode-line-previous-buffer)
-    (define-key map [header-line down-mouse-1]
-                #'thattem-mode-line-previous-buffer)
-    ;; mouse-2 to copy buffer name
-    (define-key map [mode-line down-mouse-2]
-                #'thattem-kill-buffer-name-save)
-    (define-key map [header-line down-mouse-2]
-                #'thattem-kill-buffer-name-save)
-    ;; mouse-3 to go to next buffer
+    ;; mouse-3 to copy buffer name
     (define-key map [mode-line down-mouse-3]
-                #'thattem-mode-line-next-buffer)
+                #'thattem-kill-buffer-name-save)
     (define-key map [header-line down-mouse-3]
+                #'thattem-kill-buffer-name-save)
+    ;; wheel to go to buffer
+    (define-key map [mode-line wheel-up]
+                #'thattem-mode-line-previous-buffer)
+    (define-key map [mode-line wheel-down]
+                #'thattem-mode-line-next-buffer)
+    (define-key map [header-line wheel-up]
+                #'thattem-mode-line-previous-buffer)
+    (define-key map [header-line wheel-down]
                 #'thattem-mode-line-next-buffer)
     map)
   "Keymap for what is displayed by \

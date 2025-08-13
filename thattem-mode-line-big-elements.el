@@ -110,9 +110,9 @@ End of line style:
          'mouse-face '(:box (:line-width (0 . -4)))
          'help-echo (concat "The name of this buffer is:\n"
                             (buffer-name)
-                            "\n\nMouse-1: Previous buffer\n"
-                            "Mouse-2: Copy buffer name\n"
-                            "Mouse-3: Next buffer")
+                            "\n\nMouse-3: Copy buffer name\n"
+                            "Wheel-up: Previous buffer\n"
+                            "Wheel-down: Next buffer")
          'keymap thattem-mode-line-buffer-name-keymap)))
   "Mode line construct for displaying buffer name.")
 
@@ -143,9 +143,9 @@ End of line style:
          'mouse-face '(:box (:line-width (0 . -4)))
          'help-echo (concat "The name of this buffer is:\n"
                             (buffer-name)
-                            "\n\nMouse-1: Previous buffer\n"
-                            "Mouse-2: Copy buffer name\n"
-                            "Mouse-3: Next buffer")
+                            "\n\nMouse-3: Copy buffer name\n"
+                            "Wheel-up: Previous buffer\n"
+                            "Wheel-down: Next buffer")
          'keymap thattem-mode-line-buffer-name-keymap)))
   "Mode line construct for displaying buffer name.")
 
@@ -452,9 +452,9 @@ Mouse-3: Go to sub-directories"
                             'help-echo (concat
                                         "The name of this buffer is:\n"
                                         (buffer-name)
-                                        "\n\nMouse-1: Previous buffer\n"
-                                        "Mouse-2: Copy buffer name\n"
-                                        "Mouse-3: Next buffer")
+                                        "\n\nMouse-3: Copy buffer name\n"
+                                        "Wheel-up: Previous buffer\n"
+                                        "Wheel-down: Next buffer")
                             'keymap
                             thattem-mode-line-buffer-name-keymap)
                 (nerd-icons-powerline
