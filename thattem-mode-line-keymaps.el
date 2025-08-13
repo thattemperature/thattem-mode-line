@@ -81,20 +81,12 @@
 
 (defvar thattem-mode-line-flymake-info-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map (vector 'mode-line mouse-wheel-down-event)
-                #'flymake--mode-line-counter-scroll-next)
     (define-key map [mode-line wheel-down]
                 #'flymake--mode-line-counter-scroll-next)
-    (define-key map (vector 'mode-line mouse-wheel-up-event)
-                #'flymake--mode-line-counter-scroll-prev)
     (define-key map [mode-line wheel-up]
                 #'flymake--mode-line-counter-scroll-prev)
-    (define-key map (vector 'header-line mouse-wheel-down-event)
-                #'flymake--mode-line-counter-scroll-next)
     (define-key map [header-line wheel-down]
                 #'flymake--mode-line-counter-scroll-next)
-    (define-key map (vector 'header-line mouse-wheel-up-event)
-                #'flymake--mode-line-counter-scroll-prev)
     (define-key map [header-line wheel-up]
                 #'flymake--mode-line-counter-scroll-prev)
     map)
