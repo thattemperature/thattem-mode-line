@@ -107,6 +107,15 @@
                 #'projectile-dired)
     (define-key map [header-line down-mouse-1]
                 #'projectile-dired)
+    ;; wheel to switch buffer
+    (define-key map [mode-line wheel-up]
+                #'projectile-previous-project-buffer)
+    (define-key map [mode-line wheel-down]
+                #'projectile-next-project-buffer)
+    (define-key map [header-line wheel-up]
+                #'projectile-previous-project-buffer)
+    (define-key map [header-line wheel-down]
+                #'projectile-next-project-buffer)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-project-name\\='.")

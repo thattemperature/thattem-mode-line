@@ -280,7 +280,9 @@ Wheel-down: forward char"
                       (concat "This buffer belongs to the project:\n"
                               (projectile-project-name)
                               "\n\nMouse-1: \
-Open project's root folder."))
+Open project's root folder.
+Wheel-up: Previous project buffer
+Wheel-down: Next project buffer"))
          'keymap thattem-mode-line-project-name-keymap)))
   "Mode line construct for displaying project name.")
 
