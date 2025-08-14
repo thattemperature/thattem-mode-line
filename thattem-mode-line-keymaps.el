@@ -31,6 +31,11 @@
                 #'thattem-kill-buffer-name-save)
     (define-key map [header-line down-mouse-3]
                 #'thattem-kill-buffer-name-save)
+    ;; show copied message when release mouse
+    (define-key map [mode-line mouse-3]
+                #'thattem-kill-buffer-name-save-message)
+    (define-key map [header-line mouse-3]
+                #'thattem-kill-buffer-name-save-message)
     ;; wheel to go to buffer
     (define-key map [mode-line wheel-up]
                 #'thattem-mode-line-previous-buffer)

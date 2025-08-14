@@ -51,9 +51,15 @@
 temporarily select EVENT's windows."
   (interactive "e")
   (with-selected-window (posn-window (event-start event))
-    (message (format "Buffer name: \"%s\" has been copied."
-                     (buffer-name)))
     (kill-new (buffer-name))))
+
+(defun thattem-kill-buffer-name-save-message (&optional event)
+  "Message the result of \\='thattem-kill-buffer-name-save\\='.
+Temporarily select EVENT's windows."
+  (interactive "e")
+  (with-selected-window (posn-window (event-start event))
+    (message (format "Buffer name: \"%s\" has been copied."
+                     (buffer-name)))))
 
 (defun thattem-mode-line-previous-buffer (event)
   "Like \\='thattem-previous-buffer\\='\
