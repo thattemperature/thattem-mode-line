@@ -175,66 +175,77 @@ End of line style:
 (defvar-local thattem-mode-line-line-and-column-number
     '(:eval
       (let ((dark-face (thattem-mode-line/dark-face-when-active)))
-        (propertize
-         (concat
-          (propertize " " 'face dark-face)
-          (nerd-icons-faicon "nf-fa-arrows_v"
-                             :face dark-face
-                             :v-adjust 0 :height 1.25)
-          (nerd-icons-mdicon "nf-md-cursor_default_outline"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize "%2l"
-                      'face dark-face)
-          (nerd-icons-faicon "nf-fa-file_o"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize (format "%2d"
-                              (count-lines (point-min) (point-max)))
-                      'face dark-face)
-          (nerd-icons-mdicon "nf-md-dock_window"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize (format "%2d "
-                              (window-height))
-                      'face dark-face)
-          (nerd-icons-faicon "nf-fa-arrows_h"
-                             :face dark-face
-                             :v-adjust 0 :height 1.25)
-          (nerd-icons-mdicon "nf-md-cursor_default_outline"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize (format "%2d"
-                              (- (point) (line-beginning-position)))
-                      'face dark-face)
-          (nerd-icons-faicon "nf-fa-file_o"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize (format "%2d"
-                              (- (line-end-position)
-                                 (line-beginning-position)))
-                      'face dark-face)
-          (nerd-icons-mdicon "nf-md-dock_window"
-                             :face dark-face
-                             :v-adjust 0)
-          (propertize (format "%2d"
-                              (window-width))
-                      'face dark-face))
-         'mouse-face '(:box (:line-width (0 . -4)))
-         'help-echo (format "The current line number is: %d
+        (concat
+         (propertize
+          (concat
+           (propertize " " 'face dark-face)
+           (nerd-icons-faicon "nf-fa-arrows_v"
+                              :face dark-face
+                              :v-adjust 0 :height 1.25)
+           (nerd-icons-mdicon "nf-md-cursor_default_outline"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize "%2l"
+                       'face dark-face)
+           (nerd-icons-faicon "nf-fa-file_o"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize (format "%2d"
+                               (count-lines (point-min) (point-max)))
+                       'face dark-face)
+           (nerd-icons-mdicon "nf-md-dock_window"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize (format "%2d "
+                               (window-height))
+                       'face dark-face))
+          'mouse-face '(:box (:line-width (0 . -4)))
+          'help-echo (format "The current line number is: %d
 The line number of this buffer: %d
 The height of this window is: %d
 
-The current column number is: %d
+Wheel-up: Previous line
+Wheel-down: Next line"
+                             (line-number-at-pos)
+                             (count-lines (point-min) (point-max))
+                             (window-height))
+          'keymap thattem-mode-line-line-number-keymap)
+         (propertize
+          (concat
+           (nerd-icons-faicon "nf-fa-arrows_h"
+                              :face dark-face
+                              :v-adjust 0 :height 1.25)
+           (nerd-icons-mdicon "nf-md-cursor_default_outline"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize (format "%2d"
+                               (- (point) (line-beginning-position)))
+                       'face dark-face)
+           (nerd-icons-faicon "nf-fa-file_o"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize (format "%2d"
+                               (- (line-end-position)
+                                  (line-beginning-position)))
+                       'face dark-face)
+           (nerd-icons-mdicon "nf-md-dock_window"
+                              :face dark-face
+                              :v-adjust 0)
+           (propertize (format "%2d"
+                               (window-width))
+                       'face dark-face))
+          'mouse-face '(:box (:line-width (0 . -4)))
+          'help-echo (format "The current column number is: %d
 The column number of current line is: %d
-The width of this window is: %d"
-                            (line-number-at-pos)
-                            (count-lines (point-min) (point-max))
-                            (window-height)
-                            (- (point) (line-beginning-position))
-                            (- (line-end-position)
-                               (line-beginning-position))
-                            (window-width)))))
+The width of this window is: %d
+
+Wheel-up: Backward char
+Wheel-down: forward char"
+                             (- (point) (line-beginning-position))
+                             (- (line-end-position)
+                                (line-beginning-position))
+                             (window-width))
+          'keymap thattem-mode-line-column-number-keymap))))
   "Mode line construct for displaying line and column information.")
 
 (defvar-local thattem-mode-line-project-name

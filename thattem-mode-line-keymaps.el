@@ -72,6 +72,34 @@
   "Keymap for what is displayed by \
 \\='thattem-mode-line-major-mode\\='.")
 
+(defvar thattem-mode-line-line-number-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line wheel-up]
+                #'previous-line)
+    (define-key map [mode-line wheel-down]
+                #'next-line)
+    (define-key map [header-line wheel-up]
+                #'previous-line)
+    (define-key map [header-line wheel-down]
+                #'next-line)
+    map)
+  "Keymap for what is displayed by \
+\\='thattem-mode-line-line-and-column-number\\='.")
+
+(defvar thattem-mode-line-column-number-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line wheel-up]
+                #'backward-char)
+    (define-key map [mode-line wheel-down]
+                #'forward-char)
+    (define-key map [header-line wheel-up]
+                #'backward-char)
+    (define-key map [header-line wheel-down]
+                #'forward-char)
+    map)
+  "Keymap for what is displayed by \
+\\='thattem-mode-line-line-and-column-number\\='.")
+
 (defvar thattem-mode-line-project-name-keymap
   (let ((map (make-sparse-keymap)))
     ;; mouse-1 to open the root Dir of the project
