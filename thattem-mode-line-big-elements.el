@@ -289,7 +289,7 @@ Wheel-down: Next project buffer"))
 (defvar-local thattem-mode-line-flymake-info
     '(:eval
       (when flymake-mode
-        (let ((count-list (thattem-flymake-counter))
+        (let ((count-list (thattem-mode-line-flymake-counter))
               (bright-face (thattem-mode-line/bright-face-when-active))
               (dark-face (thattem-mode-line/dark-face-when-active))
               (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))

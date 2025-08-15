@@ -20,7 +20,6 @@
 
 ;;; Code:
 
-(require 'projectile)
 (require 'thattem-mode-line-helper-functions)
 
 
@@ -28,14 +27,14 @@
   (let ((map (make-sparse-keymap)))
     ;; mouse-3 to copy buffer name
     (define-key map [mode-line down-mouse-3]
-                #'thattem-kill-buffer-name-save)
+                #'thattem-mode-line-kill-buffer-name-save)
     (define-key map [header-line down-mouse-3]
-                #'thattem-kill-buffer-name-save)
+                #'thattem-mode-line-kill-buffer-name-save)
     ;; show copied message when release mouse
     (define-key map [mode-line mouse-3]
-                #'thattem-kill-buffer-name-save-message)
+                #'thattem-mode-line-kill-buffer-name-save-message)
     (define-key map [header-line mouse-3]
-                #'thattem-kill-buffer-name-save-message)
+                #'thattem-mode-line-kill-buffer-name-save-message)
     ;; wheel to go to buffer
     (define-key map [mode-line wheel-up]
                 #'thattem-mode-line-previous-buffer)
@@ -59,8 +58,8 @@
       `(menu-item "" nil
                   :filter thattem-mode-line-local-minor-mode-menu))
     ;; mouse-2 to show major mode help
-    (define-key map [mode-line down-mouse-2] #'describe-mode)
-    (define-key map [header-line down-mouse-2] #'describe-mode)
+    (define-key map [mode-line down-mouse-2] #'thattem-mode-line-describe-mode)
+    (define-key map [header-line down-mouse-2] #'thattem-mode-line-describe-mode)
     ;; mouse-3 to list active global minor modes
     (bindings--define-key map [mode-line down-mouse-3]
       `(menu-item "" nil
@@ -75,13 +74,13 @@
 (defvar thattem-mode-line-line-number-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map [mode-line wheel-up]
-                #'previous-line)
+                #'thattem-mode-line-previous-line)
     (define-key map [mode-line wheel-down]
-                #'next-line)
+                #'thattem-mode-line-next-line)
     (define-key map [header-line wheel-up]
-                #'previous-line)
+                #'thattem-mode-line-previous-line)
     (define-key map [header-line wheel-down]
-                #'next-line)
+                #'thattem-mode-line-next-line)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-line-and-column-number\\='.")
@@ -89,13 +88,13 @@
 (defvar thattem-mode-line-column-number-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map [mode-line wheel-up]
-                #'backward-char)
+                #'thattem-mode-line-backward-char)
     (define-key map [mode-line wheel-down]
-                #'forward-char)
+                #'thattem-mode-line-forward-char)
     (define-key map [header-line wheel-up]
-                #'backward-char)
+                #'thattem-mode-line-backward-char)
     (define-key map [header-line wheel-down]
-                #'forward-char)
+                #'thattem-mode-line-forward-char)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-line-and-column-number\\='.")
@@ -109,13 +108,13 @@
                 #'projectile-dired)
     ;; wheel to switch buffer
     (define-key map [mode-line wheel-up]
-                #'projectile-previous-project-buffer)
+                #'thattem-mode-line-projectile-previous-project-buffer)
     (define-key map [mode-line wheel-down]
-                #'projectile-next-project-buffer)
+                #'thattem-mode-line-projectile-next-project-buffer)
     (define-key map [header-line wheel-up]
-                #'projectile-previous-project-buffer)
+                #'thattem-mode-line-projectile-previous-project-buffer)
     (define-key map [header-line wheel-down]
-                #'projectile-next-project-buffer)
+                #'thattem-mode-line-projectile-next-project-buffer)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-project-name\\='.")

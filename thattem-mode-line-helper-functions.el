@@ -20,13 +20,14 @@
 
 ;;; Code:
 
-(require 'flymake)
 (require 'dash)
+(require 'flymake)
+(require 'projectile)
 (require 'thattem-mode-line-window-actions)
 
 
 ;; This function is a helper for flymake information
-(defun thattem-flymake-counter ()
+(defun thattem-mode-line-flymake-counter ()
   "Return flymake error, warning and note count as a list."
   (let ((error-count 0)
         (warning-count 0)
@@ -46,34 +47,41 @@
                (cl-incf note-count)))))
     (list error-count warning-count note-count)))
 
-(defun thattem-kill-buffer-name-save (&optional event)
+;; This is a helper macro to define wrapper functions
+(defmacro thattem-mode-line-define-wrapper-function (func)
+  "Define a wrapper function of FUNC, \
+that temporarily select EVENT's window."
+  `(defun ,(intern
+            (concat
+             "thattem-mode-line-"
+             (replace-regexp-in-string
+              "\\`\\(thattem-\\)?" ""
+              (symbol-name func)))) (event)
+     ,(concat
+       "Like \\='" (symbol-name func) "\\='.
+But temporarily select EVENT's window.")
+     (interactive "e")
+     (with-selected-window (posn-window (event-start event))
+       (,func))))
+
+(defun thattem-mode-line-kill-buffer-name-save (&optional event)
   "Save buffer name into the kill ring, \
 temporarily select EVENT's windows."
   (interactive "e")
   (with-selected-window (posn-window (event-start event))
     (kill-new (buffer-name))))
 
-(defun thattem-kill-buffer-name-save-message (&optional event)
-  "Message the result of \\='thattem-kill-buffer-name-save\\='.
+(defun thattem-mode-line-kill-buffer-name-save-message (&optional event)
+  "Message the result of \\='thattem-mode-line-kill-buffer-name-save\\='.
 Temporarily select EVENT's windows."
   (interactive "e")
   (with-selected-window (posn-window (event-start event))
     (message (format "Buffer name: \"%s\" has been copied."
                      (buffer-name)))))
 
-(defun thattem-mode-line-previous-buffer (event)
-  "Like \\='thattem-previous-buffer\\='\
-, but temporarily select EVENT's window."
-  (interactive "e")
-  (with-selected-window (posn-window (event-start event))
-    (thattem-previous-buffer)))
+(thattem-mode-line-define-wrapper-function thattem-previous-buffer)
 
-(defun thattem-mode-line-next-buffer (event)
-  "Like \\='thattem-next-buffer\\='\
-, but temporarily select EVENT's window."
-  (interactive "e")
-  (with-selected-window (posn-window (event-start event))
-    (thattem-next-buffer)))
+(thattem-mode-line-define-wrapper-function thattem-next-buffer)
 
 (defun thattem-mode-line--mode-list-menu
     (mode-list name &optional global)
@@ -107,6 +115,25 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
   "Build menu for active global minor modes."
   (thattem-mode-line--mode-list-menu
    global-minor-modes "Global minor modes" t))
+
+(thattem-mode-line-define-wrapper-function describe-mode)
+
+(defun thattem-previous-line ()
+  "Like \\='previous-line\\='."
+  (forward-line -1))
+(thattem-mode-line-define-wrapper-function thattem-previous-line)
+
+(defun thattem-next-line ()
+  "Like \\='next-line\\='."
+  (forward-line 1))
+(thattem-mode-line-define-wrapper-function thattem-next-line)
+(thattem-mode-line-define-wrapper-function backward-char)
+
+(thattem-mode-line-define-wrapper-function forward-char)
+
+(thattem-mode-line-define-wrapper-function projectile-previous-project-buffer)
+
+(thattem-mode-line-define-wrapper-function projectile-next-project-buffer)
 
 (defun thattem-mode-line-dir-preprocess (dir-list)
   "Preprocessing the split file path DIR-LIST."
