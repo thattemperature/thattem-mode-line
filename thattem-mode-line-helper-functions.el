@@ -20,6 +20,7 @@
 
 ;;; Code:
 
+(require 'f)
 (require 'dash)
 (require 'flymake)
 (require 'projectile)
@@ -141,6 +142,13 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
                (and (length> dir-list 1)
                     (string-blank-p (car (last dir-list))))))
     (setq dir-list (butlast dir-list)))
+  (let ((scroll (window-parameter
+                 (selected-window) 'thattem-mode-line-dir-scroll)))
+    (when scroll
+      (setq dir-list
+            (cons
+             (string-join (seq-take dir-list scroll) "/")
+             (nthcdr scroll dir-list)))))
   (car
    (-reduce-r
     (lambda (item rights)
@@ -154,24 +162,57 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
     (append dir-list
             '((nil nil))))))
 
-(defun thattem-mode-line-dir-deal-root (dir-list &rest properties)
-  "Deal with the root (car) of the DIR-LIST, with PROPERTIES."
-  (let ((root (car dir-list))
-        (tail (cdr dir-list))
-        (tramp-regexp-1 "^/\\([^:]+\\):$")
-        (tramp-regexp-2 "^/\\([^:]+\\):\\([^:]+\\):$"))
-    (let ((left root)
-          (right (substring-no-properties root)))
-      (cond ((string-match tramp-regexp-2 root)
-             (setq left (match-string 1 root)))
-            ((string-match tramp-regexp-1 root)
-             (setq left (match-string 1 root))))
-      (cons (cons (apply #'propertize left
-                         'directory
-                         (thattem-mode-line-dir-builder right "")
-                         properties)
-                  right)
-            tail))))
+(defun thattem-mode-line-dir-deal-root
+    (dir-list &optional ellipsis &rest properties)
+  "Deal with the root (car) of the DIR-LIST, with PROPERTIES.
+Scroll by the window property `thattem-mode-line-dir-scroll',
+with ELLIPSIS."
+  (if (window-parameter
+       (selected-window) 'thattem-mode-line-dir-scroll)
+      (let ((omission (car dir-list))
+            (pseudo-root (cadr dir-list))
+            (tail (cddr dir-list))
+            (scroll
+             (window-parameter
+              (selected-window) 'thattem-mode-line-dir-scroll)))
+        (let ((right (thattem-mode-line-dir-builder
+                      (substring-no-properties omission)
+                      (substring-no-properties pseudo-root))))
+          (cons (cons
+                 (concat
+                  (concat
+                   (propertize
+                    (number-to-string scroll)
+                    'face (plist-get properties 'face))
+                   ellipsis)
+                  (apply #'propertize pseudo-root
+                         'directory right
+                         (plist-put
+                          properties 'help-echo
+                          (concat
+                           right (plist-get properties 'help-echo)))))
+                 right)
+                tail)))
+    (let ((root (car dir-list))
+          (tail (cdr dir-list))
+          (tramp-regexp-1 "^/\\([^:]+\\):$")
+          (tramp-regexp-2 "^/\\([^:]+\\):\\([^:]+\\):$"))
+      (let ((left root)
+            (right (substring-no-properties root)))
+        (cond ((string-match tramp-regexp-2 root)
+               (setq left (match-string 1 root)))
+              ((string-match tramp-regexp-1 root)
+               (setq left (match-string 1 root))))
+        (cons (cons
+               (apply #'propertize left
+                      'directory (thattem-mode-line-dir-builder right "")
+                      (plist-put
+                       properties 'help-echo
+                       (concat
+                        (thattem-mode-line-dir-builder right "")
+                        (plist-get properties 'help-echo))))
+               right)
+              tail)))))
 
 (defun thattem-mode-line-dir-builder (lefts item)
   "Build the whole path form the list \
@@ -240,6 +281,42 @@ of the string under the EVENT."
           (with-selected-window
               (posn-window event-start)
             (dired target)))))))
+
+(defun thattem-mode-line-dir-length ()
+  "Return the length of default directory."
+  (let ((dir-list (file-name-split (f-expand default-directory))))
+    (while-let ((continue
+                 (and (length> dir-list 1)
+                      (string-blank-p (car (last dir-list))))))
+      (setq dir-list (butlast dir-list)))
+    (- (length dir-list) 1)))
+
+(defun thattem-mode-line-scroll-up-dir (event)
+  "Scroll up the dir item in the window under the EVENT."
+  (interactive "e")
+  (let* ((window (posn-window (event-start event)))
+         (scroll (window-parameter
+                  window 'thattem-mode-line-dir-scroll)))
+    (if scroll
+        (set-window-parameter
+         window 'thattem-mode-line-dir-scroll
+         (if (= scroll 1) nil (- scroll 1)))
+      (message "Beginning of dir."))))
+
+(defun thattem-mode-line-scroll-down-dir (event)
+  "Scroll down the dir item in the window under the EVENT."
+  (interactive "e")
+  (let* ((window (posn-window (event-start event)))
+         (scroll (window-parameter
+                  window 'thattem-mode-line-dir-scroll))
+         (scroll-max (with-selected-window window
+                       (thattem-mode-line-dir-length))))
+    (if (or (not scroll)
+            (< scroll scroll-max))
+        (set-window-parameter
+         window 'thattem-mode-line-dir-scroll
+         (if scroll (+ scroll 1) 1))
+      (message "End of dir."))))
 
 
 (provide 'thattem-mode-line-helper-functions)

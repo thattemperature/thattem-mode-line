@@ -1,7 +1,7 @@
 ;;; Thattem-mode-line --- a simple mode line and header line  -*- lexical-binding: t; -*-
 
 ;; Author: That Temperature <2719023332@qq.com>
-;; Package-Requires: ((emacs "30.1") nerd-icons projectile flymake dash)
+;; Package-Requires: ((emacs "30.1") nerd-icons projectile flymake dash f)
 ;; URL: https://github.com/thattemperature/thattem-mode-line
 
 ;; This program is free software: you can redistribute it and/or modify

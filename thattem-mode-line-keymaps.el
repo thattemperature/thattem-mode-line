@@ -143,8 +143,32 @@
                 #'thattem-mode-line-dir-menu)
     (define-key map [header-line down-mouse-3]
                 #'thattem-mode-line-dir-menu)
+    ;; wheel to scroll dir
+    (define-key map [mode-line wheel-down]
+                #'thattem-mode-line-scroll-down-dir)
+    (define-key map [mode-line wheel-up]
+                #'thattem-mode-line-scroll-up-dir)
+    (define-key map [header-line wheel-down]
+                #'thattem-mode-line-scroll-down-dir)
+    (define-key map [header-line wheel-up]
+                #'thattem-mode-line-scroll-up-dir)
     map)
   "Keymap for what is displayed by \
+\\='thattem-mode-line-file-dir\\='.")
+
+(defvar thattem-mode-line-file-dir-separator-keymap
+  (let ((map (make-sparse-keymap)))
+    ;; wheel to scroll dir
+    (define-key map [mode-line wheel-down]
+                #'thattem-mode-line-scroll-down-dir)
+    (define-key map [mode-line wheel-up]
+                #'thattem-mode-line-scroll-up-dir)
+    (define-key map [header-line wheel-down]
+                #'thattem-mode-line-scroll-down-dir)
+    (define-key map [header-line wheel-up]
+                #'thattem-mode-line-scroll-up-dir)
+    map)
+  "Keymap for what is displayed by separator of \
 \\='thattem-mode-line-file-dir\\='.")
 
 

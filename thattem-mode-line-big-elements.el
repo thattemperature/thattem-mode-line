@@ -36,16 +36,16 @@
               (nerd-icons-faicon "nf-fa-lock"
                                  :face
                                  bright-face
-                                 :v-adjust 0 :height 1.25)
+                                 :height 1.25)
             (if (buffer-modified-p)
                 (nerd-icons-faicon "nf-fa-pencil_square_o"
                                    :face
                                    bright-face
-                                   :v-adjust 0 :height 1.25)
+                                   :height 1.25)
               (nerd-icons-faicon "nf-fa-download"
                                  :face
                                  bright-face
-                                 :v-adjust 0 :height 1.25))))
+                                 :height 1.25))))
          'mouse-face '(:box (:line-width (0 . -4)))
          'help-echo (if buffer-read-only
                         "This buffer is read-only.
@@ -93,7 +93,7 @@ End of line style:
             (nerd-icons-icon-for-file (buffer-file-name)
                                       :face
                                       dark-face
-                                      :v-adjust 0 :height 1.25))
+                                      :height 1.25))
           (let ((name (buffer-name))
                 (max-length (max (/ (window-width) 6) 12)))
             (if (> (length name) max-length)
@@ -125,7 +125,7 @@ End of line style:
             (nerd-icons-icon-for-file (buffer-file-name)
                                       :face
                                       dark-face
-                                      :v-adjust 0 :height 1.25))
+                                      :height 1.25))
           (let ((name (buffer-name))
                 (length (length (buffer-name)))
                 (max-length (max (/ (window-width) 6) 12)))
@@ -158,7 +158,7 @@ End of line style:
           (nerd-icons-icon-for-mode major-mode
                                     :face
                                     bright-face
-                                    :v-adjust 0 :height 1.25)
+                                    :height 1.25)
           (propertize (format " %s "
                               (format-mode-line mode-name))
                       'face
@@ -181,21 +181,18 @@ End of line style:
            (propertize " " 'face dark-face)
            (nerd-icons-faicon "nf-fa-arrows_v"
                               :face dark-face
-                              :v-adjust 0 :height 1.25)
+                              :height 1.25)
            (nerd-icons-mdicon "nf-md-cursor_default_outline"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize "%2l"
                        'face dark-face)
            (nerd-icons-faicon "nf-fa-file_o"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize (format "%2d"
                                (count-lines (point-min) (point-max)))
                        'face dark-face)
            (nerd-icons-mdicon "nf-md-dock_window"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize (format "%2d "
                                (window-height))
                        'face dark-face))
@@ -214,23 +211,20 @@ Wheel-down: Next line"
           (concat
            (nerd-icons-faicon "nf-fa-arrows_h"
                               :face dark-face
-                              :v-adjust 0 :height 1.25)
+                              :height 1.25)
            (nerd-icons-mdicon "nf-md-cursor_default_outline"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize (format "%2d"
                                (- (point) (line-beginning-position)))
                        'face dark-face)
            (nerd-icons-faicon "nf-fa-file_o"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize (format "%2d"
                                (- (line-end-position)
                                   (line-beginning-position)))
                        'face dark-face)
            (nerd-icons-mdicon "nf-md-dock_window"
-                              :face dark-face
-                              :v-adjust 0)
+                              :face dark-face)
            (propertize (format "%2d"
                                (window-width))
                        'face dark-face))
@@ -256,10 +250,10 @@ Wheel-down: forward char"
           (if (equal (projectile-project-name) "-")
               (nerd-icons-mdicon "nf-md-projector_screen_off_outline"
                                  :face bright-face
-                                 :v-adjust 0 :height 1.25)
+                                 :height 1.25)
             (nerd-icons-mdicon "nf-md-projector_screen_outline"
                                :face bright-face
-                               :v-adjust 0 :height 1.25))
+                               :height 1.25))
           (unless (equal (projectile-project-name) "-")
             (let ((name (projectile-project-name))
                   (max-length (max (/ (window-width) 8) 8)))
@@ -298,16 +292,16 @@ Wheel-down: Next project buffer"))
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-codicon "nf-cod-error"
                                  :face dark-face
-                                 :v-adjust 0 :height 1.25))
+                                 :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (propertize (format "%2d" (car count-list))
                        'face (thattem-mode-line/error-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
@@ -320,16 +314,16 @@ Wheel-down: Next project buffer"))
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-codicon "nf-cod-warning"
                                  :face dark-face
-                                 :v-adjust 0 :height 1.25))
+                                 :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (propertize (format "%2d" (cadr count-list))
                        'face (thattem-mode-line/warning-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
@@ -342,16 +336,16 @@ Wheel-down: Next project buffer"))
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-codicon "nf-cod-note"
                                  :face dark-face
-                                 :v-adjust 0 :height 1.25))
+                                 :height 1.25))
            (when (>= (window-width) 96)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
-                                   :v-adjust 0 :height 1.25))
+                                   :height 1.25))
            (propertize (format "%2d" (caddr count-list))
                        'face (thattem-mode-line/note-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
@@ -374,19 +368,26 @@ Wheel-down: Next project buffer"))
              (car
               (-reduce
                (lambda (lefts item)
+                 "Build mode line item from directory list item.
+LEFTS should be a cons cell, whose car is built mode line item,
+and cdr is corresponding whole path. ITEM is the next directory item"
                  (let ((whole-path (thattem-mode-line-dir-builder
                                     (cdr lefts) item)))
                    (cons
                     (concat
                      (car lefts)
-                     (nerd-icons-powerline
-                      "nf-ple-lower_right_triangle"
-                      :face edge-reverse-face
-                      :v-adjust 0 :height 1.25)
-                     (nerd-icons-powerline
-                      "nf-ple-upper_left_triangle"
-                      :face edge-reverse-face
-                      :v-adjust 0 :height 1.25)
+                     (propertize
+                      (concat
+                       (nerd-icons-powerline
+                        "nf-ple-lower_right_triangle"
+                        :face edge-reverse-face
+                        :height 1.25)
+                       (nerd-icons-powerline
+                        "nf-ple-upper_left_triangle"
+                        :face edge-reverse-face
+                        :height 1.25))
+                      'keymap
+                      thattem-mode-line-file-dir-keymap)
                      (propertize item
                                  'face bright-face
                                  'mouse-face '(:box (:line-width (0 . -4)))
@@ -394,7 +395,9 @@ Wheel-down: Next project buffer"))
                                  (concat
                                   whole-path
                                   "\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories")
+Mouse-3: Go to sub-directories
+Wheel-up: scroll up
+Wheel-down: scroll down")
                                  'directory
                                  whole-path
                                  'keymap
@@ -405,30 +408,34 @@ Mouse-3: Go to sub-directories")
                  (butlast
                   (file-name-split
                    (f-expand (buffer-file-name)))))
+                (nerd-icons-faicon "nf-fa-ellipsis_v"
+                                   :face bright-face)
                 'face bright-face
                 'mouse-face '(:box (:line-width (0 . -4)))
                 'help-echo
-                "root\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories"
+                "\n\nMouse-1: Go to directory
+Mouse-3: Go to sub-directories
+Wheel-up: scroll up
+Wheel-down: scroll down"
                 'keymap
                 thattem-mode-line-file-dir-keymap)))
            (concat (nerd-icons-powerline
                     "nf-ple-lower_right_triangle"
                     :face edge-reverse-face
-                    :v-adjust 0 :height 1.25)
+                    :height 1.25)
                    (propertize (nerd-icons-codicon
                                 (if (eq major-mode 'dired-mode)
                                     "nf-cod-triangle_down"
                                   "nf-cod-dash")
                                 :face dark-face
-                                :v-adjust 0 :height 1.25)
+                                :height 1.25)
                                'mouse-face '(:box (:line-width (0 . -4)))
                                'help-echo
                                "No directory of this buffer.")
                    (nerd-icons-powerline
                     "nf-ple-upper_left_triangle"
                     :face edge-reverse-face
-                    :v-adjust 0 :height 1.25))))))
+                    :height 1.25))))))
   "Mode line construct for displaying full path to the file.")
 
 (defvar-local thattem-mode-line-major-mode--style-2
@@ -438,7 +445,7 @@ Mouse-3: Go to sub-directories"
          (concat
           (nerd-icons-icon-for-mode major-mode
                                     :face bright-face-2
-                                    :v-adjust 0 :height 1.25)
+                                    :height 1.25)
           (propertize (format " %s "
                               (format-mode-line mode-name))
                       'face bright-face-2))
@@ -458,7 +465,7 @@ Mouse-3: Go to sub-directories"
         (concat (nerd-icons-powerline
                  "nf-ple-trapezoid_top_bottom_mirrored"
                  :face edge-2-reverse-face
-                 :v-adjust 0 :height 1.25)
+                 :height 1.25)
                 (propertize (format " %s " (buffer-name))
                             'face dark-face-2
                             'mouse-face '(:box (:line-width (0 . -4)))
@@ -473,7 +480,7 @@ Mouse-3: Go to sub-directories"
                 (nerd-icons-powerline
                  "nf-ple-trapezoid_top_bottom"
                  :face edge-2-reverse-face
-                 :v-adjust 0 :height 1.25))))
+                 :height 1.25))))
   "Mode line construct for displaying buffer name, in another style.")
 
 (defvar-local thattem-mode-line-current-time--style-2
@@ -484,20 +491,20 @@ Mouse-3: Go to sub-directories"
         (concat
          (nerd-icons-powerline "nf-ple-left_half_circle_thick"
                                :face edge-2-reverse-face
-                               :v-adjust 0 :height 1.25)
+                               :height 1.25)
          (nerd-icons-powerline "nf-ple-left_half_circle_thick"
                                :face edge-2-face
-                               :v-adjust 0 :height 1.25)
+                               :height 1.25)
          (propertize
           (concat
            (nerd-icons-mdicon "nf-md-timer"
                               :face bright-face-2
-                              :v-adjust 0 :height 1.25)
+                              :height 1.25)
            (propertize (format-time-string "%k:%M:%S  %Y-%m-%d")
                        'face bright-face-2)
            (nerd-icons-mdicon "nf-md-calendar"
                               :face bright-face-2
-                              :v-adjust 0 :height 1.25))
+                              :height 1.25))
           'mouse-face '(:box (:line-width (0 . -4)))
           'help-echo (format-time-string "Year: %Y
 Month: %B
@@ -505,10 +512,10 @@ Date: %d
 %A"))
          (nerd-icons-powerline "nf-ple-right_half_circle_thick"
                                :face edge-2-face
-                               :v-adjust 0 :height 1.25)
+                               :height 1.25)
          (nerd-icons-powerline "nf-ple-right_half_circle_thick"
                                :face edge-2-reverse-face
-                               :v-adjust 0 :height 1.25))))
+                               :height 1.25))))
   "Mode line constructor for displaying current time and date.")
 
 (defvar-local thattem-mode-line-file-dir--style-2
@@ -520,19 +527,26 @@ Date: %d
          (car
           (-reduce
            (lambda (lefts item)
+             "Build mode line item from directory list item.
+LEFTS should be a cons cell, whose car is built mode line item,
+and cdr is corresponding whole path. ITEM is the next directory item"
              (let ((whole-path (thattem-mode-line-dir-builder
                                 (cdr lefts) item)))
                (cons
                 (concat
                  (car lefts)
-                 (nerd-icons-powerline
-                  "nf-ple-lower_right_triangle"
-                  :face edge-2-reverse-face
-                  :v-adjust 0 :height 1.25)
-                 (nerd-icons-powerline
-                  "nf-ple-upper_left_triangle"
-                  :face edge-2-reverse-face
-                  :v-adjust 0 :height 1.25)
+                 (propertize
+                  (concat
+                   (nerd-icons-powerline
+                    "nf-ple-lower_right_triangle"
+                    :face edge-2-reverse-face
+                    :height 1.25)
+                   (nerd-icons-powerline
+                    "nf-ple-upper_left_triangle"
+                    :face edge-2-reverse-face
+                    :height 1.25))
+                  'keymap
+                  thattem-mode-line-file-dir-separator-keymap)
                  (propertize (if (string-empty-p item)
                                  " "
                                item)
@@ -542,7 +556,9 @@ Date: %d
                              (concat
                               whole-path
                               "\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories")
+Mouse-3: Go to sub-directories
+Wheel-up: scroll up
+Wheel-down: scroll down")
                              'directory
                              whole-path
                              'keymap
@@ -551,11 +567,15 @@ Mouse-3: Go to sub-directories")
            (thattem-mode-line-dir-deal-root
             (thattem-mode-line-dir-preprocess
              (file-name-split (f-expand default-directory)))
+            (nerd-icons-faicon "nf-fa-ellipsis_v"
+                               :face bright-face-2)
             'face bright-face-2
             'mouse-face '(:box (:line-width (0 . -4)))
             'help-echo
-            "root\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories"
+            "\n\nMouse-1: Go to directory
+Mouse-3: Go to sub-directories
+Wheel-up: scroll up
+Wheel-down: scroll down"
             'keymap
             thattem-mode-line-file-dir-keymap))))))
   "Mode line construct for displaying full path to default directory.
