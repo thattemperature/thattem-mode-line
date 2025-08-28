@@ -301,7 +301,9 @@ of the string under the EVENT."
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
          (if (= scroll 1) nil (- scroll 1)))
-      (message "Beginning of dir."))))
+      (message "Beginning of dir."))
+    (with-selected-window window
+      (force-mode-line-update))))
 
 (defun thattem-mode-line-scroll-down-dir (event)
   "Scroll down the dir item in the window under the EVENT."
@@ -316,7 +318,9 @@ of the string under the EVENT."
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
          (if scroll (+ scroll 1) 1))
-      (message "End of dir."))))
+      (message "End of dir."))
+    (with-selected-window window
+      (force-mode-line-update))))
 
 
 (provide 'thattem-mode-line-helper-functions)
