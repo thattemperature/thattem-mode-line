@@ -136,7 +136,13 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   ;; Run special mode hooks for already exists buffers
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
-      (run-hooks (intern (concat (symbol-name major-mode) "-hook"))))))
+      (run-hooks (intern (concat (symbol-name major-mode) "-hook")))))
+  ;; Special advice to minor mode turn on function
+  (advice-add 'display-line-numbers--turn-on :around
+              (lambda (fun)
+                (unless (provided-mode-derived-p
+                         major-mode thattem-help-modes)
+                  (funcall fun)))))
 
 
 (provide 'thattem-mode-line)
