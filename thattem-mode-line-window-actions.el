@@ -110,9 +110,9 @@ This function return a function that FUNC recursive call itself."
   "Return a function which behave like \\='member\\='.
 But use EQUAL-FUNC to judge equality.
 Like (funcall EQUAL-FUNC elt (car list))."
-  (cond ((eq equal-func 'eq) 'memq)
-        ((eq equal-func 'eql) 'memql)
-        ((eq equal-func 'equal) 'member)
+  (cond ((eq equal-func 'eq) #'memq)
+        ((eq equal-func 'eql) #'memql)
+        ((eq equal-func 'equal) #'member)
         (t
          (thattem--lambda-recursion
           (lambda (func elt list)
@@ -152,21 +152,18 @@ with same major mode type (see \\='thattem-special-mode-list\\=')."
           (mode-type
            (thattem--get-type
             major-mode thattem-special-mode-list
-            (lambda (elt list)
-              (apply 'provided-mode-derived-p elt list)))))
+            #'provided-mode-derived-p)))
       (while continue
         (let ((new-buffer (switch-to-prev-buffer)))
           (when (not new-buffer)
             (user-error "No previous buffer"))
-          (when (or (apply 'provided-mode-derived-p
-                           major-mode mode-type)
+          (when (or (provided-mode-derived-p
+                     major-mode mode-type)
                     (and (not mode-type)
                          (not (thattem--get-type
                                major-mode
                                thattem-special-mode-list
-                               (lambda (elt list)
-                                 (apply 'provided-mode-derived-p
-                                        elt list))))))
+                               #'provided-mode-derived-p))))
             (setq continue nil))))))))
 
 (defun thattem-next-buffer ()
@@ -183,21 +180,18 @@ with same major mode type (see \\='thattem-special-mode-list\\=')."
            (mode-type
             (thattem--get-type
              major-mode thattem-special-mode-list
-             (lambda (elt list)
-               (apply 'provided-mode-derived-p elt list)))))
+             #'provided-mode-derived-p)))
       (while continue
         (let ((new-buffer (switch-to-next-buffer)))
           (when (not new-buffer)
             (user-error "No next buffer"))
-          (when (or (apply 'provided-mode-derived-p
-                           major-mode mode-type)
+          (when (or (provided-mode-derived-p
+                     major-mode mode-type)
                     (and (not mode-type)
                          (not (thattem--get-type
                                major-mode
                                thattem-special-mode-list
-                               (lambda (elt list)
-                                 (apply 'provided-mode-derived-p
-                                        elt list))))))
+                               #'provided-mode-derived-p))))
             (setq continue nil))))))))
 
 
