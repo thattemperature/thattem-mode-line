@@ -266,7 +266,7 @@ of the string under the EVENT."
                           sub-directory
                           current-path)
                     temp-list))
-        (setq current-id (+ current-id 1)))
+        (setq current-id (1+ current-id)))
       (dolist (temp-item temp-list)
         (bindings--define-key menu (vector (car temp-item))
           `(menu-item ,(cadr temp-item)
@@ -289,7 +289,7 @@ of the string under the EVENT."
                  (and (length> dir-list 1)
                       (string-blank-p (car (last dir-list))))))
       (setq dir-list (butlast dir-list)))
-    (- (length dir-list) 1)))
+    (1- (length dir-list))))
 
 (defun thattem-mode-line-scroll-up-dir (event)
   "Scroll up the dir item in the window under the EVENT."
@@ -300,7 +300,7 @@ of the string under the EVENT."
     (if scroll
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
-         (if (= scroll 1) nil (- scroll 1)))
+         (if (= scroll 1) nil (1- scroll)))
       (message "Beginning of dir."))
     (with-selected-window window
       (force-mode-line-update))))
@@ -317,7 +317,7 @@ of the string under the EVENT."
             (< scroll scroll-max))
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
-         (if scroll (+ scroll 1) 1))
+         (if scroll (1+ scroll) 1))
       (message "End of dir."))
     (with-selected-window window
       (force-mode-line-update))))

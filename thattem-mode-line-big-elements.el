@@ -99,7 +99,7 @@ End of line style:
             (if (> (length name) max-length)
                 (concat
                  (propertize
-                  (format " %s" (substring name 0 (- max-length 1)))
+                  (format " %s" (substring name 0 (1- max-length)))
                   'face dark-face)
                  (nerd-icons-faicon "nf-fa-ellipsis_v"
                                     :face
@@ -135,7 +135,7 @@ End of line style:
                                     :face
                                     dark-face)
                  (propertize
-                  (format "%s " (substring name (- length max-length -1) length))
+                  (format "%s " (substring name (1+ (- length max-length)) length))
                   'face dark-face))
               (propertize
                (format " %s " name)
@@ -260,7 +260,7 @@ Wheel-down: forward char"
               (if (> (length name) max-length)
                   (concat
                    (propertize
-                    (format " %s" (substring name 0 (- max-length 1)))
+                    (format " %s" (substring name 0 (1- max-length)))
                     'face bright-face)
                    (nerd-icons-faicon "nf-fa-ellipsis_v"
                                       :face bright-face))
