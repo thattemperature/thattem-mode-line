@@ -145,6 +145,10 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
   (let ((scroll (window-parameter
                  (selected-window) 'thattem-mode-line-dir-scroll)))
     (when scroll
+      (unless (length> dir-list scroll)
+        (setq scroll (1- (length dir-list)))
+        (set-window-parameter
+         (selected-window) 'thattem-mode-line-dir-scroll scroll))
       (setq dir-list
             (cons
              (string-join (seq-take dir-list scroll) "/")
