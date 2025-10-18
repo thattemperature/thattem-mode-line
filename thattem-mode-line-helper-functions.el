@@ -187,8 +187,11 @@ with ELLIPSIS."
                   (concat
                    (propertize
                     (number-to-string scroll)
-                    'face (plist-get properties 'face))
-                   ellipsis)
+                    'face (plist-get properties 'face)
+                    'keymap (plist-get properties 'seperator-keymap))
+                   (propertize
+                    ellipsis
+                    'keymap (plist-get properties 'seperator-keymap)))
                   (apply #'propertize pseudo-root
                          'directory right
                          (plist-put

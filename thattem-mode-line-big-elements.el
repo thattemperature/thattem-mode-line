@@ -364,7 +364,7 @@ Wheel-down: Next project buffer"))
             (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
         (concat
          (propertize " " 'face bright-face)
-         (if (buffer-file-name)
+         (if (or (buffer-file-name) dired-directory)
              (car
               (-reduce
                (lambda (lefts item)
@@ -387,7 +387,7 @@ and cdr is corresponding whole path. ITEM is the next directory item"
                         :face edge-reverse-face
                         :height 1.25))
                       'keymap
-                      thattem-mode-line-file-dir-keymap)
+                      thattem-mode-line-file-dir-separator-keymap)
                      (propertize item
                                  'face bright-face
                                  'mouse-face '(:box (:line-width (0 . -4)))
@@ -407,7 +407,8 @@ Wheel-down: scroll down")
                 (thattem-mode-line-dir-preprocess
                  (butlast
                   (file-name-split
-                   (f-expand (buffer-file-name)))))
+                   (f-expand (or (buffer-file-name)
+                                 dired-directory)))))
                 (nerd-icons-faicon "nf-fa-ellipsis_v"
                                    :face bright-face)
                 'face bright-face
@@ -418,7 +419,9 @@ Mouse-3: Go to sub-directories
 Wheel-up: scroll up
 Wheel-down: scroll down"
                 'keymap
-                thattem-mode-line-file-dir-keymap)))
+                thattem-mode-line-file-dir-keymap
+                'seperator-keymap
+                thattem-mode-line-file-dir-separator-keymap)))
            (concat (nerd-icons-powerline
                     "nf-ple-lower_right_triangle"
                     :face edge-reverse-face
@@ -577,7 +580,9 @@ Mouse-3: Go to sub-directories
 Wheel-up: scroll up
 Wheel-down: scroll down"
             'keymap
-            thattem-mode-line-file-dir-keymap))))))
+            thattem-mode-line-file-dir-keymap
+            'seperator-keymap
+            thattem-mode-line-file-dir-separator-keymap))))))
   "Mode line construct for displaying full path to default directory.
 In another style.")
 
