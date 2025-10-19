@@ -85,9 +85,13 @@
 
 ;;; Hook settings
 
-(defun thattem-add-mode-hook (MODE FUNCTION)
-  "A helper function to add hook FUNCTION to the MODE ."
-  (add-hook (intern (concat (symbol-name MODE) "-hook")) FUNCTION))
+(defun thattem-add-mode-hook (mode function)
+  "A helper function to add hook FUNCTION to the MODE."
+  (add-hook (intern (concat (symbol-name mode) "-hook")) function))
+
+(defun thattem-remove-mode-hook (mode function)
+  "A helper function to remove hook FUNCTION to the MODE."
+  (remove-hook (intern (concat (symbol-name mode) "-hook")) function))
 
 (defun thattem-shell-mode-hook-function ()
   "A function called by the hook of shell-like mode.
@@ -109,40 +113,66 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   ;; Do not show line number at the left
   (display-line-numbers-mode 0))
 
-;;; Define load function
+(defun thattem-eaf-mode-hook-function ()
+  "A function called by the hook of eaf mode."
+  (setq header-line-format thattem-default-header-line-format)
+  (setq mode-line-format thattem-default-mode-line-format))
 
-(defun thattem-mode-line-load ()
-  "Set variables for thattem-mode-line."
-  (setq display-buffer-alist thattem-display-buffer-alist-default)
-  ;; Set default mode line format
-  (setq-default header-line-format thattem-default-header-line-format)
-  (setq-default mode-line-format thattem-default-mode-line-format)
-  ;; Add special mode hooks
-  (dolist (mode thattem-shell-like-modes)
-    (thattem-add-mode-hook mode 'thattem-shell-mode-hook-function))
-  (dolist (mode thattem-help-modes)
-    (thattem-add-mode-hook mode 'thattem-help-mode-hook-function))
-  ;; Make eaf use my mode line format
-  (add-hook 'eaf-mode-hook
-            (lambda ()
-              (setq mode-line-format
-                    thattem-default-mode-line-format)))
-  ;; Unset global key binding
-  (dolist (position '(mode-line header-line))
-    (dolist (action '(mouse-1 mouse-2 mouse-3))
-      (global-set-key (vector position action)
-                      'ignore)))
-  (setq mode-line-default-help-echo nil)
-  ;; Run special mode hooks for already exists buffers
-  (dolist (buffer (buffer-list))
-    (with-current-buffer buffer
-      (run-hooks (intern (concat (symbol-name major-mode) "-hook")))))
-  ;; Special advice to minor mode turn on function
-  (advice-add 'display-line-numbers--turn-on :around
-              (lambda (fun)
-                (unless (provided-mode-derived-p
-                         major-mode thattem-help-modes)
-                  (funcall fun)))))
+(defun thattem-mode-line--advice-around--display-line-numbers (func)
+  "Advice to \\='display-line-numbers--turn-on\\=' FUNC.
+Make it not turn on display line numbers on help modes."
+  (unless (provided-mode-derived-p major-mode thattem-help-modes)
+    (funcall func)))
+
+;;; Define minor mode
+
+(define-minor-mode thattem-mode-line-mode
+  "Toggle thattem mode line mode."
+  :global t
+
+  (when thattem-mode-line-mode
+    (dolist (mode thattem-shell-like-modes)
+      (thattem-add-mode-hook mode
+                             #'thattem-shell-mode-hook-function))
+    (dolist (mode thattem-help-modes)
+      (thattem-add-mode-hook mode
+                             #'thattem-help-mode-hook-function))
+    (thattem-add-mode-hook 'eaf-mode
+                           #'thattem-eaf-mode-hook-function)
+    (advice-add
+     'display-line-numbers--turn-on :around
+     #'thattem-mode-line--advice-around--display-line-numbers))
+
+  (unless thattem-mode-line-mode
+    (dolist (mode thattem-shell-like-modes)
+      (thattem-remove-mode-hook mode
+                                #'thattem-shell-mode-hook-function))
+    (dolist (mode thattem-help-modes)
+      (thattem-remove-mode-hook mode
+                                #'thattem-help-mode-hook-function))
+    (thattem-remove-mode-hook 'eaf-mode
+                              #'thattem-eaf-mode-hook-function)
+    (advice-remove
+     'display-line-numbers--turn-on
+     #'thattem-mode-line--advice-around--display-line-numbers))
+
+  (when thattem-mode-line-mode
+    ;; Set window actions (display buffer actions)
+    (setq display-buffer-alist thattem-display-buffer-alist-default)
+    ;; Set default mode line format
+    (setq-default header-line-format thattem-default-header-line-format)
+    (setq-default mode-line-format thattem-default-mode-line-format)
+    ;; Unset global key binding
+    (dolist (position '(mode-line header-line))
+      (dolist (action '(mouse-1 mouse-2 mouse-3))
+        (global-set-key (vector position action)
+                        'ignore)))
+    (setq mode-line-default-help-echo nil)
+    ;; Run special mode hooks for already exists buffers
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (run-hooks
+         (intern (concat (symbol-name major-mode) "-hook")))))))
 
 
 (provide 'thattem-mode-line)
