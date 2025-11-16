@@ -148,7 +148,8 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
       (unless (length> dir-list scroll)
         (setq scroll (1- (length dir-list)))
         (set-window-parameter
-         (selected-window) 'thattem-mode-line-dir-scroll scroll))
+         (selected-window) 'thattem-mode-line-dir-scroll
+         (if (<= scroll 0) nil scroll)))
       (setq dir-list
             (cons
              (string-join (seq-take dir-list scroll) "/")
@@ -307,7 +308,7 @@ of the string under the EVENT."
     (if scroll
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
-         (if (= scroll 1) nil (1- scroll)))
+         (if (<= scroll 1) nil (1- scroll)))
       (message "Beginning of dir."))
     (with-selected-window window
       (force-mode-line-update))))
@@ -320,8 +321,9 @@ of the string under the EVENT."
                   window 'thattem-mode-line-dir-scroll))
          (scroll-max (with-selected-window window
                        (thattem-mode-line-dir-length))))
-    (if (or (not scroll)
-            (< scroll scroll-max))
+    (if (and (< 0 scroll-max)
+             (or (not scroll)
+                 (< scroll scroll-max)))
         (set-window-parameter
          window 'thattem-mode-line-dir-scroll
          (if scroll (1+ scroll) 1))
