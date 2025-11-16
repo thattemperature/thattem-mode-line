@@ -61,11 +61,12 @@
 
 (defvar thattem-shell-header-line-format
   '("%e"
-    thattem-mode-line-fire--style-2
-    thattem-mode-line-major-mode--style-2
-    thattem-mode-line-buffer-name--style-2
-    thattem-mode-line-file-dir--style-2
-    thattem-mode-line-end-space-2)
+    thattem-mode-line-fire
+    thattem-mode-line-buffer-name
+    thattem-mode-line-fire-reverse
+    thattem-mode-line-major-mode
+    thattem-mode-line-file-dir
+    thattem-mode-line-end-space)
   "Header line format for shell-like buffer.")
 
 (defvar thattem-help-header-line-format
@@ -100,6 +101,8 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   (setq header-line-format
         thattem-shell-header-line-format)
   (setq mode-line-format nil)
+  ;; Set style
+  (setq thattem-mode-line--buffer-style 2)
   ;; Set font size
   (text-scale-set -1))
 

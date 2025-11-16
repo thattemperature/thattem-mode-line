@@ -441,72 +441,27 @@ Wheel-down: scroll down"
                     :height 1.25))))))
   "Mode line construct for displaying full path to the file.")
 
-(defvar-local thattem-mode-line-major-mode--style-2
+(defvar-local thattem-mode-line-current-time
     '(:eval
-      (let ((bright-face-2 (thattem-mode-line/bright-face-2-when-active)))
-        (propertize
-         (concat
-          (nerd-icons-icon-for-mode major-mode
-                                    :face bright-face-2
-                                    :height 1.25)
-          (propertize (format " %s "
-                              (format-mode-line mode-name))
-                      'face bright-face-2))
-         'mouse-face '(:box (:line-width (0 . -4)))
-         'help-echo (concat "The major mode of this buffer is:\n"
-                            (symbol-name major-mode)
-                            "\n\nMouse-1: List local minor modes\n"
-                            "Mouse-2: Describe modes\n"
-                            "Mouse-3: List global minor modes")
-         'keymap thattem-mode-line-major-mode-keymap)))
-  "Mode line construct for displaying major mode, in another style.")
-
-(defvar-local thattem-mode-line-buffer-name--style-2
-    '(:eval
-      (let ((edge-2-reverse-face (thattem-mode-line/edge-2-reverse-face-when-active))
-            (dark-face-2 (thattem-mode-line/dark-face-2-when-active)))
-        (concat (nerd-icons-powerline
-                 "nf-ple-trapezoid_top_bottom_mirrored"
-                 :face edge-2-reverse-face
-                 :height 1.25)
-                (propertize (format " %s " (buffer-name))
-                            'face dark-face-2
-                            'mouse-face '(:box (:line-width (0 . -4)))
-                            'help-echo (concat
-                                        "The name of this buffer is:\n"
-                                        (buffer-name)
-                                        "\n\nMouse-3: Copy buffer name\n"
-                                        "Wheel-up: Previous buffer\n"
-                                        "Wheel-down: Next buffer")
-                            'keymap
-                            thattem-mode-line-buffer-name-keymap)
-                (nerd-icons-powerline
-                 "nf-ple-trapezoid_top_bottom"
-                 :face edge-2-reverse-face
-                 :height 1.25))))
-  "Mode line construct for displaying buffer name, in another style.")
-
-(defvar-local thattem-mode-line-current-time--style-2
-    '(:eval
-      (let ((bright-face-2 (thattem-mode-line/bright-face-2-when-active))
-            (edge-2-reverse-face (thattem-mode-line/edge-2-reverse-face-when-active))
-            (edge-2-face (thattem-mode-line/edge-2-face-when-active)))
+      (let ((bright-face(thattem-mode-line/bright-face-when-active))
+            (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active))
+            (edge-face (thattem-mode-line/edge-face-when-active)))
         (concat
          (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                               :face edge-2-reverse-face
+                               :face edge-reverse-face
                                :height 1.25)
          (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                               :face edge-2-face
+                               :face edge-face
                                :height 1.25)
          (propertize
           (concat
            (nerd-icons-mdicon "nf-md-timer"
-                              :face bright-face-2
+                              :face bright-face
                               :height 1.25)
            (propertize (format-time-string "%k:%M:%S  %Y-%m-%d")
-                       'face bright-face-2)
+                       'face bright-face)
            (nerd-icons-mdicon "nf-md-calendar"
-                              :face bright-face-2
+                              :face bright-face
                               :height 1.25))
           'mouse-face '(:box (:line-width (0 . -4)))
           'help-echo (format-time-string "Year: %Y
@@ -514,77 +469,12 @@ Month: %B
 Date: %d
 %A"))
          (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                               :face edge-2-face
+                               :face edge-face
                                :height 1.25)
          (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                               :face edge-2-reverse-face
+                               :face edge-reverse-face
                                :height 1.25))))
   "Mode line constructor for displaying current time and date.")
-
-(defvar-local thattem-mode-line-file-dir--style-2
-    '(:eval
-      (let ((bright-face-2 (thattem-mode-line/bright-face-2-when-active))
-            (edge-2-reverse-face (thattem-mode-line/edge-2-reverse-face-when-active)))
-        (concat
-         (propertize " " 'face bright-face-2)
-         (car
-          (-reduce
-           (lambda (lefts item)
-             "Build mode line item from directory list item.
-LEFTS should be a cons cell, whose car is built mode line item,
-and cdr is corresponding whole path. ITEM is the next directory item"
-             (let ((whole-path (thattem-mode-line-dir-builder
-                                (cdr lefts) item)))
-               (cons
-                (concat
-                 (car lefts)
-                 (propertize
-                  (concat
-                   (nerd-icons-powerline
-                    "nf-ple-lower_right_triangle"
-                    :face edge-2-reverse-face
-                    :height 1.25)
-                   (nerd-icons-powerline
-                    "nf-ple-upper_left_triangle"
-                    :face edge-2-reverse-face
-                    :height 1.25))
-                  'keymap
-                  thattem-mode-line-file-dir-separator-keymap)
-                 (propertize (if (string-empty-p item)
-                                 " "
-                               item)
-                             'face bright-face-2
-                             'mouse-face '(:box (:line-width (0 . -4)))
-                             'help-echo
-                             (concat
-                              whole-path
-                              "\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories
-Wheel-up: scroll up
-Wheel-down: scroll down")
-                             'directory
-                             whole-path
-                             'keymap
-                             thattem-mode-line-file-dir-keymap))
-                whole-path)))
-           (thattem-mode-line-dir-deal-root
-            (thattem-mode-line-dir-preprocess
-             (file-name-split (f-expand default-directory)))
-            (nerd-icons-faicon "nf-fa-ellipsis_v"
-                               :face bright-face-2)
-            'face bright-face-2
-            'mouse-face '(:box (:line-width (0 . -4)))
-            'help-echo
-            "\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories
-Wheel-up: scroll up
-Wheel-down: scroll down"
-            'keymap
-            thattem-mode-line-file-dir-keymap
-            'seperator-keymap
-            thattem-mode-line-file-dir-separator-keymap))))))
-  "Mode line construct for displaying full path to default directory.
-In another style.")
 
 
 ;; Set elements as risky local variable
@@ -598,10 +488,7 @@ In another style.")
           thattem-mode-line-project-name
           thattem-mode-line-flymake-info
           thattem-mode-line-file-dir
-          thattem-mode-line-major-mode--style-2
-          thattem-mode-line-buffer-name--style-2
-          thattem-mode-line-current-time--style-2
-          thattem-mode-line-file-dir--style-2))
+          thattem-mode-line-current-time))
   (put var 'risky-local-variable t))
 
 

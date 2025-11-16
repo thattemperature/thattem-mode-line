@@ -192,6 +192,20 @@
     (t :inverse-video t))
   "Bright face with smaller font for mode line.")
 
+(defface thattem-mode-line/bright-2-small
+  `((((class color) (background dark))
+     :inherit
+     thattem-mode-line/bright-2
+     :height
+     ,thattem-mode-line/small-font-height)
+    (((class color) (background light))
+     :inherit
+     thattem-mode-line/bright-2
+     :height
+     ,thattem-mode-line/small-font-height)
+    (t :inverse-video t))
+  "Bright face with smaller font for mode line.")
+
 (defface thattem-mode-line/bright-inactive-small
   `((((class color) (background dark))
      :inherit
@@ -254,60 +268,57 @@
     (t :inverse-video t))
   "Note face for mode line.")
 
+;;; Define buffer-local face variable
+
+(defvar-local thattem-mode-line--buffer-style nil
+  "Determine the mode line style of the current buffer.
+The value should be a integer or nil for the default.")
+
 ;;; Define face-switch functions
 
 (defun thattem-mode-line/bright-face-when-active ()
   "Bright face function for mode line."
   (if (mode-line-window-selected-p)
-      'thattem-mode-line/bright
-    'thattem-mode-line/bright-inactive))
-
-(defun thattem-mode-line/bright-face-2-when-active ()
-  "Another bright face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/bright-2
+      (if thattem-mode-line--buffer-style
+          (intern (format "thattem-mode-line/bright-%s"
+                          thattem-mode-line--buffer-style))
+        'thattem-mode-line/bright)
     'thattem-mode-line/bright-inactive))
 
 (defun thattem-mode-line/dark-face-when-active ()
   "Dark face function for mode line."
   (if (mode-line-window-selected-p)
-      'thattem-mode-line/dark
-    'thattem-mode-line/dark-inactive))
-
-(defun thattem-mode-line/dark-face-2-when-active ()
-  "Another dark face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/dark-2
+      (if thattem-mode-line--buffer-style
+          (intern (format "thattem-mode-line/dark-%s"
+                          thattem-mode-line--buffer-style))
+        'thattem-mode-line/dark)
     'thattem-mode-line/dark-inactive))
 
 (defun thattem-mode-line/edge-face-when-active ()
   "First edge face function for mode line."
   (if (mode-line-window-selected-p)
-      'thattem-mode-line/edge
-    'thattem-mode-line/dark-inactive))
-
-(defun thattem-mode-line/edge-2-face-when-active ()
-  "Second edge face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/edge-2
+      (if thattem-mode-line--buffer-style
+          (intern (format "thattem-mode-line/edge-%s"
+                          thattem-mode-line--buffer-style))
+        'thattem-mode-line/edge)
     'thattem-mode-line/dark-inactive))
 
 (defun thattem-mode-line/edge-reverse-face-when-active ()
   "First reverse edge face function for mode line."
   (if (mode-line-window-selected-p)
-      'thattem-mode-line/edge-reverse
-    'thattem-mode-line/bright-inactive))
-
-(defun thattem-mode-line/edge-2-reverse-face-when-active ()
-  "Second reverse edge face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/edge-2-reverse
+      (if thattem-mode-line--buffer-style
+          (intern (format "thattem-mode-line/edge-%s-reverse"
+                          thattem-mode-line--buffer-style))
+        'thattem-mode-line/edge-reverse)
     'thattem-mode-line/bright-inactive))
 
 (defun thattem-mode-line/bright-small-face-when-active ()
   "Bright small face function for mode line."
   (if (mode-line-window-selected-p)
-      'thattem-mode-line/bright-small
+      (if thattem-mode-line--buffer-style
+          (intern (format "thattem-mode-line/bright-%s-small"
+                          thattem-mode-line--buffer-style))
+        'thattem-mode-line/bright-small)
     'thattem-mode-line/bright-inactive-small))
 
 (defun thattem-mode-line/error-face-when-active ()

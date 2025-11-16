@@ -30,12 +30,6 @@
                   'face (thattem-mode-line/bright-face-when-active)))
   "Fill the end space of the mode line.")
 
-(defvar-local thattem-mode-line-end-space-2
-    '(:eval
-      (propertize (format "%1024s" " ")
-                  'face (thattem-mode-line/bright-face-2-when-active)))
-  "Fill the end space of the mode line use another face.")
-
 (defvar-local thattem-mode-line-left-cup
     '(:eval
       (nerd-icons-powerline "nf-ple-left_half_circle_thick"
@@ -92,17 +86,23 @@
                             :height 1.25))
   "A right slant used in mode line with inverted color.")
 
-(defvar-local thattem-mode-line-fire--style-2
+(defvar-local thattem-mode-line-fire
     '(:eval
       (nerd-icons-powerline "nf-ple-flame_thick"
-                            :face (thattem-mode-line/edge-2-reverse-face-when-active)
+                            :face (thattem-mode-line/edge-face-when-active)
                             :height 1.25))
   "A fire icon used in mode line.")
+
+(defvar-local thattem-mode-line-fire-reverse
+    '(:eval
+      (nerd-icons-powerline "nf-ple-flame_thick"
+                            :face (thattem-mode-line/edge-reverse-face-when-active)
+                            :height 1.25))
+  "A fire icon used in mode line with inverted color.")
 
 
 (dolist
     (var'(thattem-mode-line-end-space
-          thattem-mode-line-end-space-2
           thattem-mode-line-left-cup
           thattem-mode-line-right-cup
           thattem-mode-line-left-cup-reverse
@@ -111,7 +111,8 @@
           thattem-mode-line-left-slant-reverse
           thattem-mode-line-right-slant
           thattem-mode-line-right-slant-reverse
-          thattem-mode-line-fire--style-2))
+          thattem-mode-line-fire
+          thattem-mode-line-fire-reverse))
   (put var 'risky-local-variable t))
 
 
