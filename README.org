@@ -4,7 +4,12 @@
 #+LANGUAGE: en
 #+OPTIONS: toc:t num:nil
 
+:BADGE:
 [[https://www.gnu.org/licenses/gpl-3.0][file:https://img.shields.io/badge/license-GPL%20v3-blue.svg]]
+:END:
+
+#+attr_html: :width 512px :align center
+[[file:assets/logo.svg]]
 
 * 🌈 A Beautiful, Interactive Mode‑Line for Emacs
 
