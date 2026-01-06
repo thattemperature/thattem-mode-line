@@ -30,7 +30,7 @@
 
 ;;; Define default format
 
-(defvar thattem-default-header-line-format
+(defcustom thattem-default-header-line-format
   '("%e"
     thattem-mode-line-right-cup
     thattem-mode-line-right-cup-reverse
@@ -43,9 +43,11 @@
     thattem-mode-line-left-cup
     thattem-mode-line-file-dir
     thattem-mode-line-end-space)
-  "The default header line format.")
+  "The default header line format."
+  :type '(repeat (choice string symbol))
+  :group 'thattem-mode-line)
 
-(defvar thattem-default-mode-line-format
+(defcustom thattem-default-mode-line-format
   '("%e"
     thattem-mode-line-modified
     thattem-mode-line-coding-system
@@ -57,9 +59,11 @@
     thattem-mode-line-line-and-column-number
     thattem-mode-line-right-cup-reverse
     thattem-mode-line-end-space)
-  "The default mode line format.")
+  "The default mode line format."
+  :type '(repeat (choice string symbol))
+  :group 'thattem-mode-line)
 
-(defvar thattem-shell-header-line-format
+(defcustom thattem-shell-header-line-format
   '("%e"
     thattem-mode-line-fire
     thattem-mode-line-buffer-name
@@ -67,22 +71,28 @@
     thattem-mode-line-major-mode
     thattem-mode-line-file-dir
     thattem-mode-line-end-space)
-  "Header line format for shell-like buffer.")
+  "Header line format for shell-like buffer."
+  :type '(repeat (choice string symbol))
+  :group 'thattem-mode-line)
 
-(defvar thattem-help-header-line-format
+(defcustom thattem-help-header-line-format
   '("%e"
     thattem-mode-line-line-and-column-number
     thattem-mode-line-left-slant-reverse
     thattem-mode-line-end-space)
-  "Header line format for help buffer.")
+  "Header line format for help buffer."
+  :type '(repeat (choice string symbol))
+  :group 'thattem-mode-line)
 
-(defvar thattem-help-mode-line-format
+(defcustom thattem-help-mode-line-format
   '("%e"
     thattem-mode-line-buffer-name
     thattem-mode-line-right-slant
     thattem-mode-line-major-mode
     thattem-mode-line-end-space)
-  "Mode line format for help buffer.")
+  "Mode line format for help buffer."
+  :type '(repeat (choice string symbol))
+  :group 'thattem-mode-line)
 
 ;;; Hook settings
 
