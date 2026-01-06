@@ -11,50 +11,50 @@
 #+attr_html: :width 512px :align center
 [[file:assets/logo.svg]]
 
-* 🌈 A Beautiful, Interactive Mode‑Line for Emacs
+* 🌈 A Beautiful, Interactive Mode-Line for Emacs
 
-[[https://github.com/thattemperature/thattem-mode-line][thattem-mode-line]] replaces the default Emacs mode‑line and header‑line
+[[https://github.com/thattemperature/thattem-mode-line][thattem-mode-line]] replaces the default Emacs mode-line and header-line
 with a modern, visually rich design that combines aesthetic appeal
-with practical productivity.  Built with [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] and featuring a
-full‑color, theme‑aware palette, it transforms your Emacs into a
+with practical productivity. Built with [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] and featuring a
+full-color, theme-aware palette, it transforms your Emacs into a
 polished, interactive workspace.
 
 * ✨ Features
 
 ** Decorative Elements
-- Half‑circle “cups”, triangular “slants”, and flame icons as
-  Powerline‑style separators.
-- All icons are drawn with nerd‑icons and adapt to the active/inactive
+- Half-circle “cups”, triangular “slants”, and flame icons as
+  Powerline-style separators.
+- All icons are drawn with nerd-icons and adapt to the active/inactive
   window state.
 
 ** Interactive Components
 
 *** Buffer Name
-- Click to copy the buffer name to the kill‑ring.
-- Mouse‑wheel scroll to cycle through previous/next buffers.
-- File‑type icon (when the buffer is visiting a file).
+- Click to copy the buffer name to the kill-ring.
+- Mouse-wheel scroll to cycle through previous/next buffers.
+- File-type icon (when the buffer is visiting a file).
 
-*** Major‑Mode Area
-- Mouse‑1: pop‑up menu of active /local/ minor modes.
-- Mouse‑2: describe the current major mode.
-- Mouse‑3: pop‑up menu of active /global/ minor modes.
+*** Major-Mode Area
+- Mouse-1: pop-up menu of active /local/ minor modes.
+- Mouse-2: describe the current major mode.
+- Mouse-3: pop-up menu of active /global/ minor modes.
 
 *** Project Name (requires [[https://github.com/bbatsov/projectile][projectile]])
-- Mouse‑1: open the project’s root directory in Dired.
-- Mouse‑wheel: cycle through project buffers.
+- Mouse-1: open the project’s root directory in Dired.
+- Mouse-wheel: cycle through project buffers.
 
 *** Directory Path
 - Each path component is a clickable button that opens Dired at that
   directory.
-- Mouse‑3 on a component shows a menu of its sub‑directories.
-- Mouse‑wheel scrolls the path horizontally when it overflows.
+- Mouse-3 on a component shows a menu of its sub-directories.
+- Mouse-wheel scrolls the path horizontally when it overflows.
 
 *** Flymake Diagnostics
 - Error, warning, and note counters with distinct colors.
-- Mouse‑wheel scrolls through the diagnostics of each type.
+- Mouse-wheel scrolls through the diagnostics of each type.
 
 *** Line & Column Numbers
-- Mouse‑wheel scrolls lines (up/down) and characters (left/right).
+- Mouse-wheel scrolls lines (up/down) and characters (left/right).
 
 ** Theme Support
 - Separate, customizable color sets for light and dark themes.
@@ -63,11 +63,11 @@ polished, interactive workspace.
   ~customize~.
 
 ** Smart Layouts
-- /Shell‑like buffers/ (term, shell, eshell) get a special header‑line
+- /Shell-like buffers/ (term, shell, eshell) get a special header-line
   with flame separators and a reduced font size.
 - /Help buffers/ show only line/column numbers and a slant separator.
 - /EAF buffers/ use the default format.
-- The mode‑line adapts to window width: some elements (e.g., detailed
+- The mode-line adapts to window width: some elements (e.g., detailed
   Flymake icons) appear only when the window is wide enough.
 
 * 📦 Requirements
@@ -119,60 +119,60 @@ Example with ~straight.el~:
 
 * 🎨 Configuration
 
-All customizable options are under the ~thattem‑mode‑line~ group. To
-change them, use ~M‑x customize‑group RET thattem‑mode‑line RET~ or
+All customizable options are under the ~thattem-mode-line~ group. To
+change them, use ~M-x customize-group RET thattem-mode-line RET~ or
 set them in your init file.
 
 ** Colors
 
-The package defines four color variables – two for light themes, two
-for dark themes – that control the background and foreground of the
-mode‑line.
+The package defines some color variables that control the background
+and foreground of the mode-line.
 
-- ~thattem‑mode‑line/light‑theme/bright‑color~
-- ~thattem‑mode‑line/light‑theme/dark‑color~
-- ~thattem‑mode‑line/dark‑theme/bright‑color~
-- ~thattem‑mode‑line/dark‑theme/dark‑color~
+- ~thattem-mode-line/light-theme/bright-color~
+- ~thattem-mode-line/light-theme/dark-color~
+- ~thattem-mode-line/dark-theme/bright-color~
+- ~thattem-mode-line/dark-theme/dark-color~
+- … and so on.
 
 ** Faces
 
-Several faces are defined; you can inspect them with ~M‑x
-describe‑face~ or override them in your theme.
+Several faces are defined; you can inspect them with ~M-x
+describe-face~ or override them in your theme.
 
-- ~thattem‑mode‑line/bright~
-- ~thattem‑mode‑line/dark~
-- ~thattem‑mode‑line/error~
+- ~thattem-mode-line/bright~
+- ~thattem-mode-line/dark~
+- ~thattem-mode-line/error~
 
 ** Format
 
-The default header‑line and mode‑line formats are stored in
-~thattem‑default‑header‑line‑format~ and
-~thattem‑default‑mode‑line‑format~. You can replace them with your own
-list of mode‑line constructs.
+The default header-line and mode-line formats are stored in
+~thattem-default-header-line-format~ and
+~thattem-default-mode-line-format~. You can replace them with your own
+list of mode-line constructs.
 
-Specialized formats for shell‑like buffers, help buffers, and EAF
+Specialized formats for shell-like buffers, help buffers, and EAF
 buffers are also provided; you can modify
-~thattem‑shell‑header‑line‑format~, ~thattem‑help‑header‑line‑format~,
+~thattem-shell-header-line-format~, ~thattem-help-header-line-format~,
 etc.
 
-** Buffer‑Local Style
+** Buffer-Local Style
 
 Each buffer can have a numeric “style” (stored in
-~thattem‑mode‑line‑‑buffer‑style~) that switches between alternative
-faces (e.g., ~bright‑2~, ~dark‑2~). Use this to highlight specific
-buffers..
+~thattem-mode-line--buffer-style~) that switches between alternative
+faces (e.g., ~bright-2~, ~dark-2~). Use this to highlight specific
+buffers.
 
 * 🖱️ Mouse & Key Bindings
 
-All interactive elements have their own keymaps.  The most useful
-mouse actions are:
+All interactive elements have their own keymaps. The most useful mouse
+actions are:
 
-| Element             | Mouse‑1                    | Mouse‑2       | Mouse‑3                | Wheel                     |
+| Element             | Mouse-1                    | Mouse-2       | Mouse-3                | Wheel                     |
 |---------------------+----------------------------+---------------+------------------------+---------------------------|
 | Buffer name         | –                          | –             | copy buffer name       | previous/next buffer      |
-| Major mode          | local minor‑mode menu      | describe mode | global minor‑mode menu | –                         |
+| Major mode          | local minor-mode menu      | describe mode | global minor-mode menu | –                         |
 | Project name        | open project root in Dired | –             | –                      | previous/next project buf |
-| Directory component | open Dired at that dir     | –             | sub‑directory menu     | scroll path               |
+| Directory component | open Dired at that dir     | –             | sub-directory menu     | scroll path               |
 | Flymake counter     | –                          | –             | –                      | scroll diagnostics        |
 | Line number         | –                          | –             | –                      | previous/next line        |
 | Column number       | –                          | –             | –                      | backward/forward char     |
@@ -181,9 +181,9 @@ mouse actions are:
 
 ** Changing the Separator Icons
 
-The small‑elements file defines the separator variables (cups, slants,
-fire).  You can replace them with any nerd‑icons Powerline icon by
-editing ~thattem‑mode‑line‑small‑elements.el~, or simply shadow the
+The small-elements file defines the separator variables (cups, slants,
+fire). You can replace them with any nerd-icons Powerline icon by
+editing ~thattem-mode-line-small-elements.el~, or simply shadow the
 variables in your init file:
 
 #+begin_src elisp
@@ -196,7 +196,7 @@ variables in your init file:
 
 ** Adding a Clock
 
-The package already provides ~thattem‑mode‑line‑current‑time~.  To
+The package already provides ~thattem-mode-line-current-time~. To
 include it, add it to your custom format:
 
 #+begin_src elisp
@@ -208,37 +208,37 @@ include it, add it to your custom format:
 ** Creating a New Style
 
 Define new color sets and faces, then set
-~thattem‑mode‑line‑‑buffer‑style~ to a number that matches the suffix
-(e.g., style = 3 looks for faces ~bright‑3~, ~dark‑3~, etc.).  See
-~thattem‑mode‑line‑faces.el~ for how the face‑switch functions work.
+~thattem-mode-line--buffer-style~ to a number that matches the suffix
+(e.g., style = 3 looks for faces ~bright-3~, ~dark-3~, etc.). See
+~thattem-mode-line-faces.el~ for how the face-switch functions work.
 
 * 🤝 Contributing
 
-Contributions are welcome!  Please open issues or pull requests on
+Contributions are welcome! Please open issues or pull requests on
 [[https://github.com/thattemperature/thattem-mode-line][GitHub]].
 
 ** Development
 
 The code is split into focused files:
 
-- ~thattem‑mode‑line.el~ – main entry point, minor‑mode definition,
+- ~thattem-mode-line.el~ – main entry point, minor-mode definition,
   hook setup.
-- ~thattem‑mode‑line‑small‑elements.el~ – decorative separators.
-- ~thattem‑mode‑line‑big‑elements.el~ – functional components (buffer
+- ~thattem-mode-line-small-elements.el~ – decorative separators.
+- ~thattem-mode-line-big-elements.el~ – functional components (buffer
   name, major mode, project, Flymake, directory path, clock).
-- ~thattem‑mode‑line‑faces.el~ – face definitions and face‑switch
+- ~thattem-mode-line-faces.el~ – face definitions and face-switch
   functions.
-- ~thattem‑mode‑line‑colors.el~ – customizable color variables.
-- ~thattem‑mode‑line‑keymaps.el~ – mouse‑and‑wheel keymaps for each
+- ~thattem-mode-line-colors.el~ – customizable color variables.
+- ~thattem-mode-line-keymaps.el~ – mouse-and-wheel keymaps for each
   interactive element.
-- ~thattem‑mode‑line‑helper‑functions.el~ – helper functions for
+- ~thattem-mode-line-helper-functions.el~ – helper functions for
   directory scrolling, Flymake counting, wrapper macros, etc.
-- ~thattem‑mode‑line‑window‑actions.el~ – display‑buffer‑alist entries
+- ~thattem-mode-line-window-actions.el~ – display-buffer-alist entries
   for consistent window placement.
 
 When adding a new element, follow the existing pattern: define a
-buffer‑local variable that evaluates to a propertized string, attach a
-keymap and help‑echo, and mark it as risky‑local‑variable.
+buffer-local variable that evaluates to a propertized string, attach a
+keymap and help-echo, and mark it as risky-local-variable.
 
 * 📄 License
 
@@ -251,12 +251,12 @@ your option) any later version.
 
 This program is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the [[https://www.gnu.org/licenses/][GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [[https://www.gnu.org/licenses/][GNU
 General Public License]] for more details.
 
 * 📣 Acknowledgments
 
 - [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] for the beautiful icon set.
-- [[https://github.com/bbatsov/projectile][projectile]] for project‑aware navigation.
-- [[https://github.com/flymake/flymake][flymake]] for on‑the‑fly diagnostics.
+- [[https://github.com/bbatsov/projectile][projectile]] for project-aware navigation.
+- [[https://github.com/flymake/flymake][flymake]] for on-the-fly diagnostics.
 - The Emacs community for inspiration and feedback.
