@@ -31,6 +31,18 @@
                   'display '(space :align-to right-margin)))
   "Fill the end space of the mode line.")
 
+(defvar-local thattem-mode-line-right-align
+    '(:eval (thattem-mode-line--right-align
+             mode-line-format
+             (thattem-mode-line/bright-face-when-active)))
+  "Mode line constructor to right align all following constructs.")
+
+(defvar-local thattem-header-line-right-align
+    '(:eval (thattem-mode-line--right-align
+             header-line-format
+             (thattem-mode-line/bright-face-when-active)))
+  "Header line constructor to right align all following constructs.")
+
 (defvar-local thattem-mode-line-left-cup
     '(:eval
       (nerd-icons-powerline "nf-ple-left_half_circle_thick"
@@ -104,6 +116,8 @@
 
 (dolist
     (var'(thattem-mode-line-end-space
+          thattem-mode-line-right-align
+          thattem-header-line-right-align
           thattem-mode-line-left-cup
           thattem-mode-line-right-cup
           thattem-mode-line-left-cup-reverse

@@ -443,7 +443,7 @@ Wheel-down: scroll down"
 
 (defvar-local thattem-mode-line-current-time
     '(:eval
-      (let ((bright-face(thattem-mode-line/bright-face-when-active))
+      (let ((bright-face (thattem-mode-line/bright-face-when-active))
             (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active))
             (edge-face (thattem-mode-line/edge-face-when-active)))
         (concat
