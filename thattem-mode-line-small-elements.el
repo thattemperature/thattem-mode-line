@@ -26,8 +26,9 @@
 
 (defvar-local thattem-mode-line-end-space
     '(:eval
-      (propertize (format "%1024s" " ")
-                  'face (thattem-mode-line/bright-face-when-active)))
+      (propertize " "
+                  'face (thattem-mode-line/bright-face-when-active)
+                  'display '(space :align-to right-margin)))
   "Fill the end space of the mode line.")
 
 (defvar-local thattem-mode-line-left-cup
