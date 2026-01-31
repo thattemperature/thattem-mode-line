@@ -75,14 +75,24 @@ the return value when used."
 (defvar thattem-display-buffer-alist-default
   (let ((shell-like-action
          `((display-buffer-reuse-mode-window
-            display-buffer-at-bottom)
+            display-buffer-in-side-window)
            (mode . ,thattem-shell-like-modes)
-           (window-height . 10)))
+           (side . bottom)
+           (slot . 0)
+           (window-height . 10)
+           (preserve-size . (nil . t))
+           (window-parameters
+            . ((no-other-window . t)))))
         (help-action
          `((display-buffer-reuse-mode-window
-            display-buffer-pop-up-window)
+            display-buffer-in-side-window)
            (mode . ,thattem-help-modes)
-           (window-width . 40))))
+           (side . right)
+           (slot . 0)
+           (window-width . 40)
+           (preserve-size . (t . nil))
+           (window-parameters
+            . ((no-other-window . t))))))
     ;; shell-like regexp settings
     `((,(concat "\\(^\\*eshell\\*\\(<[[:digit:]]+>\\)?$\\)\\|"
                 "\\(^\\*shell\\*\\(<[[:digit:]]+>\\)?$\\)")
@@ -193,6 +203,32 @@ with same major mode type (see \\='thattem-special-mode-list\\=')."
                                thattem-special-mode-list
                                #'provided-mode-derived-p))))
             (setq continue nil))))))))
+
+;;; Select window functions
+
+(defun thattem-select-help-window ()
+  "Select the first window with major mode in \
+\\='thattem-help-modes\\='."
+  (interactive)
+  (let* ((predicate (lambda (window)
+                      (with-selected-window window
+                        (derived-mode-p thattem-help-modes))))
+         (window (get-window-with-predicate predicate)))
+    (when (not window)
+      (user-error "No help mode window"))
+    (select-window window)))
+
+(defun thattem-select-shell-window ()
+  "Select the first window with major mode in \
+\\='thattem-shell-like-modes\\='."
+  (interactive)
+  (let* ((predicate (lambda (window)
+                      (with-selected-window window
+                        (derived-mode-p thattem-shell-like-modes))))
+         (window (get-window-with-predicate predicate)))
+    (when (not window)
+      (user-error "No shell mode window"))
+    (select-window window)))
 
 
 (provide 'thattem-mode-line-window-actions)
