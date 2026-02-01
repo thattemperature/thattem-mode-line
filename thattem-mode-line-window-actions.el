@@ -20,6 +20,8 @@
 
 ;;; Code:
 
+(require 'cond-let)
+
 ;;; Define some classes of major mode.
 
 (defcustom thattem-shell-like-modes
@@ -229,6 +231,52 @@ with same major mode type (see \\='thattem-special-mode-list\\=')."
     (when (not window)
       (user-error "No shell mode window"))
     (select-window window)))
+
+;; Do what I mean window actions
+
+(defun thattem--get-buffer-with-derived-mode (modes)
+  "Return the first buffer with major mode derived from MODES."
+  (car
+   (funcall
+    (thattem--build-member
+     (lambda (major-mode-list buffer)
+       (with-current-buffer buffer
+         (derived-mode-p major-mode-list))))
+    modes (buffer-list))))
+
+(defun thattem-help-window-dwim ()
+  "If current buffer is Help Buffer, switch to next Help Buffer.
+Or if there is another window shows Help Buffer, select that window.
+Otherwise show a Help Buffer in a new window.
+
+Help Buffer means buffer with major mode in \
+\\='thattem-help-modes\\='."
+  (interactive)
+  (cond-let ((derived-mode-p thattem-help-modes)
+             (thattem-next-buffer))
+            ((ignore-errors (thattem-select-help-window)))
+            ([buffer (thattem--get-buffer-with-derived-mode
+                      thattem-help-modes)]
+             (pop-to-buffer buffer))
+            (t
+             (user-error "No help mode buffer"))))
+
+(defun thattem-shell-window-dwim ()
+  "If current buffer is Shell Buffer, switch to next Shell Buffer.
+Or if there is another window shows Shell Buffer, select that window.
+Otherwise show a Shell Buffer in a new window.
+
+Shell Buffer means buffer with major mode in \
+\\='thattem-shell-like-modes\\='."
+  (interactive)
+  (cond-let ((derived-mode-p thattem-shell-like-modes)
+             (thattem-next-buffer))
+            ((ignore-errors (thattem-select-shell-window)))
+            ([buffer (thattem--get-buffer-with-derived-mode
+                      thattem-shell-like-modes)]
+             (pop-to-buffer buffer))
+            (t
+             (user-error "No shell mode buffer"))))
 
 
 (provide 'thattem-mode-line-window-actions)
