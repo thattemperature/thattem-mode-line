@@ -32,9 +32,8 @@
 
 (defcustom thattem-default-header-line-format
   '("%e"
-    thattem-mode-line-right-cup
-    thattem-mode-line-right-cup-reverse
-    thattem-mode-line-project-name
+    thattem-mode-line-modified
+    thattem-mode-line-coding-system
     thattem-mode-line-right-cup
     thattem-mode-line-buffer-name
     thattem-mode-line-right-cup-reverse
@@ -49,16 +48,15 @@
 
 (defcustom thattem-default-mode-line-format
   '("%e"
-    thattem-mode-line-modified
-    thattem-mode-line-coding-system
+    thattem-mode-line-left-cup
+    thattem-mode-line-project-name
     thattem-mode-line-left-cup-reverse
     thattem-mode-line-buffer-name-left-truncate
     thattem-mode-line-left-cup
     thattem-mode-line-major-mode
     thattem-mode-line-right-cup
-    thattem-mode-line-line-and-column-number
-    thattem-mode-line-right-cup-reverse
-    thattem-mode-line-end-space)
+    thattem-mode-line-right-align-dark
+    thattem-mode-line-line-and-column-number)
   "The default mode line format."
   :type '(repeat (choice string symbol))
   :group 'thattem-mode-line)
@@ -77,9 +75,9 @@
 
 (defcustom thattem-help-header-line-format
   '("%e"
-    thattem-mode-line-line-and-column-number
-    thattem-mode-line-left-slant-reverse
-    thattem-mode-line-end-space)
+    thattem-header-line-right-align
+    thattem-mode-line-right-slant-reverse
+    thattem-mode-line-line-and-column-number)
   "Header line format for help buffer."
   :type '(repeat (choice string symbol))
   :group 'thattem-mode-line)

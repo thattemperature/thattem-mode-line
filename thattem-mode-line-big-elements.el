@@ -178,7 +178,6 @@ End of line style:
         (concat
          (propertize
           (concat
-           (propertize " " 'face dark-face)
            (nerd-icons-faicon "nf-fa-arrows_v"
                               :face dark-face
                               :height 1.25)
@@ -227,7 +226,8 @@ Wheel-down: Next line"
                               :face dark-face)
            (propertize (format "%2d"
                                (window-width))
-                       'face dark-face))
+                       'face dark-face)
+           (propertize " " 'face dark-face))
           'mouse-face '(:box (:line-width (0 . -4)))
           'help-echo (format "The current column number is: %d
 The column number of current line is: %d
@@ -288,16 +288,16 @@ Wheel-down: Next project buffer"))
               (dark-face (thattem-mode-line/dark-face-when-active))
               (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
           (concat
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 104)
              (nerd-icons-codicon "nf-cod-error"
                                  :face dark-face
                                  :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
@@ -310,16 +310,16 @@ Wheel-down: Next project buffer"))
                                           (car count-list))
                        'keymap thattem-mode-line-flymake-info-keymap
                        'flymake--diagnostic-type :error)
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 104)
              (nerd-icons-codicon "nf-cod-warning"
                                  :face dark-face
                                  :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
@@ -332,16 +332,16 @@ Wheel-down: Next project buffer"))
                                           (cadr count-list))
                        'keymap thattem-mode-line-flymake-info-keymap
                        'flymake--diagnostic-type :warning)
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 104)
              (nerd-icons-codicon "nf-cod-note"
                                  :face dark-face
                                  :height 1.25))
-           (when (>= (window-width) 96)
+           (when (>= (window-width) 88)
              (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                    :face
                                    edge-reverse-face
