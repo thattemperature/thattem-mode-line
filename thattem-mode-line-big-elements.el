@@ -284,6 +284,9 @@ Wheel-down: Next project buffer")
     '(:eval
       (when flymake-mode
         (let ((count-list (thattem-mode-line-flymake-counter))
+              (is-running (seq-difference
+                           (flymake-running-backends)
+                           (flymake-reporting-backends)))
               (bright-face (thattem-mode-line/bright-face-when-active))
               (dark-face (thattem-mode-line/dark-face-when-active))
               (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
@@ -302,7 +305,9 @@ Wheel-down: Next project buffer")
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (propertize (format "%2d" (car count-list))
+           (propertize (if is-running
+                           " ?"
+                           (format "%2d" (car count-list)))
                        'face (thattem-mode-line/error-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
                        'help-echo (format "Error count: %d
@@ -324,7 +329,9 @@ Wheel-down: Next project buffer")
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (propertize (format "%2d" (cadr count-list))
+           (propertize (if is-running
+                           " ?"
+                         (format "%2d" (cadr count-list)))
                        'face (thattem-mode-line/warning-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
                        'help-echo (format "Warning count: %d
@@ -346,7 +353,9 @@ Wheel-down: Next project buffer")
                                    :face
                                    edge-reverse-face
                                    :height 1.25))
-           (propertize (format "%2d" (caddr count-list))
+           (propertize (if is-running
+                           " ?"
+                         (format "%2d" (caddr count-list)))
                        'face (thattem-mode-line/note-face-when-active)
                        'mouse-face '(:box (:line-width (0 . -4)))
                        'help-echo (format "Note count: %d
