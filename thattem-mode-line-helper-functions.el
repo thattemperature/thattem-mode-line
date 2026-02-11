@@ -156,13 +156,30 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
   "Like \\='next-line\\='."
   (forward-line 1))
 (thattem-mode-line-define-wrapper-function thattem-next-line)
+
 (thattem-mode-line-define-wrapper-function backward-char)
 
 (thattem-mode-line-define-wrapper-function forward-char)
 
-(thattem-mode-line-define-wrapper-function projectile-previous-project-buffer)
+(defun thattem-projectile-previous-project-buffer ()
+  "Switch to the previous project buffer \
+if current buffer belongs to a project.
+Throw a user error otherwise."
+  (if (projectile-project-p)
+      (projectile-previous-project-buffer)
+    (user-error "No project selected")))
+(thattem-mode-line-define-wrapper-function
+ thattem-projectile-previous-project-buffer)
 
-(thattem-mode-line-define-wrapper-function projectile-next-project-buffer)
+(defun thattem-projectile-next-project-buffer ()
+  "Switch to the next project buffer \
+if current buffer belongs to a project.
+Throw a user error otherwise."
+  (if (projectile-project-p)
+      (projectile-next-project-buffer)
+    (user-error "No project selected")))
+(thattem-mode-line-define-wrapper-function
+ thattem-projectile-next-project-buffer)
 
 (defun thattem-mode-line-dir-preprocess (dir-list)
   "Preprocessing the split file path DIR-LIST."

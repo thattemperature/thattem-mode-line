@@ -247,14 +247,14 @@ Wheel-down: forward char"
       (let ((bright-face (thattem-mode-line/bright-face-when-active)))
         (propertize
          (concat
-          (if (equal (projectile-project-name) "-")
-              (nerd-icons-mdicon "nf-md-projector_screen_off_outline"
+          (if (projectile-project-p)
+              (nerd-icons-mdicon "nf-md-projector_screen_outline"
                                  :face bright-face
                                  :height 1.25)
-            (nerd-icons-mdicon "nf-md-projector_screen_outline"
+            (nerd-icons-mdicon "nf-md-projector_screen_off_outline"
                                :face bright-face
                                :height 1.25))
-          (unless (equal (projectile-project-name) "-")
+          (when (projectile-project-p)
             (let ((name (projectile-project-name))
                   (max-length (max (/ (window-width) 8) 8)))
               (if (> (length name) max-length)
@@ -268,15 +268,15 @@ Wheel-down: forward char"
                  (format " %s " name)
                  'face bright-face)))))
          'mouse-face '(:box (:line-width (0 . -4)))
-         'help-echo (if (equal (projectile-project-name) "-")
-                        "This buffer does not belong to a project.
-\nMouse-1: Select a project"
-                      (concat "This buffer belongs to the project:\n"
-                              (projectile-project-name)
-                              "\n\nMouse-1: \
+         'help-echo (if (projectile-project-p)
+                        (concat "This buffer belongs to the project:\n"
+                                (projectile-project-name)
+                                "\n\nMouse-1: \
 Open project's root folder.
 Wheel-up: Previous project buffer
-Wheel-down: Next project buffer"))
+Wheel-down: Next project buffer")
+                      "This buffer does not belong to a project.
+\nMouse-1: Select a project")
          'keymap thattem-mode-line-project-name-keymap)))
   "Mode line construct for displaying project name.")
 
