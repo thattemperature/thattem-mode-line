@@ -37,11 +37,15 @@ It should be \\='mode-line-format\\=' or \\='header-line-format\\='.
 The middle space will be show with FACE."
   (let ((rest-1 (memq 'thattem-mode-line-right-align
                       type))
+        (rest-1-dark (memq 'thattem-mode-line-right-align-dark
+                           type))
         (rest-2 (memq 'thattem-header-line-right-align
-                      type)))
-    (let* ((rest (cdr (or rest-1 rest-2)))
+                      type))
+        (rest-2-dark (memq 'thattem-header-line-right-align-dark
+                           type)))
+    (let* ((rest (cdr (or rest-1 rest-1-dark rest-2 rest-2-dark)))
            (rest-str (format-mode-line `("" ,@rest)))
-	       (rest-width (progn
+           (rest-width (progn
                          (add-face-text-property
                           0 (length rest-str) 'mode-line t rest-str)
                          (string-pixel-width rest-str))))

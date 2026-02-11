@@ -29,19 +29,42 @@
       (propertize " "
                   'face (thattem-mode-line/bright-face-when-active)
                   'display '(space :align-to right-margin)))
-  "Fill the end space of the mode line.")
+  "Fill the end space of the mode line in bright face.")
+
+(defvar-local thattem-mode-line-end-space-dark
+    '(:eval
+      (propertize " "
+                  'face (thattem-mode-line/dark-face-when-active)
+                  'display '(space :align-to right-margin)))
+  "Fill the end space of the mode line in dark face.")
 
 (defvar-local thattem-mode-line-right-align
     '(:eval (thattem-mode-line--right-align
              mode-line-format
              (thattem-mode-line/bright-face-when-active)))
-  "Mode line constructor to right align all following constructs.")
+  "Mode line constructor to right align all following constructs \
+in bright face.")
+
+(defvar-local thattem-mode-line-right-align-dark
+    '(:eval (thattem-mode-line--right-align
+             mode-line-format
+             (thattem-mode-line/dark-face-when-active)))
+  "Mode line constructor to right align all following constructs \
+in dark face.")
 
 (defvar-local thattem-header-line-right-align
     '(:eval (thattem-mode-line--right-align
              header-line-format
              (thattem-mode-line/bright-face-when-active)))
-  "Header line constructor to right align all following constructs.")
+  "Header line constructor to right align all following constructs \
+in bright face.")
+
+(defvar-local thattem-header-line-right-align-dark
+    '(:eval (thattem-mode-line--right-align
+             header-line-format
+             (thattem-mode-line/dark-face-when-active)))
+  "Header line constructor to right align all following constructs \
+in dark face.")
 
 (defvar-local thattem-mode-line-left-cup
     '(:eval
@@ -50,19 +73,19 @@
                             :height 1.25))
   "A left half-circle used in mode line.")
 
-(defvar-local thattem-mode-line-right-cup
-    '(:eval
-      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height 1.25))
-  "A right half-circle used in mode line.")
-
 (defvar-local thattem-mode-line-left-cup-reverse
     '(:eval
       (nerd-icons-powerline "nf-ple-left_half_circle_thick"
                             :face (thattem-mode-line/edge-reverse-face-when-active)
                             :height 1.25))
   "A left half-circle used in mode line with inverted color.")
+
+(defvar-local thattem-mode-line-right-cup
+    '(:eval
+      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
+                            :face (thattem-mode-line/edge-face-when-active)
+                            :height 1.25))
+  "A right half-circle used in mode line.")
 
 (defvar-local thattem-mode-line-right-cup-reverse
     '(:eval
@@ -116,11 +139,14 @@
 
 (dolist
     (var'(thattem-mode-line-end-space
+          thattem-mode-line-end-space-dark
           thattem-mode-line-right-align
+          thattem-mode-line-right-align-dark
           thattem-header-line-right-align
+          thattem-header-line-right-align-dark
           thattem-mode-line-left-cup
-          thattem-mode-line-right-cup
           thattem-mode-line-left-cup-reverse
+          thattem-mode-line-right-cup
           thattem-mode-line-right-cup-reverse
           thattem-mode-line-left-slant
           thattem-mode-line-left-slant-reverse
