@@ -205,6 +205,7 @@ Wheel-down: Next line"
                          (count-lines (point-min) (point-max))
                          (window-height))
       'keymap thattem-mode-line-line-number-keymap)
+     (propertize " " 'face dark-face)
      (propertize
       (concat
        (nerd-icons-faicon "nf-fa-arrows_h"
@@ -225,8 +226,7 @@ Wheel-down: Next line"
                           :face dark-face)
        (propertize (format "%2d"
                            (window-width))
-                   'face dark-face)
-       (propertize " " 'face dark-face))
+                   'face dark-face))
       'mouse-face '(:box (:line-width (0 . -4)))
       'help-echo (format "The current column number is: %d
 The column number of current line is: %d
@@ -238,7 +238,8 @@ Wheel-down: forward char"
                          (- (line-end-position)
                             (line-beginning-position))
                          (window-width))
-      'keymap thattem-mode-line-column-number-keymap))))
+      'keymap thattem-mode-line-column-number-keymap)
+     (propertize " " 'face dark-face))))
 
 (defvar-local thattem-mode-line-line-and-column-number
     '(:eval (thattem-mode-line-line-and-column-number--helper))
@@ -322,6 +323,8 @@ Wheel-down: Next project buffer")
                                       (car count-list))
                    'keymap thattem-mode-line-flymake-info-keymap
                    'flymake--diagnostic-type :error)
+       (unless (>= (window-width) 88)
+         (propertize " " 'face bright-face))
        (when (>= (window-width) 88)
          (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                :face
@@ -346,6 +349,8 @@ Wheel-down: Next project buffer")
                                       (cadr count-list))
                    'keymap thattem-mode-line-flymake-info-keymap
                    'flymake--diagnostic-type :warning)
+       (unless (>= (window-width) 88)
+         (propertize " " 'face bright-face))
        (when (>= (window-width) 88)
          (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                :face
