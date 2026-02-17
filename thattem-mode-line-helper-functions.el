@@ -21,7 +21,6 @@
 ;;; Code:
 
 (require 'f)
-(require 'dash)
 (require 'flymake)
 (require 'projectile)
 (require 'thattem-mode-line-window-actions)
