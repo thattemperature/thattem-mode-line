@@ -225,8 +225,7 @@ with ELLIPSIS."
              (window-parameter
               (selected-window) 'thattem-mode-line-dir-scroll)))
         (let ((right (thattem-mode-line-dir-builder
-                      (substring-no-properties omission)
-                      (substring-no-properties pseudo-root))))
+                      omission pseudo-root)))
           (cons (cons
                  (concat
                   (concat
@@ -246,39 +245,32 @@ with ELLIPSIS."
                  right)
                 tail)))
     (let ((root (car dir-list))
-          (tail (cdr dir-list))
-          (tramp-regexp-1 "^/\\([^:]+\\):$")
-          (tramp-regexp-2 "^/\\([^:]+\\):\\([^:]+\\):$"))
-      (let ((left root)
-            (right (substring-no-properties root)))
-        (cond ((string-match tramp-regexp-2 root)
-               (setq left (match-string 1 root)))
-              ((string-match tramp-regexp-1 root)
-               (setq left (match-string 1 root))))
+          (tail (cdr dir-list)))
+      (let ((left (or (file-remote-p root 'method) root))
+            (right (if (file-remote-p root)
+                       (concat root "/")
+                     (thattem-mode-line-dir-builder root))))
         (cons (cons
                (apply #'propertize left
-                      'directory (thattem-mode-line-dir-builder right "")
+                      'directory right
                       (plist-put
                        properties 'help-echo
                        (concat
-                        (thattem-mode-line-dir-builder right "")
+                        right
                         (plist-get properties 'help-echo))))
                right)
               tail)))))
 
-(defun thattem-mode-line-dir-builder (lefts item)
+(defun thattem-mode-line-dir-builder (lefts &optional item)
   "Build the whole path form the list \
 that \\='file-name-split\\=' generate.
 LEFTS should be the first element \
 or the return value of this function.
 ITEM is the next element."
   (substring-no-properties
-   (cond ((string-blank-p lefts)
-          (concat "/" item))
-         ((string-suffix-p "/" lefts)
-          (concat lefts item))
-         (t
-          (concat lefts "/" item)))))
+   (file-name-concat
+    (if (string-blank-p lefts) "/" lefts)
+    item)))
 
 (defun thattem-mode-line-goto-dir (event)
   "Open a Dired buffer.
