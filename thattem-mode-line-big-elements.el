@@ -432,8 +432,8 @@ Wheel-down: scroll down")
             (thattem-mode-line-dir-preprocess
              (butlast
               (file-name-split
-               (f-expand (or (buffer-file-name)
-                             dired-directory)))))
+               (expand-file-name (or (buffer-file-name)
+                                     dired-directory)))))
             (nerd-icons-faicon "nf-fa-ellipsis_v"
                                :face bright-face)
             'face bright-face

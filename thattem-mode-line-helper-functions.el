@@ -20,7 +20,7 @@
 
 ;;; Code:
 
-(require 'f)
+(require 'dash)
 (require 'flymake)
 (require 'projectile)
 (require 'thattem-mode-line-window-actions)
@@ -328,7 +328,8 @@ of the string under the EVENT."
 
 (defun thattem-mode-line-dir-length ()
   "Return the length of default directory."
-  (let ((dir-list (file-name-split (f-expand default-directory))))
+  (let ((dir-list (file-name-split
+                   (expand-file-name default-directory))))
     (while-let ((continue
                  (and (length> dir-list 1)
                       (string-blank-p (car (last dir-list))))))
