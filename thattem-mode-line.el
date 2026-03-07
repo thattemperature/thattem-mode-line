@@ -111,8 +111,9 @@ like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
   (setq mode-line-format nil)
   ;; Set style
   (setq thattem-mode-line--buffer-style 2)
-  ;; Set font size
-  (text-scale-set -1))
+  ;; Recalculate preserved height
+  (when (window-preserved-size)
+    (window-preserve-size nil nil t)))
 
 (defun thattem-help-mode-hook-function ()
   "A function called by the hook of help mode."

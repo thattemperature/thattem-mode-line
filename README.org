@@ -191,7 +191,7 @@ variables in your init file:
         '(:eval (nerd-icons-powerline
                  "nf-ple-left_half_circle"
                  :face (thattem-mode-line/edge-face-when-active)
-                 :height 1.25)))
+                 :height thattem-mode-line-nerd-height)))
 #+end_src
 
 ** Adding a Clock

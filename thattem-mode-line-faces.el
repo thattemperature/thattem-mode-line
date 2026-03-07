@@ -32,6 +32,12 @@
   :type 'integer
   :group 'thattem-mode-line)
 
+(defcustom thattem-mode-line-nerd-height
+  1.0
+  "The height factor of big nerd icons."
+  :type 'float
+  :group 'thattem-mode-line)
+
 ;;; Define faces
 
 (defface thattem-mode-line/bright

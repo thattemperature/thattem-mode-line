@@ -36,16 +36,16 @@
           (nerd-icons-faicon "nf-fa-lock"
                              :face
                              bright-face
-                             :height 1.25)
+                             :height thattem-mode-line-nerd-height)
         (if (buffer-modified-p)
             (nerd-icons-faicon "nf-fa-pencil_square_o"
                                :face
                                bright-face
-                               :height 1.25)
+                               :height thattem-mode-line-nerd-height)
           (nerd-icons-faicon "nf-fa-download"
                              :face
                              bright-face
-                             :height 1.25))))
+                             :height thattem-mode-line-nerd-height))))
      'mouse-face '(:box (:line-width (0 . -4)))
      'help-echo (if buffer-read-only
                     "This buffer is read-only.
@@ -102,7 +102,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
         (nerd-icons-icon-for-file (buffer-file-name)
                                   :face
                                   dark-face
-                                  :height 1.25))
+                                  :height thattem-mode-line-nerd-height))
       (let ((name (buffer-name))
             (length (length (buffer-name)))
             (max-length (max (/ (window-width) 6) 12)))
@@ -152,7 +152,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
       (nerd-icons-icon-for-mode major-mode
                                 :face
                                 bright-face
-                                :height 1.25)
+                                :height thattem-mode-line-nerd-height)
       (propertize (format " %s "
                           (format-mode-line mode-name))
                   'face
@@ -179,7 +179,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
       (concat
        (nerd-icons-faicon "nf-fa-arrows_v"
                           :face dark-face
-                          :height 1.25)
+                          :height thattem-mode-line-nerd-height)
        (nerd-icons-mdicon "nf-md-cursor_default_outline"
                           :face dark-face)
        (propertize "%2l"
@@ -210,7 +210,7 @@ Wheel-down: Next line"
       (concat
        (nerd-icons-faicon "nf-fa-arrows_h"
                           :face dark-face
-                          :height 1.25)
+                          :height thattem-mode-line-nerd-height)
        (nerd-icons-mdicon "nf-md-cursor_default_outline"
                           :face dark-face)
        (propertize (format "%2d"
@@ -254,10 +254,10 @@ Wheel-down: forward char"
       (if (projectile-project-p)
           (nerd-icons-mdicon "nf-md-projector_screen_outline"
                              :face bright-face
-                             :height 1.25)
+                             :height thattem-mode-line-nerd-height)
         (nerd-icons-mdicon "nf-md-projector_screen_off_outline"
                            :face bright-face
-                           :height 1.25))
+                           :height thattem-mode-line-nerd-height))
       (when (projectile-project-p)
         (let ((name (projectile-project-name))
               (max-length (max (/ (window-width) 8) 8)))
@@ -303,16 +303,16 @@ Wheel-down: Next project buffer")
          (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-error"
                              :face dark-face
-                             :height 1.25))
+                             :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 88)
          (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (propertize (if is-running
                        " ?"
                      (format "%2d" (car count-list)))
@@ -329,16 +329,16 @@ Wheel-down: Next project buffer")
          (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-warning"
                              :face dark-face
-                             :height 1.25))
+                             :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 88)
          (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (propertize (if is-running
                        " ?"
                      (format "%2d" (cadr count-list)))
@@ -355,16 +355,16 @@ Wheel-down: Next project buffer")
          (nerd-icons-powerline "nf-ple-upper_right_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-note"
                              :face dark-face
-                             :height 1.25))
+                             :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 88)
          (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
                                edge-reverse-face
-                               :height 1.25))
+                               :height thattem-mode-line-nerd-height))
        (propertize (if is-running
                        " ?"
                      (format "%2d" (caddr count-list)))
@@ -406,11 +406,11 @@ and cdr is corresponding whole path. ITEM is the next directory item"
                    (nerd-icons-powerline
                     "nf-ple-lower_right_triangle"
                     :face edge-reverse-face
-                    :height 1.25)
+                    :height thattem-mode-line-nerd-height)
                    (nerd-icons-powerline
                     "nf-ple-upper_left_triangle"
                     :face edge-reverse-face
-                    :height 1.25))
+                    :height thattem-mode-line-nerd-height))
                   'keymap
                   thattem-mode-line-file-dir-separator-keymap)
                  (propertize item
@@ -450,20 +450,20 @@ Wheel-down: scroll down"
        (concat (nerd-icons-powerline
                 "nf-ple-lower_right_triangle"
                 :face edge-reverse-face
-                :height 1.25)
+                :height thattem-mode-line-nerd-height)
                (propertize (nerd-icons-codicon
                             (if (eq major-mode 'dired-mode)
                                 "nf-cod-triangle_down"
                               "nf-cod-dash")
                             :face dark-face
-                            :height 1.25)
+                            :height thattem-mode-line-nerd-height)
                            'mouse-face '(:box (:line-width (0 . -4)))
                            'help-echo
                            "No directory of this buffer.")
                (nerd-icons-powerline
                 "nf-ple-upper_left_triangle"
                 :face edge-reverse-face
-                :height 1.25))))))
+                :height thattem-mode-line-nerd-height))))))
 
 (defvar-local thattem-mode-line-file-dir
     '(:eval (thattem-mode-line-file-dir--helper))
@@ -478,20 +478,20 @@ Wheel-down: scroll down"
     (concat
      (nerd-icons-powerline "nf-ple-left_half_circle_thick"
                            :face edge-reverse-face
-                           :height 1.25)
+                           :height thattem-mode-line-nerd-height)
      (nerd-icons-powerline "nf-ple-left_half_circle_thick"
                            :face edge-face
-                           :height 1.25)
+                           :height thattem-mode-line-nerd-height)
      (propertize
       (concat
        (nerd-icons-mdicon "nf-md-timer"
                           :face bright-face
-                          :height 1.25)
+                          :height thattem-mode-line-nerd-height)
        (propertize (format-time-string "%k:%M:%S  %Y-%m-%d")
                    'face bright-face)
        (nerd-icons-mdicon "nf-md-calendar"
                           :face bright-face
-                          :height 1.25))
+                          :height thattem-mode-line-nerd-height))
       'mouse-face '(:box (:line-width (0 . -4)))
       'help-echo (format-time-string "Year: %Y
 Month: %B
@@ -499,10 +499,10 @@ Date: %d
 %A"))
      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
                            :face edge-face
-                           :height 1.25)
+                           :height thattem-mode-line-nerd-height)
      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
                            :face edge-reverse-face
-                           :height 1.25))))
+                           :height thattem-mode-line-nerd-height))))
 
 (defvar-local thattem-mode-line-current-time
     '(:eval (thattem-mode-line-current-time--helper))
