@@ -62,14 +62,14 @@
 
 ;;; Define helper functions.
 
-(defun thattem-mode-list-for-buffer-match (MODE-LIST)
+(defun thattem--mode-list-for-buffer-match (mode-list)
   "A helper function to build cons-cell for \\='buffer-match-p\\='.
 Which matches the buffer with the major mode derived from one of the
 MODE-LIST.  You should \\='cons\\=' a symbol \"or\" to the left of
 the return value when used."
-  (if MODE-LIST
-      (cons (cons 'derived-mode (car MODE-LIST))
-            (thattem-mode-list-for-buffer-match (cdr MODE-LIST)))
+  (if mode-list
+      (cons (cons 'derived-mode (car mode-list))
+            (thattem--mode-list-for-buffer-match (cdr mode-list)))
     nil))
 
 ;;; Define new value of variable "display-buffer-alist"
@@ -100,39 +100,33 @@ the return value when used."
                 "\\(^\\*shell\\*\\(<[[:digit:]]+>\\)?$\\)")
        . ,shell-like-action)
       ;; shell-like mode settings
-      (,(cons 'or (thattem-mode-list-for-buffer-match
+      (,(cons 'or (thattem--mode-list-for-buffer-match
                    thattem-shell-like-modes))
        . ,shell-like-action)
       ;; help mode settings
-      (,(cons 'or (thattem-mode-list-for-buffer-match
+      (,(cons 'or (thattem--mode-list-for-buffer-match
                    thattem-help-modes))
        . ,help-action)))
   "New value for \\='display-buffer-alist\\='.")
 
 ;;; Switch buffer functions
 
-(defun thattem--lambda-recursion (func)
-  "The FUNC should be a function that first parameter represents \
-itself.
-This function return a function that FUNC recursive call itself."
-  (lambda (&rest arguments)
-    (apply func func arguments)))
-
 (defun thattem--build-member (equal-func)
   "Return a function which behave like \\='member\\='.
 But use EQUAL-FUNC to judge equality.
 Like (funcall EQUAL-FUNC elt (car list))."
-  (cond ((eq equal-func 'eq) #'memq)
-        ((eq equal-func 'eql) #'memql)
-        ((eq equal-func 'equal) #'member)
-        (t
-         (thattem--lambda-recursion
-          (lambda (func elt list)
-            (cond ((not list) nil)
-                  ((funcall equal-func elt (car list))
-                   list)
-                  (t
-                   (funcall func func elt (cdr list)))))))))
+  (let ((recursion
+         (lambda (func elt list)
+           (cond ((not list) nil)
+                 ((funcall equal-func elt (car list))
+                  list)
+                 (t
+                  (funcall func func elt (cdr list)))))))
+    (cond ((eq equal-func 'eq) #'memq)
+          ((eq equal-func 'eql) #'memql)
+          ((eq equal-func 'equal) #'member)
+          (t (lambda (elt list)
+               (funcall recursion recursion elt list))))))
 
 (defun thattem--get-type (item list &optional member-func)
   "This function will find ITEM in each sub-list.
