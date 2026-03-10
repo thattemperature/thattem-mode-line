@@ -27,7 +27,8 @@
 
 (defun thattem-mode-line-modified--helper ()
   "Helper function for \\='thattem-mode-line-modified\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box))))
     (propertize
      (concat
       (propertize " " 'face
@@ -46,7 +47,7 @@
                              :face
                              bright-face
                              :height thattem-mode-line-nerd-height))))
-     'mouse-face '(:box (:line-width (0 . -4)))
+     'mouse-face (thattem-mode-line--mouse-box)
      'help-echo (if buffer-read-only
                     "This buffer is read-only.
 Cannot edit it."
@@ -64,10 +65,11 @@ if the buffer is read-only or modified.")
 
 (defun thattem-mode-line-coding-system--helper ()
   "Helper function for \\='thattem-mode-line-coding-system\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box))))
     (propertize " %Z"
                 'face bright-face
-                'mouse-face '(:box (:line-width (0 . -4)))
+                'mouse-face (thattem-mode-line--mouse-box)
                 'help-echo
                 (format "Buffer coding system (%s):
 %s
@@ -95,7 +97,8 @@ End of line style:
 (defun thattem-mode-line-buffer-name--helper (&optional left-truncate)
   "Helper function for \\='thattem-mode-line-buffer-name\\='.
 If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
-  (let ((dark-face (thattem-mode-line/dark-face-when-active)))
+  (let ((dark-face `(,(thattem-mode-line/dark-face-when-active)
+                     ,(thattem-mode-line--box))))
     (propertize
      (concat
       (when (buffer-file-name)
@@ -126,7 +129,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
           (propertize
            (format " %s " name)
            'face dark-face))))
-     'mouse-face '(:box (:line-width (0 . -4)))
+     'mouse-face (thattem-mode-line--mouse-box)
      'help-echo (concat "The name of this buffer is:\n"
                         (buffer-name)
                         "\n\nMouse-3: Copy buffer name\n"
@@ -145,8 +148,10 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
 
 (defun thattem-mode-line-major-mode--helper ()
   "Helper function for \\='thattem-mode-line-major-mode\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active))
-        (bright-small-face (thattem-mode-line/bright-small-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box)))
+        (bright-small-face `(,(thattem-mode-line/bright-small-face-when-active)
+                             ,(thattem-mode-line--box))))
     (propertize
      (concat
       (nerd-icons-icon-for-mode major-mode
@@ -157,7 +162,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
                           (format-mode-line mode-name))
                   'face
                   bright-small-face))
-     'mouse-face '(:box (:line-width (0 . -4)))
+     'mouse-face (thattem-mode-line--mouse-box)
      'help-echo (concat "The major mode of this buffer is:\n"
                         (symbol-name major-mode)
                         "\n\nMouse-1: List local minor modes\n"
@@ -173,7 +178,8 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
 (defun thattem-mode-line-line-and-column-number--helper ()
   "Helper function for \
 \\='thattem-mode-line-line-and-column-number\\='."
-  (let ((dark-face (thattem-mode-line/dark-face-when-active)))
+  (let ((dark-face `(,(thattem-mode-line/dark-face-when-active)
+                     ,(thattem-mode-line--box))))
     (concat
      (propertize
       (concat
@@ -194,7 +200,7 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
        (propertize (format "%2d "
                            (window-height))
                    'face dark-face))
-      'mouse-face '(:box (:line-width (0 . -4)))
+      'mouse-face (thattem-mode-line--mouse-box)
       'help-echo (format "The current line number is: %d
 The line number of this buffer: %d
 The height of this window is: %d
@@ -227,7 +233,7 @@ Wheel-down: Next line"
        (propertize (format "%2d"
                            (window-width))
                    'face dark-face))
-      'mouse-face '(:box (:line-width (0 . -4)))
+      'mouse-face (thattem-mode-line--mouse-box)
       'help-echo (format "The current column number is: %d
 The column number of current line is: %d
 The width of this window is: %d
@@ -248,7 +254,8 @@ Wheel-down: forward char"
 
 (defun thattem-mode-line-project-name--helper ()
   "Helper function for \\='thattem-mode-line-project-name\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box))))
     (propertize
      (concat
       (if (projectile-project-p)
@@ -271,7 +278,7 @@ Wheel-down: forward char"
             (propertize
              (format " %s " name)
              'face bright-face)))))
-     'mouse-face '(:box (:line-width (0 . -4)))
+     'mouse-face (thattem-mode-line--mouse-box)
      'help-echo (if (projectile-project-p)
                     (concat "This buffer belongs to the project:\n"
                             (projectile-project-name)
@@ -295,14 +302,25 @@ Wheel-down: Next project buffer")
           (is-running (seq-difference
                        (flymake-running-backends)
                        (flymake-reporting-backends)))
-          (bright-face (thattem-mode-line/bright-face-when-active))
-          (dark-face (thattem-mode-line/dark-face-when-active))
-          (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
+          (bright-face `(,(thattem-mode-line/bright-face-when-active)
+                         ,(thattem-mode-line--box)))
+          (dark-face `(,(thattem-mode-line/dark-face-when-active)
+                       ,(thattem-mode-line--box)))
+          (edge-face `(,(thattem-mode-line/edge-face-when-active)
+                       ,(thattem-mode-line--box)))
+          (edge-reverse-face `(,(thattem-mode-line/edge-reverse-face-when-active)
+                               ,(thattem-mode-line--box)))
+          (error-face `(,(thattem-mode-line/error-face-when-active)
+                        ,(thattem-mode-line--box)))
+          (warning-face `(,(thattem-mode-line/warning-face-when-active)
+                          ,(thattem-mode-line--box)))
+          (note-face `(,(thattem-mode-line/note-face-when-active)
+                       ,(thattem-mode-line--box))))
       (concat
        (when (>= (window-width) 88)
-         (nerd-icons-powerline "nf-ple-upper_right_triangle"
+         (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
-                               edge-reverse-face
+                               edge-face
                                :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-error"
@@ -316,8 +334,8 @@ Wheel-down: Next project buffer")
        (propertize (if is-running
                        " ?"
                      (format "%2d" (car count-list)))
-                   'face (thattem-mode-line/error-face-when-active)
-                   'mouse-face '(:box (:line-width (0 . -4)))
+                   'face error-face
+                   'mouse-face (thattem-mode-line--mouse-box)
                    'help-echo (format "Error count: %d
 \nWheel-up: Previous error\nWheel-down: Next error"
                                       (car count-list))
@@ -326,9 +344,9 @@ Wheel-down: Next project buffer")
        (unless (>= (window-width) 88)
          (propertize " " 'face bright-face))
        (when (>= (window-width) 88)
-         (nerd-icons-powerline "nf-ple-upper_right_triangle"
+         (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
-                               edge-reverse-face
+                               edge-face
                                :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-warning"
@@ -342,8 +360,8 @@ Wheel-down: Next project buffer")
        (propertize (if is-running
                        " ?"
                      (format "%2d" (cadr count-list)))
-                   'face (thattem-mode-line/warning-face-when-active)
-                   'mouse-face '(:box (:line-width (0 . -4)))
+                   'face warning-face
+                   'mouse-face (thattem-mode-line--mouse-box)
                    'help-echo (format "Warning count: %d
 \nWheel-up: Previous warning\nWheel-down: Next warning"
                                       (cadr count-list))
@@ -352,9 +370,9 @@ Wheel-down: Next project buffer")
        (unless (>= (window-width) 88)
          (propertize " " 'face bright-face))
        (when (>= (window-width) 88)
-         (nerd-icons-powerline "nf-ple-upper_right_triangle"
+         (nerd-icons-powerline "nf-ple-lower_left_triangle"
                                :face
-                               edge-reverse-face
+                               edge-face
                                :height thattem-mode-line-nerd-height))
        (when (>= (window-width) 104)
          (nerd-icons-codicon "nf-cod-note"
@@ -368,8 +386,8 @@ Wheel-down: Next project buffer")
        (propertize (if is-running
                        " ?"
                      (format "%2d" (caddr count-list)))
-                   'face (thattem-mode-line/note-face-when-active)
-                   'mouse-face '(:box (:line-width (0 . -4)))
+                   'face note-face
+                   'mouse-face (thattem-mode-line--mouse-box)
                    'help-echo (format "Note count: %d
 \nWheel-up: Previous note\nWheel-down: Next note"
                                       (caddr count-list))
@@ -384,9 +402,14 @@ Wheel-down: Next project buffer")
 
 (defun thattem-mode-line-file-dir--helper ()
   "Helper function for \\='thattem-mode-line-file-dir\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active))
-        (dark-face (thattem-mode-line/dark-face-when-active))
-        (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box)))
+        (dark-face `(,(thattem-mode-line/dark-face-when-active)
+                     ,(thattem-mode-line--box)))
+        (edge-face `(,(thattem-mode-line/edge-face-when-active)
+                     ,(thattem-mode-line--box)))
+        (edge-reverse-face `(,(thattem-mode-line/edge-reverse-face-when-active)
+                             ,(thattem-mode-line--box))))
     (concat
      (propertize " " 'face bright-face)
      (if (or (buffer-file-name) dired-directory)
@@ -408,14 +431,14 @@ and cdr is corresponding whole path. ITEM is the next directory item"
                     :face edge-reverse-face
                     :height thattem-mode-line-nerd-height)
                    (nerd-icons-powerline
-                    "nf-ple-upper_left_triangle"
-                    :face edge-reverse-face
+                    "nf-ple-lower_right_triangle"
+                    :face edge-face
                     :height thattem-mode-line-nerd-height))
                   'keymap
                   thattem-mode-line-file-dir-separator-keymap)
                  (propertize item
                              'face bright-face
-                             'mouse-face '(:box (:line-width (0 . -4)))
+                             'mouse-face (thattem-mode-line--mouse-box)
                              'help-echo
                              (concat
                               whole-path
@@ -437,7 +460,7 @@ Wheel-down: scroll down")
             (nerd-icons-faicon "nf-fa-ellipsis_v"
                                :face bright-face)
             'face bright-face
-            'mouse-face '(:box (:line-width (0 . -4)))
+            'mouse-face (thattem-mode-line--mouse-box)
             'help-echo
             "\n\nMouse-1: Go to directory
 Mouse-3: Go to sub-directories
@@ -457,12 +480,12 @@ Wheel-down: scroll down"
                               "nf-cod-dash")
                             :face dark-face
                             :height thattem-mode-line-nerd-height)
-                           'mouse-face '(:box (:line-width (0 . -4)))
+                           'mouse-face (thattem-mode-line--mouse-box)
                            'help-echo
                            "No directory of this buffer.")
                (nerd-icons-powerline
-                "nf-ple-upper_left_triangle"
-                :face edge-reverse-face
+                "nf-ple-lower_right_triangle"
+                :face edge-face
                 :height thattem-mode-line-nerd-height))))))
 
 (defvar-local thattem-mode-line-file-dir
@@ -472,9 +495,8 @@ Wheel-down: scroll down"
 
 (defun thattem-mode-line-current-time--helper ()
   "Helper function for \\='thattem-mode-line-current-time\\='."
-  (let ((bright-face (thattem-mode-line/bright-face-when-active))
-        (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active))
-        (edge-face (thattem-mode-line/edge-face-when-active)))
+  (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
+                       ,(thattem-mode-line--box))))
     (concat
      (propertize
       (concat
@@ -486,7 +508,7 @@ Wheel-down: scroll down"
        (nerd-icons-mdicon "nf-md-calendar"
                           :face bright-face
                           :height thattem-mode-line-nerd-height))
-      'mouse-face '(:box (:line-width (0 . -4)))
+      'mouse-face (thattem-mode-line--mouse-box)
       'help-echo (format-time-string "Year: %Y
 Month: %B
 Date: %d
