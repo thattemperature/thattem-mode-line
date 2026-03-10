@@ -476,12 +476,6 @@ Wheel-down: scroll down"
         (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active))
         (edge-face (thattem-mode-line/edge-face-when-active)))
     (concat
-     (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                           :face edge-reverse-face
-                           :height thattem-mode-line-nerd-height)
-     (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                           :face edge-face
-                           :height thattem-mode-line-nerd-height)
      (propertize
       (concat
        (nerd-icons-mdicon "nf-md-timer"
@@ -496,13 +490,7 @@ Wheel-down: scroll down"
       'help-echo (format-time-string "Year: %Y
 Month: %B
 Date: %d
-%A"))
-     (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                           :face edge-face
-                           :height thattem-mode-line-nerd-height)
-     (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                           :face edge-reverse-face
-                           :height thattem-mode-line-nerd-height))))
+%A")))))
 
 (defvar-local thattem-mode-line-current-time
     '(:eval (thattem-mode-line-current-time--helper))
