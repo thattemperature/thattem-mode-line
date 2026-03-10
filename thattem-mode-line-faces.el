@@ -26,10 +26,10 @@
 
 ;;; Define font height
 
-(defcustom thattem-mode-line/small-font-height
-  150
-  "Font height of small part in mode line."
-  :type 'integer
+(defcustom thattem-mode-line-small-font-height
+  0.75
+  "The height factor of small part in mode line."
+  :type 'float
   :group 'thattem-mode-line)
 
 (defcustom thattem-mode-line-nerd-height
@@ -189,12 +189,12 @@
      :inherit
      thattem-mode-line/bright
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (((class color) (background light))
      :inherit
      thattem-mode-line/bright
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (t :inverse-video t))
   "Bright face with smaller font for mode line.")
 
@@ -203,12 +203,12 @@
      :inherit
      thattem-mode-line/bright-2
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (((class color) (background light))
      :inherit
      thattem-mode-line/bright-2
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (t :inverse-video t))
   "Bright face with smaller font for mode line.")
 
@@ -217,12 +217,12 @@
      :inherit
      thattem-mode-line/bright-inactive
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (((class color) (background light))
      :inherit
      thattem-mode-line/bright-inactive
      :height
-     ,thattem-mode-line/small-font-height)
+     ,thattem-mode-line-small-font-height)
     (t :inverse-video t))
   "Bright face with smaller font in inactive window for mode line.")
 
