@@ -150,8 +150,10 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
   "Helper function for \\='thattem-mode-line-major-mode\\='."
   (let ((bright-face `(,(thattem-mode-line/bright-face-when-active)
                        ,(thattem-mode-line--box)))
-        (bright-small-face `(,(thattem-mode-line/bright-small-face-when-active)
-                             ,(thattem-mode-line--box))))
+        (bright-small-face `(,(thattem-mode-line/bright-face-when-active)
+                             (,@(thattem-mode-line--box)
+                              :height
+                              ,thattem-mode-line-small-font-height))))
     (propertize
      (concat
       (nerd-icons-icon-for-mode major-mode

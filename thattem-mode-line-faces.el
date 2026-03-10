@@ -184,48 +184,6 @@
     (t :inverse-video t))
   "Second face for mode line another edge icons.")
 
-(defface thattem-mode-line/bright-small
-  `((((class color) (background dark))
-     :inherit
-     thattem-mode-line/bright
-     :height
-     ,thattem-mode-line-small-font-height)
-    (((class color) (background light))
-     :inherit
-     thattem-mode-line/bright
-     :height
-     ,thattem-mode-line-small-font-height)
-    (t :inverse-video t))
-  "Bright face with smaller font for mode line.")
-
-(defface thattem-mode-line/bright-2-small
-  `((((class color) (background dark))
-     :inherit
-     thattem-mode-line/bright-2
-     :height
-     ,thattem-mode-line-small-font-height)
-    (((class color) (background light))
-     :inherit
-     thattem-mode-line/bright-2
-     :height
-     ,thattem-mode-line-small-font-height)
-    (t :inverse-video t))
-  "Bright face with smaller font for mode line.")
-
-(defface thattem-mode-line/bright-inactive-small
-  `((((class color) (background dark))
-     :inherit
-     thattem-mode-line/bright-inactive
-     :height
-     ,thattem-mode-line-small-font-height)
-    (((class color) (background light))
-     :inherit
-     thattem-mode-line/bright-inactive
-     :height
-     ,thattem-mode-line-small-font-height)
-    (t :inverse-video t))
-  "Bright face with smaller font in inactive window for mode line.")
-
 (defface thattem-mode-line/error
   `((((class color) (background dark))
      :background
@@ -317,15 +275,6 @@ The value should be a integer or nil for the default.")
                           thattem-mode-line--buffer-style))
         'thattem-mode-line/edge-reverse)
     'thattem-mode-line/bright-inactive))
-
-(defun thattem-mode-line/bright-small-face-when-active ()
-  "Bright small face function for mode line."
-  (if (mode-line-window-selected-p)
-      (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/bright-%s-small"
-                          thattem-mode-line--buffer-style))
-        'thattem-mode-line/bright-small)
-    'thattem-mode-line/bright-inactive-small))
 
 (defun thattem-mode-line/error-face-when-active ()
   "Error face function for mode line."
