@@ -22,8 +22,6 @@
 
 ;;; Code:
 
-(require 'thattem-mode-line-colors)
-
 ;;; Define font height
 
 (defcustom thattem-mode-line-small-font-height
@@ -41,195 +39,55 @@
 ;;; Define faces
 
 (defface thattem-mode-line/bright
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color
-     :foreground
-     ,thattem-mode-line/dark-theme/bright-foreground)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color
-     :foreground
-     ,thattem-mode-line/light-theme/dark-foreground)
-    (t :inverse-video t))
+  nil
   "Face for mode line bright part.")
 
 (defface thattem-mode-line/bright-2
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color-2
-     :foreground
-     ,thattem-mode-line/dark-theme/bright-foreground-2
-     :weight heavy)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color-2
-     :foreground
-     ,thattem-mode-line/light-theme/dark-foreground-2
-     :weight heavy)
-    (t :inverse-video t))
+  nil
   "Another face for mode line bright part.")
 
 (defface thattem-mode-line/bright-inactive
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/default-dark
-     :foreground
-     ,thattem-mode-line/dark-theme/default-bright)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/default-bright
-     :foreground
-     ,thattem-mode-line/light-theme/default-dark)
-    (t :inverse-video t))
+  nil
   "Face for mode line bright part in inactive windows.")
 
 (defface thattem-mode-line/dark
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/bright-color
-     :foreground
-     ,thattem-mode-line/dark-theme/dark-foreground)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/dark-color
-     :foreground
-     ,thattem-mode-line/light-theme/bright-foreground)
-    (t :inverse-video t))
+  nil
   "Face for mode line dark part.")
 
 (defface thattem-mode-line/dark-2
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/bright-color-2
-     :foreground
-     ,thattem-mode-line/dark-theme/dark-foreground-2
-     :weight heavy)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/dark-color-2
-     :foreground
-     ,thattem-mode-line/light-theme/bright-foreground-2
-     :weight heavy)
-    (t :inverse-video t))
+  nil
   "Another face for mode line dark part.")
 
 (defface thattem-mode-line/dark-inactive
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/default-bright
-     :foreground
-     ,thattem-mode-line/dark-theme/default-dark)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/default-dark
-     :foreground
-     ,thattem-mode-line/light-theme/default-bright)
-    (t :inverse-video t))
+  nil
   "Face for mode line dark part in inactive windows.")
 
 (defface thattem-mode-line/edge
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/bright-color
-     :foreground
-     ,thattem-mode-line/dark-theme/dark-color)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/dark-color
-     :foreground
-     ,thattem-mode-line/light-theme/bright-color)
-    (t :inverse-video t))
+  nil
   "First face for mode line edge icons.")
 
 (defface thattem-mode-line/edge-2
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/bright-color-2
-     :foreground
-     ,thattem-mode-line/dark-theme/dark-color-2)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/dark-color-2
-     :foreground
-     ,thattem-mode-line/light-theme/bright-color-2)
-    (t :inverse-video t))
+  nil
   "Second face for mode line edge icons.")
 
 (defface thattem-mode-line/edge-reverse
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color
-     :foreground
-     ,thattem-mode-line/dark-theme/bright-color)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color
-     :foreground
-     ,thattem-mode-line/light-theme/dark-color)
-    (t :inverse-video t))
+  nil
   "First face for mode line another edge icons.")
 
 (defface thattem-mode-line/edge-2-reverse
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color-2
-     :foreground
-     ,thattem-mode-line/dark-theme/bright-color-2)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color-2
-     :foreground
-     ,thattem-mode-line/light-theme/dark-color-2)
-    (t :inverse-video t))
+  nil
   "Second face for mode line another edge icons.")
 
 (defface thattem-mode-line/error
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color
-     :foreground
-     ,thattem-mode-line/error-color
-     :weight bold)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color
-     :foreground
-     ,thattem-mode-line/error-color
-     :weight bold)
-    (t :inverse-video t))
+  nil
   "Error face for mode line.")
 
 (defface thattem-mode-line/warning
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color
-     :foreground
-     ,thattem-mode-line/warning-color
-     :weight bold)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color
-     :foreground
-     ,thattem-mode-line/warning-color
-     :weight bold)
-    (t :inverse-video t))
+  nil
   "Warning face for mode line.")
 
 (defface thattem-mode-line/note
-  `((((class color) (background dark))
-     :background
-     ,thattem-mode-line/dark-theme/dark-color
-     :foreground
-     ,thattem-mode-line/note-color
-     :weight bold)
-    (((class color) (background light))
-     :background
-     ,thattem-mode-line/light-theme/bright-color
-     :foreground
-     ,thattem-mode-line/note-color
-     :weight bold)
-    (t :inverse-video t))
+  nil
   "Note face for mode line.")
 
 ;;; Define buffer-local face variable
