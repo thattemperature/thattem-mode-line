@@ -1,7 +1,7 @@
 ;;; Thattem-mode-line --- a simple mode line and header line  -*- lexical-binding: t; -*-
 
 ;; Author: That Temperature <2719023332@qq.com>
-;; Package-Requires: (cond-let dash flymake nerd-icons projectile)
+;; Package-Requires: ((cond-let "0.2.2") (dash "2.20.0") (flymake "1.4.5") (nerd-icons "0.1.0") (projectile "2.9.1"))
 ;; URL: https://github.com/thattemperature/thattem-mode-line
 
 ;; This program is free software: you can redistribute it and/or modify
