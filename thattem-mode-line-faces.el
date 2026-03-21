@@ -39,55 +39,81 @@
 ;;; Define faces
 
 (defface thattem-mode-line/bright
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Face for mode line bright part.")
 
 (defface thattem-mode-line/bright-2
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Another face for mode line bright part.")
 
 (defface thattem-mode-line/bright-inactive
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Face for mode line bright part in inactive windows.")
 
 (defface thattem-mode-line/dark
-  nil
+  '((t
+     :background "black"
+     :foreground "white"))
   "Face for mode line dark part.")
 
 (defface thattem-mode-line/dark-2
-  nil
+  '((t
+     :background "black"
+     :foreground "white"))
   "Another face for mode line dark part.")
 
 (defface thattem-mode-line/dark-inactive
-  nil
+  '((t
+     :background "black"
+     :foreground "white"))
   "Face for mode line dark part in inactive windows.")
 
 (defface thattem-mode-line/edge
-  nil
+  '((t
+     :background "black"
+     :foreground "white"))
   "First face for mode line edge icons.")
 
 (defface thattem-mode-line/edge-2
-  nil
+  '((t
+     :background "black"
+     :foreground "white"))
   "Second face for mode line edge icons.")
 
 (defface thattem-mode-line/edge-reverse
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "First face for mode line another edge icons.")
 
 (defface thattem-mode-line/edge-2-reverse
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Second face for mode line another edge icons.")
 
 (defface thattem-mode-line/error
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Error face for mode line.")
 
 (defface thattem-mode-line/warning
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Warning face for mode line.")
 
 (defface thattem-mode-line/note
-  nil
+  '((t
+     :background "white"
+     :foreground "black"))
   "Note face for mode line.")
 
 ;;; Define buffer-local face variable
