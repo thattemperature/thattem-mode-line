@@ -19,6 +19,9 @@
 
 ;;; Commentary:
 
+;; This is a simple mode line and header line package.
+;; To use this package, enable "thattem-mode-line-mode".
+
 ;;; Code:
 
 (defgroup thattem-mode-line nil

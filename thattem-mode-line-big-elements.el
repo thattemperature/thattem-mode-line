@@ -18,6 +18,10 @@
 
 ;;; Commentary:
 
+;; This file defines all major mode line elements.
+;; Each element has a helper function with no parameter,
+;; and the element itself only ":eval" the helper function.
+
 ;;; Code:
 
 (require 'nerd-icons)

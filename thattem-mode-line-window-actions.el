@@ -18,6 +18,10 @@
 
 ;;; Commentary:
 
+;; This file defines major mode based window actions.
+;; For example, show buffer in side window with specified width/height.
+;; This is in cooperation with mode-specific mode/header line format.
+
 ;;; Code:
 
 (require 'cond-let)

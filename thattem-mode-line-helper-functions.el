@@ -18,6 +18,9 @@
 
 ;;; Commentary:
 
+;; This file defines some helper functions.
+;; These functions is used in keymap, big elements, and so on.
+
 ;;; Code:
 
 (require 'dash)

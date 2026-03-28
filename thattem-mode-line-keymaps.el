@@ -18,6 +18,8 @@
 
 ;;; Commentary:
 
+;; This file defines all keymaps used in thattem-mode-line.
+
 ;;; Code:
 
 (require 'thattem-mode-line-helper-functions)

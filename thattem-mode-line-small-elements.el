@@ -18,6 +18,9 @@
 
 ;;; Commentary:
 
+;; This file defines some small elements.
+;; Including some separators and align elements.
+
 ;;; Code:
 
 (require 'nerd-icons)

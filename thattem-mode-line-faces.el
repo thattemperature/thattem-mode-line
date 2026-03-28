@@ -18,7 +18,9 @@
 
 ;;; Commentary:
 
-;; Mode-line-faces defines the text face used in Thattem-mode-line.
+;; This file defines all text faces used in thattem-mode-line.
+;; It also defines face select functions, which can select face when
+;; current window is active.
 
 ;;; Code:
 
