@@ -26,7 +26,8 @@
 
 (defgroup thattem-mode-line nil
   "Modified mode line."
-  :group 'convenience)
+  :group 'convenience
+  :group 'thattem)
 
 (require 'thattem-mode-line-small-elements)
 (require 'thattem-mode-line-big-elements)
