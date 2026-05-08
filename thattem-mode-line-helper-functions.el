@@ -26,7 +26,6 @@
 (require 'dash)
 (require 'flymake)
 (require 'projectile)
-(require 'thattem-mode-line-window-actions)
 
 
 (defun thattem-mode-line--box ()
@@ -121,10 +120,6 @@ Temporarily select EVENT's windows."
   (with-selected-window (posn-window (event-start event))
     (message (format "Buffer name: \"%s\" has been copied."
                      (buffer-name)))))
-
-(thattem-mode-line-define-wrapper-function thattem-previous-buffer)
-
-(thattem-mode-line-define-wrapper-function thattem-next-buffer)
 
 (defun thattem-mode-line--mode-list-menu
     (mode-list name &optional global)

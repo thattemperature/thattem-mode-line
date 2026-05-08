@@ -65,81 +65,6 @@
   :type '(repeat (choice string symbol))
   :group 'thattem-mode-line)
 
-(defcustom thattem-shell-header-line-format
-  '("%e"
-    thattem-mode-line-fire
-    thattem-mode-line-buffer-name
-    thattem-mode-line-fire-reverse
-    thattem-mode-line-major-mode
-    thattem-mode-line-file-dir
-    thattem-mode-line-end-space)
-  "Header line format for shell-like buffer."
-  :type '(repeat (choice string symbol))
-  :group 'thattem-mode-line)
-
-(defcustom thattem-help-header-line-format
-  '("%e"
-    thattem-header-line-right-align
-    thattem-mode-line-right-slant-reverse
-    thattem-mode-line-line-and-column-number)
-  "Header line format for help buffer."
-  :type '(repeat (choice string symbol))
-  :group 'thattem-mode-line)
-
-(defcustom thattem-help-mode-line-format
-  '("%e"
-    thattem-mode-line-buffer-name
-    thattem-mode-line-right-slant
-    thattem-mode-line-major-mode
-    thattem-mode-line-end-space)
-  "Mode line format for help buffer."
-  :type '(repeat (choice string symbol))
-  :group 'thattem-mode-line)
-
-;;; Hook settings
-
-(defun thattem-add-mode-hook (mode function)
-  "A helper function to add hook FUNCTION to the MODE."
-  (add-hook (intern (concat (symbol-name mode) "-hook")) function))
-
-(defun thattem-remove-mode-hook (mode function)
-  "A helper function to remove hook FUNCTION to the MODE."
-  (remove-hook (intern (concat (symbol-name mode) "-hook")) function))
-
-(defun thattem-shell-mode-hook-function ()
-  "A function called by the hook of shell-like mode.
-like \\='term-mode\\=', \\='shell-mode\\=' and \\='eshell-mode\\='."
-  ;; Set header line and mode line
-  (setq header-line-format
-        thattem-shell-header-line-format)
-  (setq mode-line-format nil)
-  ;; Set style
-  (setq thattem-mode-line--buffer-style 2)
-  ;; Recalculate preserved height
-  (when (window-preserved-size)
-    (window-preserve-size nil nil t)))
-
-(defun thattem-help-mode-hook-function ()
-  "A function called by the hook of help mode."
-  ;; Set header line and mode line
-  (when (eq header-line-format thattem-default-header-line-format)
-    (setq header-line-format thattem-help-header-line-format))
-  (when (eq mode-line-format thattem-default-mode-line-format)
-    (setq mode-line-format thattem-help-mode-line-format))
-  ;; Do not show line number at the left
-  (display-line-numbers-mode 0))
-
-(defun thattem-eaf-mode-hook-function ()
-  "A function called by the hook of eaf mode."
-  (setq header-line-format thattem-default-header-line-format)
-  (setq mode-line-format thattem-default-mode-line-format))
-
-(defun thattem-mode-line--advice-around--display-line-numbers (func)
-  "Advice to \\='display-line-numbers--turn-on\\=' FUNC.
-Make it not turn on display line numbers on help modes."
-  (unless (provided-mode-derived-p major-mode thattem-help-modes)
-    (funcall func)))
-
 ;;; Define minor mode
 
 (define-minor-mode thattem-mode-line-mode
@@ -147,34 +72,6 @@ Make it not turn on display line numbers on help modes."
   :global t
 
   (when thattem-mode-line-mode
-    (dolist (mode thattem-shell-like-modes)
-      (thattem-add-mode-hook mode
-                             #'thattem-shell-mode-hook-function))
-    (dolist (mode thattem-help-modes)
-      (thattem-add-mode-hook mode
-                             #'thattem-help-mode-hook-function))
-    (thattem-add-mode-hook 'eaf-mode
-                           #'thattem-eaf-mode-hook-function)
-    (advice-add
-     'display-line-numbers--turn-on :around
-     #'thattem-mode-line--advice-around--display-line-numbers))
-
-  (unless thattem-mode-line-mode
-    (dolist (mode thattem-shell-like-modes)
-      (thattem-remove-mode-hook mode
-                                #'thattem-shell-mode-hook-function))
-    (dolist (mode thattem-help-modes)
-      (thattem-remove-mode-hook mode
-                                #'thattem-help-mode-hook-function))
-    (thattem-remove-mode-hook 'eaf-mode
-                              #'thattem-eaf-mode-hook-function)
-    (advice-remove
-     'display-line-numbers--turn-on
-     #'thattem-mode-line--advice-around--display-line-numbers))
-
-  (when thattem-mode-line-mode
-    ;; Set window actions (display buffer actions)
-    (setq display-buffer-alist thattem-display-buffer-alist-default)
     ;; Set default mode line format
     (setq-default header-line-format thattem-default-header-line-format)
     (setq-default mode-line-format thattem-default-mode-line-format)
@@ -183,12 +80,7 @@ Make it not turn on display line numbers on help modes."
       (dolist (action '(mouse-1 mouse-2 mouse-3))
         (global-set-key (vector position action)
                         'ignore)))
-    (setq mode-line-default-help-echo nil)
-    ;; Run special mode hooks for already exists buffers
-    (dolist (buffer (buffer-list))
-      (with-current-buffer buffer
-        (run-hooks
-         (intern (concat (symbol-name major-mode) "-hook")))))))
+    (setq mode-line-default-help-echo nil)))
 
 
 (provide 'thattem-mode-line)

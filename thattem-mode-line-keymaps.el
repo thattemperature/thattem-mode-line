@@ -39,13 +39,13 @@
                 #'thattem-mode-line-kill-buffer-name-save-message)
     ;; wheel to go to buffer
     (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-previous-buffer)
+                #'mode-line-previous-buffer)
     (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-next-buffer)
+                #'mode-line-next-buffer)
     (define-key map [header-line wheel-up]
-                #'thattem-mode-line-previous-buffer)
+                #'mode-line-previous-buffer)
     (define-key map [header-line wheel-down]
-                #'thattem-mode-line-next-buffer)
+                #'mode-line-next-buffer)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-buffer-name\\='.")
