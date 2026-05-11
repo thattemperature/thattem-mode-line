@@ -69,6 +69,7 @@ The face is defined with ATTRIBUTES, and the docstring will be
      :foreground "white"))
   "Default face attributes of dark part.")
 
+
 (thattem-mode-line--define-face
  bright
  thattem-mode-line--default-attribute-bright
@@ -144,61 +145,76 @@ The face is defined with ATTRIBUTES, and the docstring will be
   "Determine the mode line style of the current buffer.
 The value should be a integer or nil for the default.")
 
-;;; Define face-switch functions
+;;; Define face-select functions
 
-(defun thattem-mode-line/bright-face-when-active ()
-  "Bright face function for mode line."
-  (if (mode-line-window-selected-p)
-      (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/bright-%s"
-                          thattem-mode-line--buffer-style))
-        'thattem-mode-line/bright)
-    'thattem-mode-line/bright-inactive))
+(defmacro thattem-mode-line--define-face-select-function
+    (name &optional inactive-name)
+  "Define face select function used in thattem-mode-line.
 
-(defun thattem-mode-line/dark-face-when-active ()
-  "Dark face function for mode line."
-  (if (mode-line-window-selected-p)
-      (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/dark-%s"
-                          thattem-mode-line--buffer-style))
-        'thattem-mode-line/dark)
-    'thattem-mode-line/dark-inactive))
+The name of the function will be
+\"thattem-mode-line/{NAME}-face-when-active\".
+The function will select the styled face (if defined) based on
+\\='thattem-mode-line--buffer-style\\='.
+And it will select INACTIVE-NAME face in inactive window
+\(default is {NAME}-inactive face)."
+  (let* ((name-string (symbol-name name))
+         (inactive-name-string
+          (if inactive-name
+              (symbol-name inactive-name)
+            (format "%s-inactive" name-string)))
+         (face-format "thattem-mode-line/%s")
+         (base-face-string
+          (format face-format name-string))
+         (styled-face-format
+          (format "%s-%%d" base-face-string))
+         (inactive-face-string
+          (format face-format inactive-name-string))
+         (base-face (intern base-face-string))
+         (inactive-face (intern inactive-face-string)))
+    `(defun
+         ,(intern (format "thattem-mode-line/%s-face-when-active"
+                          name-string))
+         ()
+       ,(format "Select %s face for thattem-mode-line."
+                name-string)
+       (let ((active (mode-line-window-selected-p))
+             (style thattem-mode-line--buffer-style))
+         (if active
+             (if style
+                 (let ((styled-face
+                        (intern (format ,styled-face-format style))))
+                   (if (facep styled-face)
+                       styled-face
+                     (quote ,base-face)))
+               (quote ,base-face))
+           (quote ,inactive-face))))))
 
-(defun thattem-mode-line/edge-face-when-active ()
-  "First edge face function for mode line."
-  (if (mode-line-window-selected-p)
-      (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/edge-%s"
-                          thattem-mode-line--buffer-style))
-        'thattem-mode-line/edge)
-    'thattem-mode-line/dark-inactive))
 
-(defun thattem-mode-line/edge-reverse-face-when-active ()
-  "First reverse edge face function for mode line."
-  (if (mode-line-window-selected-p)
-      (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/edge-reverse-%s"
-                          thattem-mode-line--buffer-style))
-        'thattem-mode-line/edge-reverse)
-    'thattem-mode-line/bright-inactive))
+(thattem-mode-line--define-face-select-function
+ bright)
 
-(defun thattem-mode-line/error-face-when-active ()
-  "Error face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/error
-    'thattem-mode-line/bright-inactive))
+(thattem-mode-line--define-face-select-function
+ dark)
 
-(defun thattem-mode-line/warning-face-when-active ()
-  "Warning face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/warning
-    'thattem-mode-line/bright-inactive))
+(thattem-mode-line--define-face-select-function
+ edge
+ dark-inactive)
 
-(defun thattem-mode-line/note-face-when-active ()
-  "Note face function for mode line."
-  (if (mode-line-window-selected-p)
-      'thattem-mode-line/note
-    'thattem-mode-line/bright-inactive))
+(thattem-mode-line--define-face-select-function
+ edge-reverse
+ bright-inactive)
+
+(thattem-mode-line--define-face-select-function
+ error
+ bright-inactive)
+
+(thattem-mode-line--define-face-select-function
+ warning
+ bright-inactive)
+
+(thattem-mode-line--define-face-select-function
+ note
+ bright-inactive)
 
 
 (provide 'thattem-mode-line-faces)
