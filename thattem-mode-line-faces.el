@@ -40,83 +40,103 @@
 
 ;;; Define faces
 
-(defface thattem-mode-line/bright
+(defmacro thattem-mode-line--define-face
+    (name attributes usage &optional style)
+  "Define face used in thattem-mode-line.
+
+The name of the face will be \"thattem-mode-line/{NAME}-{STYLE}\"
+\(or \"thattem-mode-line/{NAME}\" if STYLE is nil).
+The face is defined with ATTRIBUTES, and the docstring will be
+\"Face for {USAGE} in thattem-mode-line (with style {STYLE}).\"."
+  (unless (or (not style) (> style 0))
+    (error "STYLE should be nil or positive number"))
+  `(defface ,(intern (format "thattem-mode-line/%s%s"
+                             (symbol-name name)
+                             (if style (format "-%d" style) "")))
+     ,attributes
+     ,(format "Face for %s in thattem-mode-line%s." usage
+              (if style (format " with style %d" style) ""))))
+
+(defvar thattem-mode-line--default-attribute-bright
   '((t
      :background "white"
      :foreground "black"))
-  "Face for mode line bright part.")
+  "Default face attributes of bright part.")
 
-(defface thattem-mode-line/bright-2
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Another face for mode line bright part.")
-
-(defface thattem-mode-line/bright-inactive
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Face for mode line bright part in inactive windows.")
-
-(defface thattem-mode-line/dark
+(defvar thattem-mode-line--default-attribute-dark
   '((t
      :background "black"
      :foreground "white"))
-  "Face for mode line dark part.")
+  "Default face attributes of dark part.")
 
-(defface thattem-mode-line/dark-2
-  '((t
-     :background "black"
-     :foreground "white"))
-  "Another face for mode line dark part.")
+(thattem-mode-line--define-face
+ bright
+ thattem-mode-line--default-attribute-bright
+ "bright part")
 
-(defface thattem-mode-line/dark-inactive
-  '((t
-     :background "black"
-     :foreground "white"))
-  "Face for mode line dark part in inactive windows.")
+(thattem-mode-line--define-face
+ bright
+ thattem-mode-line--default-attribute-bright
+ "bright part"
+ 2)
 
-(defface thattem-mode-line/edge
-  '((t
-     :background "black"
-     :foreground "white"))
-  "First face for mode line edge icons.")
+(thattem-mode-line--define-face
+ bright-inactive
+ thattem-mode-line--default-attribute-bright
+ "bright part in inactive windows")
 
-(defface thattem-mode-line/edge-2
-  '((t
-     :background "black"
-     :foreground "white"))
-  "Second face for mode line edge icons.")
+(thattem-mode-line--define-face
+ dark
+ thattem-mode-line--default-attribute-dark
+ "dark part")
 
-(defface thattem-mode-line/edge-reverse
-  '((t
-     :background "white"
-     :foreground "black"))
-  "First face for mode line another edge icons.")
+(thattem-mode-line--define-face
+ dark
+ thattem-mode-line--default-attribute-dark
+ "dark part"
+ 2)
 
-(defface thattem-mode-line/edge-2-reverse
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Second face for mode line another edge icons.")
+(thattem-mode-line--define-face
+ dark-inactive
+ thattem-mode-line--default-attribute-dark
+ "dark part in inactive windows")
 
-(defface thattem-mode-line/error
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Error face for mode line.")
+(thattem-mode-line--define-face
+ edge
+ thattem-mode-line--default-attribute-dark
+ "edge icons")
 
-(defface thattem-mode-line/warning
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Warning face for mode line.")
+(thattem-mode-line--define-face
+ edge
+ thattem-mode-line--default-attribute-dark
+ "edge icons"
+ 2)
 
-(defface thattem-mode-line/note
-  '((t
-     :background "white"
-     :foreground "black"))
-  "Note face for mode line.")
+(thattem-mode-line--define-face
+ edge-reverse
+ thattem-mode-line--default-attribute-bright
+ "edge icons with inverted colors")
+
+(thattem-mode-line--define-face
+ edge-reverse
+ thattem-mode-line--default-attribute-bright
+ "edge icons with inverted colors"
+ 2)
+
+(thattem-mode-line--define-face
+ error
+ thattem-mode-line--default-attribute-bright
+ "error symbols")
+
+(thattem-mode-line--define-face
+ warning
+ thattem-mode-line--default-attribute-bright
+ "warning symbols")
+
+(thattem-mode-line--define-face
+ note
+ thattem-mode-line--default-attribute-bright
+ "note symbols")
 
 ;;; Define buffer-local face variable
 
@@ -157,7 +177,7 @@ The value should be a integer or nil for the default.")
   "First reverse edge face function for mode line."
   (if (mode-line-window-selected-p)
       (if thattem-mode-line--buffer-style
-          (intern (format "thattem-mode-line/edge-%s-reverse"
+          (intern (format "thattem-mode-line/edge-reverse-%s"
                           thattem-mode-line--buffer-style))
         'thattem-mode-line/edge-reverse)
     'thattem-mode-line/bright-inactive))
