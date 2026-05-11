@@ -28,18 +28,6 @@
 (require 'projectile)
 
 
-(defun thattem-mode-line--box ()
-  "The face attribute \"box\" of mode line items."
-  `(:box (:line-width
-          (0 . -1)
-          :color
-          "#808080")))
-
-(defun thattem-mode-line--mouse-box ()
-  "The face attribute \"box\" of mode line items' mouse face."
-  '(:box (:line-width
-          (0 . -4))))
-
 (defun thattem-mode-line--right-align (type face)
   "Right-align all following mode-line constructs.
 Works like \\='mode--line-format-right-align\\='.

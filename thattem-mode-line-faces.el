@@ -145,6 +145,24 @@ The face is defined with ATTRIBUTES, and the docstring will be
   "Determine the mode line style of the current buffer.
 The value should be a integer or nil for the default.")
 
+;;; Define :box attributes
+
+;; Since named face cannot set :box attribute with zero :line-width.
+;; We define variables to create anonymous face attribute sets.
+
+(defvar thattem-mode-line--face-attribute--box
+  '(:box (:line-width
+          (0 . -1)
+          :color
+          "#808080"))
+  "Specify the face attribute :box used in thattem-mode-line.")
+
+(defvar thattem-mode-line--face-attribute--mouse-box
+  '(:box (:line-width
+          (0 . -4)))
+  "Specify the face attribute :box used in thattem-mode-line \
+mouse-face.")
+
 ;;; Define face-select functions
 
 (defmacro thattem-mode-line--define-face-select-function
@@ -156,7 +174,10 @@ The name of the function will be
 The function will select the styled face (if defined) based on
 \\='thattem-mode-line--buffer-style\\='.
 And it will select INACTIVE-NAME face in inactive window
-\(default is {NAME}-inactive face)."
+\(default is {NAME}-inactive face).
+
+At last, the function will return the selected face symbol
+with \\='thattem-mode-line--face-attribute--box\\=' attribute."
   (let* ((name-string (symbol-name name))
          (inactive-name-string
           (if inactive-name
@@ -179,15 +200,19 @@ And it will select INACTIVE-NAME face in inactive window
                 name-string)
        (let ((active (mode-line-window-selected-p))
              (style thattem-mode-line--buffer-style))
-         (if active
-             (if style
-                 (let ((styled-face
-                        (intern (format ,styled-face-format style))))
-                   (if (facep styled-face)
-                       styled-face
-                     (quote ,base-face)))
-               (quote ,base-face))
-           (quote ,inactive-face))))))
+         (let ((face-symbol
+                (if active
+                    (if style
+                        (let ((styled-face
+                               (intern (format ,styled-face-format
+                                               style))))
+                          (if (facep styled-face)
+                              styled-face
+                            (quote ,base-face)))
+                      (quote ,base-face))
+                  (quote ,inactive-face))))
+           (list face-symbol
+                 thattem-mode-line--face-attribute--box))))))
 
 
 (thattem-mode-line--define-face-select-function
@@ -215,6 +240,13 @@ And it will select INACTIVE-NAME face in inactive window
 (thattem-mode-line--define-face-select-function
  note
  bright-inactive)
+
+;;; Define add face attribute function
+
+(defun thattem-mode-line--add-face-attribute (face name value)
+  "Add face attribute NAME with VALUE to FACE."
+  (list (car face)
+        (plist-put (cadr face) name value)))
 
 
 (provide 'thattem-mode-line-faces)
