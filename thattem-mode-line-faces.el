@@ -246,7 +246,7 @@ with \\='thattem-mode-line--face-attribute--box\\=' attribute."
 (defun thattem-mode-line--add-face-attribute (face name value)
   "Add face attribute NAME with VALUE to FACE."
   (list (car face)
-        (plist-put (cadr face) name value)))
+        (plist-put (copy-sequence (cadr face)) name value)))
 
 
 (provide 'thattem-mode-line-faces)
