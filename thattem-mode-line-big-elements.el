@@ -27,6 +27,7 @@
 (require 'nerd-icons)
 (require 'thattem-mode-line-faces)
 (require 'thattem-mode-line-keymaps)
+(require 'thattem-mode-line-helper-macros)
 
 
 (defun thattem-mode-line-modified--helper ()
@@ -60,9 +61,10 @@ and has something unsaved."
                     "This buffer is writable,
 and all changes have been saved.")))))
 
-(defvar-local thattem-mode-line-modified
-    '(:eval (thattem-mode-line-modified--helper))
-  "Mode line construct for indicating \
+(thattem-mode-line--define-mode-line-item
+ modified
+ '(:eval (thattem-mode-line-modified--helper))
+ "Mode line construct for indicating \
 if the buffer is read-only or modified.")
 
 
@@ -91,9 +93,10 @@ End of line style:
                                 ((eq eol 2) "Mac-style CR")
                                 (t "Unspecified")))))))
 
-(defvar-local thattem-mode-line-coding-system
-    '(:eval (thattem-mode-line-coding-system--helper))
-  "Mode line constructor for indicating the coding system.")
+(thattem-mode-line--define-mode-line-item
+ coding-system
+ '(:eval (thattem-mode-line-coding-system--helper))
+ "Mode line constructor for indicating the coding system.")
 
 
 (defun thattem-mode-line-buffer-name--helper (&optional left-truncate)
@@ -138,13 +141,15 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
                         "Wheel-down: Next buffer")
      'keymap thattem-mode-line-buffer-name-keymap)))
 
-(defvar-local thattem-mode-line-buffer-name
-    '(:eval (thattem-mode-line-buffer-name--helper))
-  "Mode line construct for displaying buffer name.")
+(thattem-mode-line--define-mode-line-item
+ buffer-name
+ '(:eval (thattem-mode-line-buffer-name--helper))
+ "Mode line construct for displaying buffer name.")
 
-(defvar-local thattem-mode-line-buffer-name-left-truncate
-    '(:eval (thattem-mode-line-buffer-name--helper t))
-  "Mode line construct for displaying buffer name.")
+(thattem-mode-line--define-mode-line-item
+ buffer-name-left-truncate
+ '(:eval (thattem-mode-line-buffer-name--helper t))
+ "Mode line construct for displaying buffer name.")
 
 
 (defun thattem-mode-line-major-mode--helper ()
@@ -172,9 +177,10 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
                         "Mouse-3: List global minor modes")
      'keymap thattem-mode-line-major-mode-keymap)))
 
-(defvar-local thattem-mode-line-major-mode
-    '(:eval (thattem-mode-line-major-mode--helper))
-  "Mode line construct for displaying major mode.")
+(thattem-mode-line--define-mode-line-item
+ major-mode
+ '(:eval (thattem-mode-line-major-mode--helper))
+ "Mode line construct for displaying major mode.")
 
 
 (defun thattem-mode-line-line-and-column-number--helper ()
@@ -248,9 +254,10 @@ Wheel-down: forward char"
       'keymap thattem-mode-line-column-number-keymap)
      (propertize " " 'face dark-face))))
 
-(defvar-local thattem-mode-line-line-and-column-number
-    '(:eval (thattem-mode-line-line-and-column-number--helper))
-  "Mode line construct for displaying line and column information.")
+(thattem-mode-line--define-mode-line-item
+ line-and-column-number
+ '(:eval (thattem-mode-line-line-and-column-number--helper))
+ "Mode line construct for displaying line and column information.")
 
 
 (defun thattem-mode-line-project-name--helper ()
@@ -290,9 +297,10 @@ Wheel-down: Next project buffer")
 \nMouse-1: Select a project")
      'keymap thattem-mode-line-project-name-keymap)))
 
-(defvar-local thattem-mode-line-project-name
-    '(:eval (thattem-mode-line-project-name--helper))
-  "Mode line construct for displaying project name.")
+(thattem-mode-line--define-mode-line-item
+ project-name
+ '(:eval (thattem-mode-line-project-name--helper))
+ "Mode line construct for displaying project name.")
 
 
 (defun thattem-mode-line-flymake-info--helper ()
@@ -388,9 +396,10 @@ Wheel-down: Next project buffer")
                    'flymake--diagnostic-type :note)
        (propertize " " 'face bright-face)))))
 
-(defvar-local thattem-mode-line-flymake-info
-    '(:eval (thattem-mode-line-flymake-info--helper))
-  "Mode line construct for displaying flymake diagnostics.")
+(thattem-mode-line--define-mode-line-item
+ flymake-info
+ '(:eval (thattem-mode-line-flymake-info--helper))
+ "Mode line construct for displaying flymake diagnostics.")
 
 
 (defun thattem-mode-line-file-dir--helper ()
@@ -477,9 +486,10 @@ Wheel-down: scroll down"
                 :face edge-face
                 :height thattem-mode-line-nerd-height))))))
 
-(defvar-local thattem-mode-line-file-dir
-    '(:eval (thattem-mode-line-file-dir--helper))
-  "Mode line construct for displaying full path to the file.")
+(thattem-mode-line--define-mode-line-item
+ file-dir
+ '(:eval (thattem-mode-line-file-dir--helper))
+ "Mode line construct for displaying full path to the file.")
 
 
 (defun thattem-mode-line-current-time--helper ()
@@ -502,24 +512,10 @@ Month: %B
 Date: %d
 %A")))))
 
-(defvar-local thattem-mode-line-current-time
-    '(:eval (thattem-mode-line-current-time--helper))
-  "Mode line constructor for displaying current time and date.")
-
-
-;; Set elements as risky local variable
-(dolist
-    (var'(thattem-mode-line-coding-system
-          thattem-mode-line-modified
-          thattem-mode-line-buffer-name
-          thattem-mode-line-buffer-name-left-truncate
-          thattem-mode-line-major-mode
-          thattem-mode-line-line-and-column-number
-          thattem-mode-line-project-name
-          thattem-mode-line-flymake-info
-          thattem-mode-line-file-dir
-          thattem-mode-line-current-time))
-  (put var 'risky-local-variable t))
+(thattem-mode-line--define-mode-line-item
+ current-time
+ '(:eval (thattem-mode-line-current-time--helper))
+ "Mode line constructor for displaying current time and date.")
 
 
 (provide 'thattem-mode-line-big-elements)

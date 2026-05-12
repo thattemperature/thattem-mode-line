@@ -25,139 +25,136 @@
 
 (require 'nerd-icons)
 (require 'thattem-mode-line-faces)
+(require 'thattem-mode-line-helper-macros)
 
 
-(defvar-local thattem-mode-line-end-space
-    '(:eval
-      (propertize " "
-                  'face (thattem-mode-line/bright-face-when-active)
-                  'display '(space :align-to right-margin)))
-  "Fill the end space of the mode line in bright face.")
+(thattem-mode-line--define-mode-line-item
+ end-space-bright
+ '(:eval
+   (propertize " "
+               'face (thattem-mode-line/bright-face-when-active)
+               'display '(space :align-to right-margin)))
+ "Fill the end space of the mode line in bright face.")
 
-(defvar-local thattem-mode-line-end-space-dark
-    '(:eval
-      (propertize " "
-                  'face (thattem-mode-line/dark-face-when-active)
-                  'display '(space :align-to right-margin)))
-  "Fill the end space of the mode line in dark face.")
+(thattem-mode-line--define-mode-line-item
+ end-space-dark
+ '(:eval
+   (propertize " "
+               'face (thattem-mode-line/dark-face-when-active)
+               'display '(space :align-to right-margin)))
+ "Fill the end space of the mode line in dark face.")
 
-(defvar-local thattem-mode-line-right-align
-    '(:eval (thattem-mode-line--right-align
-             mode-line-format
-             (thattem-mode-line/bright-face-when-active)))
-  "Mode line constructor to right align all following constructs \
+(thattem-mode-line--define-mode-line-item
+ right-align-bright
+ '(:eval (thattem-mode-line--right-align
+          mode-line-format
+          (thattem-mode-line/bright-face-when-active)))
+ "Mode line constructor to right align all following constructs \
 in bright face.")
 
-(defvar-local thattem-mode-line-right-align-dark
-    '(:eval (thattem-mode-line--right-align
-             mode-line-format
-             (thattem-mode-line/dark-face-when-active)))
-  "Mode line constructor to right align all following constructs \
+(thattem-mode-line--define-mode-line-item
+ right-align-dark
+ '(:eval (thattem-mode-line--right-align
+          mode-line-format
+          (thattem-mode-line/dark-face-when-active)))
+ "Mode line constructor to right align all following constructs \
 in dark face.")
 
-(defvar-local thattem-header-line-right-align
-    '(:eval (thattem-mode-line--right-align
-             header-line-format
-             (thattem-mode-line/bright-face-when-active)))
-  "Header line constructor to right align all following constructs \
+(thattem-mode-line--define-mode-line-item
+ header-right-align-bright
+ '(:eval (thattem-mode-line--right-align
+          header-line-format
+          (thattem-mode-line/bright-face-when-active)))
+ "Header line constructor to right align all following constructs \
 in bright face.")
 
-(defvar-local thattem-header-line-right-align-dark
-    '(:eval (thattem-mode-line--right-align
-             header-line-format
-             (thattem-mode-line/dark-face-when-active)))
-  "Header line constructor to right align all following constructs \
+(thattem-mode-line--define-mode-line-item
+ header-right-align-dark
+ '(:eval (thattem-mode-line--right-align
+          header-line-format
+          (thattem-mode-line/dark-face-when-active)))
+ "Header line constructor to right align all following constructs \
 in dark face.")
 
-(defvar-local thattem-mode-line-left-cup
-    '(:eval
-      (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A left half-circle used in mode line.")
+(thattem-mode-line--define-mode-line-item
+ left-cup
+ '(:eval
+   (nerd-icons-powerline "nf-ple-left_half_circle_thick"
+                         :face (thattem-mode-line/edge-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A left half-circle used in mode line.")
 
-(defvar-local thattem-mode-line-left-cup-reverse
-    '(:eval
-      (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                            :face (thattem-mode-line/edge-reverse-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A left half-circle used in mode line with inverted color.")
+(thattem-mode-line--define-mode-line-item
+ left-cup-reverse
+ '(:eval
+   (nerd-icons-powerline "nf-ple-left_half_circle_thick"
+                         :face (thattem-mode-line/edge-reverse-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A left half-circle used in mode line with inverted color.")
 
-(defvar-local thattem-mode-line-right-cup
-    '(:eval
-      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A right half-circle used in mode line.")
+(thattem-mode-line--define-mode-line-item
+ right-cup
+ '(:eval
+   (nerd-icons-powerline "nf-ple-right_half_circle_thick"
+                         :face (thattem-mode-line/edge-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A right half-circle used in mode line.")
 
-(defvar-local thattem-mode-line-right-cup-reverse
-    '(:eval
-      (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                            :face (thattem-mode-line/edge-reverse-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A right half-circle used in mode line with inverted color.")
+(thattem-mode-line--define-mode-line-item
+ right-cup-reverse
+ '(:eval
+   (nerd-icons-powerline "nf-ple-right_half_circle_thick"
+                         :face (thattem-mode-line/edge-reverse-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A right half-circle used in mode line with inverted color.")
 
-(defvar-local thattem-mode-line-left-slant
-    '(:eval
-      (nerd-icons-powerline "nf-ple-lower_right_triangle"
-                            :face (thattem-mode-line/edge-reverse-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A left slant used in mode line.")
+(thattem-mode-line--define-mode-line-item
+ left-slant
+ '(:eval
+   (nerd-icons-powerline "nf-ple-lower_right_triangle"
+                         :face (thattem-mode-line/edge-reverse-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A left slant used in mode line.")
 
-(defvar-local thattem-mode-line-left-slant-reverse
-    '(:eval
-      (nerd-icons-powerline "nf-ple-lower_right_triangle"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A left slant used in mode line with inverted color.")
+(thattem-mode-line--define-mode-line-item
+ left-slant-reverse
+ '(:eval
+   (nerd-icons-powerline "nf-ple-lower_right_triangle"
+                         :face (thattem-mode-line/edge-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A left slant used in mode line with inverted color.")
 
-(defvar-local thattem-mode-line-right-slant
-    '(:eval
-      (nerd-icons-powerline "nf-ple-lower_left_triangle"
-                            :face (thattem-mode-line/edge-reverse-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A right slant used in mode line.")
+(thattem-mode-line--define-mode-line-item
+ right-slant
+ '(:eval
+   (nerd-icons-powerline "nf-ple-lower_left_triangle"
+                         :face (thattem-mode-line/edge-reverse-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A right slant used in mode line.")
 
-(defvar-local thattem-mode-line-right-slant-reverse
-    '(:eval
-      (nerd-icons-powerline "nf-ple-lower_left_triangle"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A right slant used in mode line with inverted color.")
+(thattem-mode-line--define-mode-line-item
+ right-slant-reverse
+ '(:eval
+   (nerd-icons-powerline "nf-ple-lower_left_triangle"
+                         :face (thattem-mode-line/edge-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A right slant used in mode line with inverted color.")
 
-(defvar-local thattem-mode-line-fire
-    '(:eval
-      (nerd-icons-powerline "nf-ple-flame_thick"
-                            :face (thattem-mode-line/edge-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A fire icon used in mode line.")
+(thattem-mode-line--define-mode-line-item
+ fire
+ '(:eval
+   (nerd-icons-powerline "nf-ple-flame_thick"
+                         :face (thattem-mode-line/edge-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A fire icon used in mode line.")
 
-(defvar-local thattem-mode-line-fire-reverse
-    '(:eval
-      (nerd-icons-powerline "nf-ple-flame_thick"
-                            :face (thattem-mode-line/edge-reverse-face-when-active)
-                            :height thattem-mode-line-nerd-height))
-  "A fire icon used in mode line with inverted color.")
-
-
-(dolist
-    (var'(thattem-mode-line-end-space
-          thattem-mode-line-end-space-dark
-          thattem-mode-line-right-align
-          thattem-mode-line-right-align-dark
-          thattem-header-line-right-align
-          thattem-header-line-right-align-dark
-          thattem-mode-line-left-cup
-          thattem-mode-line-left-cup-reverse
-          thattem-mode-line-right-cup
-          thattem-mode-line-right-cup-reverse
-          thattem-mode-line-left-slant
-          thattem-mode-line-left-slant-reverse
-          thattem-mode-line-right-slant
-          thattem-mode-line-right-slant-reverse
-          thattem-mode-line-fire
-          thattem-mode-line-fire-reverse))
-  (put var 'risky-local-variable t))
+(thattem-mode-line--define-mode-line-item
+ fire-reverse
+ '(:eval
+   (nerd-icons-powerline "nf-ple-flame_thick"
+                         :face (thattem-mode-line/edge-reverse-face-when-active)
+                         :height thattem-mode-line-nerd-height))
+ "A fire icon used in mode line with inverted color.")
 
 
 (provide 'thattem-mode-line-small-elements)

@@ -45,7 +45,7 @@
     thattem-mode-line-right-cup
     thattem-mode-line-left-cup
     thattem-mode-line-file-dir
-    thattem-mode-line-end-space)
+    thattem-mode-line-end-space-bright)
   "The default header line format."
   :type '(repeat (choice string symbol))
   :group 'thattem-mode-line)
