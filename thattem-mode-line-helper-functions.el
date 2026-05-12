@@ -28,35 +28,6 @@
 (require 'projectile)
 
 
-(defun thattem-mode-line--right-align (type face)
-  "Right-align all following mode-line constructs.
-Works like \\='mode--line-format-right-align\\='.
-
-TYPE indicates where this function will be used.
-It should be \\='mode-line-format\\=' or \\='header-line-format\\='.
-
-The middle space will be show with FACE."
-  (let ((rest-1-bright (memq 'thattem-mode-line-right-align-bright
-                             type))
-        (rest-1-dark (memq 'thattem-mode-line-right-align-dark
-                           type))
-        (rest-2-bright (memq 'thattem-mode-line-header-right-align-bright
-                             type))
-        (rest-2-dark (memq 'thattem-mode-line-header-right-align-dark
-                           type)))
-    (let* ((rest (cdr (or rest-1-bright rest-1-dark
-                          rest-2-bright rest-2-dark)))
-           (rest-str (format-mode-line `("" ,@rest)))
-           (rest-width (progn
-                         (add-face-text-property
-                          0 (length rest-str) 'mode-line t rest-str)
-                         (string-pixel-width rest-str))))
-      (propertize " "
-                  'face face
-                  'display
-                  `(space :align-to
-                          (- right-margin (,rest-width)))))))
-
 ;; This function is a helper for flymake information
 (defun thattem-mode-line-flymake-counter ()
   "Return flymake error, warning and note count as a list."

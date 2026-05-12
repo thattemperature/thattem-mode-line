@@ -48,7 +48,8 @@
                 #'mode-line-next-buffer)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-buffer-name\\='.")
+\\='thattem-mode-line-buffer-name-left-truncate\\='.
+And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
 
 (defvar thattem-mode-line-major-mode-keymap
   (let ((map (make-sparse-keymap)))

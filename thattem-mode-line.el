@@ -39,7 +39,7 @@
     thattem-mode-line-modified
     thattem-mode-line-coding-system
     thattem-mode-line-right-cup
-    thattem-mode-line-buffer-name
+    thattem-mode-line-buffer-name-right-truncate
     thattem-mode-line-right-cup-reverse
     thattem-mode-line-flymake-info
     thattem-mode-line-right-cup

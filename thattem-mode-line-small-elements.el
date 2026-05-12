@@ -29,54 +29,6 @@
 
 
 (thattem-mode-line--define-mode-line-item
- end-space-bright
- '(:eval
-   (propertize " "
-               'face (thattem-mode-line/bright-face-when-active)
-               'display '(space :align-to right-margin)))
- "Fill the end space of the mode line in bright face.")
-
-(thattem-mode-line--define-mode-line-item
- end-space-dark
- '(:eval
-   (propertize " "
-               'face (thattem-mode-line/dark-face-when-active)
-               'display '(space :align-to right-margin)))
- "Fill the end space of the mode line in dark face.")
-
-(thattem-mode-line--define-mode-line-item
- right-align-bright
- '(:eval (thattem-mode-line--right-align
-          mode-line-format
-          (thattem-mode-line/bright-face-when-active)))
- "Mode line constructor to right align all following constructs \
-in bright face.")
-
-(thattem-mode-line--define-mode-line-item
- right-align-dark
- '(:eval (thattem-mode-line--right-align
-          mode-line-format
-          (thattem-mode-line/dark-face-when-active)))
- "Mode line constructor to right align all following constructs \
-in dark face.")
-
-(thattem-mode-line--define-mode-line-item
- header-right-align-bright
- '(:eval (thattem-mode-line--right-align
-          header-line-format
-          (thattem-mode-line/bright-face-when-active)))
- "Header line constructor to right align all following constructs \
-in bright face.")
-
-(thattem-mode-line--define-mode-line-item
- header-right-align-dark
- '(:eval (thattem-mode-line--right-align
-          header-line-format
-          (thattem-mode-line/dark-face-when-active)))
- "Header line constructor to right align all following constructs \
-in dark face.")
-
-(thattem-mode-line--define-mode-line-item
  left-cup
  '(:eval
    (nerd-icons-powerline "nf-ple-left_half_circle_thick"

@@ -100,7 +100,9 @@ End of line style:
 
 
 (defun thattem-mode-line-buffer-name--helper (&optional left-truncate)
-  "Helper function for \\='thattem-mode-line-buffer-name\\='.
+  "Helper function for \\='thattem-mode-line-buffer-name-left-truncate\\='.
+And \\='thattem-mode-line-buffer-name-right-truncate\\='.
+
 If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
   (let ((dark-face (thattem-mode-line/dark-face-when-active)))
     (propertize
@@ -142,13 +144,13 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
      'keymap thattem-mode-line-buffer-name-keymap)))
 
 (thattem-mode-line--define-mode-line-item
- buffer-name
- '(:eval (thattem-mode-line-buffer-name--helper))
+ buffer-name-left-truncate
+ '(:eval (thattem-mode-line-buffer-name--helper t))
  "Mode line construct for displaying buffer name.")
 
 (thattem-mode-line--define-mode-line-item
- buffer-name-left-truncate
- '(:eval (thattem-mode-line-buffer-name--helper t))
+ buffer-name-right-truncate
+ '(:eval (thattem-mode-line-buffer-name--helper))
  "Mode line construct for displaying buffer name.")
 
 
@@ -516,6 +518,85 @@ Date: %d
  current-time
  '(:eval (thattem-mode-line-current-time--helper))
  "Mode line constructor for displaying current time and date.")
+
+;;; Define alignment items
+
+(defun thattem-mode-line-end-space--helper (&optional dark-face)
+  "Helper function for \\='thattem-mode-line-end-space-bright\\='.
+And \\='thattem-mode-line-end-space-dark\\='.
+
+If DARK-FACE is non-nil, show with dark face."
+  (propertize
+   " "
+   'face (if dark-face
+             (thattem-mode-line/dark-face-when-active)
+           (thattem-mode-line/bright-face-when-active))
+   'display '(space :align-to right-margin)))
+
+(thattem-mode-line--define-mode-line-item
+ end-space-bright
+ '(:eval (thattem-mode-line-end-space--helper))
+ "Fill the end space of the mode line in bright face.")
+
+(thattem-mode-line--define-mode-line-item
+ end-space-dark
+ '(:eval (thattem-mode-line-end-space--helper t))
+ "Fill the end space of the mode line in dark face.")
+
+
+(defun thattem-mode-line-right-align--helper
+    (&optional dark-face header-line)
+  "Helper function right aligns all following mode-line constructs.
+Works like \\='mode--line-format-right-align\\='.
+
+If DARK-FACE is non-nil, show with dark face.
+If HEADER-LINE is non-nil, it will be used in header line."
+  (let* ((item (if dark-face
+                   (if header-line
+                       'thattem-mode-line-header-right-align-dark
+                     'thattem-mode-line-right-align-dark)
+                 (if header-line
+                     'thattem-mode-line-header-right-align-bright
+                   'thattem-mode-line-right-align-bright)))
+         (rest (cdr (memq item (if header-line
+				                   header-line-format
+				                 mode-line-format))))
+         (rest-str (format-mode-line `("" ,@rest)))
+         (rest-width (progn
+                       (add-face-text-property
+                        0 (length rest-str) 'mode-line t rest-str)
+                       (string-pixel-width rest-str))))
+    (propertize " "
+                'face (if dark-face
+                          (thattem-mode-line/dark-face-when-active)
+                        (thattem-mode-line/bright-face-when-active))
+                'display
+                `(space :align-to
+                        (- right-margin (,rest-width))))))
+
+(thattem-mode-line--define-mode-line-item
+ right-align-bright
+ '(:eval (thattem-mode-line-right-align--helper))
+ "Mode line constructor to right align all following constructs \
+in bright face.")
+
+(thattem-mode-line--define-mode-line-item
+ right-align-dark
+ '(:eval (thattem-mode-line-right-align--helper t))
+ "Mode line constructor to right align all following constructs \
+in dark face.")
+
+(thattem-mode-line--define-mode-line-item
+ header-right-align-bright
+ '(:eval (thattem-mode-line-right-align--helper nil t))
+ "Header line constructor to right align all following constructs \
+in bright face.")
+
+(thattem-mode-line--define-mode-line-item
+ header-right-align-dark
+ '(:eval (thattem-mode-line-right-align--helper t t))
+ "Header line constructor to right align all following constructs \
+in dark face.")
 
 
 (provide 'thattem-mode-line-big-elements)
