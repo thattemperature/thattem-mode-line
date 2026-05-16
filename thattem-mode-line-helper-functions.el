@@ -211,7 +211,8 @@ with ELLIPSIS."
                   (apply #'propertize pseudo-root
                          'directory right
                          (plist-put
-                          properties 'help-echo
+                          (copy-sequence properties)
+                          'help-echo
                           (concat
                            right (plist-get properties 'help-echo)))))
                  right)
@@ -226,7 +227,8 @@ with ELLIPSIS."
                (apply #'propertize left
                       'directory right
                       (plist-put
-                       properties 'help-echo
+                       (copy-sequence properties)
+                       'help-echo
                        (concat
                         right
                         (plist-get properties 'help-echo))))
