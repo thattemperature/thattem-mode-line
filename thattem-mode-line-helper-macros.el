@@ -31,6 +31,7 @@ It will call \\='defvar-local\\=' and put \
 \"risky-local-variable\" to \"t\".
 The variable name will be \"thattem-mode-line-{NAME}\".
 And the VALUE and DOCSTRING are used in \\='defvar-local\\='."
+  (declare (doc-string 3) (indent defun))
   (let* ((name-string (symbol-name name))
          (variable-string
           (format "thattem-mode-line-%s" name-string))

@@ -48,13 +48,18 @@ The name of the face will be \"thattem-mode-line/{NAME}-{STYLE}\"
 \(or \"thattem-mode-line/{NAME}\" if STYLE is nil).
 The face is defined with ATTRIBUTES, and the docstring will be
 \"Face for {USAGE} in thattem-mode-line (with style {STYLE}).\"."
+  (declare (doc-string 3)
+           (indent defun))
   (unless (or (not style) (> style 0))
     (error "STYLE should be nil or positive number"))
   `(defface ,(intern (format "thattem-mode-line/%s%s"
                              (symbol-name name)
                              (if style (format "-%d" style) "")))
      ,attributes
-     ,(format "Face for %s in thattem-mode-line%s." usage
+     ,(format "Face for %s in thattem-mode-line%s."
+              (string-trim (downcase usage)
+                           "[^[:alpha:]]+"
+                           "[^[:alpha:]]+")
               (if style (format " with style %d" style) ""))))
 
 (defvar thattem-mode-line--default-attribute-bright
@@ -71,73 +76,73 @@ The face is defined with ATTRIBUTES, and the docstring will be
 
 
 (thattem-mode-line--define-face
- bright
- thattem-mode-line--default-attribute-bright
- "bright part")
+  bright
+  thattem-mode-line--default-attribute-bright
+  "Bright part.")
 
 (thattem-mode-line--define-face
- bright
- thattem-mode-line--default-attribute-bright
- "bright part"
- 2)
+  bright
+  thattem-mode-line--default-attribute-bright
+  "Bright part."
+  2)
 
 (thattem-mode-line--define-face
- bright-inactive
- thattem-mode-line--default-attribute-bright
- "bright part in inactive windows")
+  bright-inactive
+  thattem-mode-line--default-attribute-bright
+  "Bright part in inactive windows.")
 
 (thattem-mode-line--define-face
- dark
- thattem-mode-line--default-attribute-dark
- "dark part")
+  dark
+  thattem-mode-line--default-attribute-dark
+  "Dark part.")
 
 (thattem-mode-line--define-face
- dark
- thattem-mode-line--default-attribute-dark
- "dark part"
- 2)
+  dark
+  thattem-mode-line--default-attribute-dark
+  "Dark part."
+  2)
 
 (thattem-mode-line--define-face
- dark-inactive
- thattem-mode-line--default-attribute-dark
- "dark part in inactive windows")
+  dark-inactive
+  thattem-mode-line--default-attribute-dark
+  "Dark part in inactive windows.")
 
 (thattem-mode-line--define-face
- edge
- thattem-mode-line--default-attribute-dark
- "edge icons")
+  edge
+  thattem-mode-line--default-attribute-dark
+  "Edge icons.")
 
 (thattem-mode-line--define-face
- edge
- thattem-mode-line--default-attribute-dark
- "edge icons"
- 2)
+  edge
+  thattem-mode-line--default-attribute-dark
+  "Edge icons."
+  2)
 
 (thattem-mode-line--define-face
- edge-reverse
- thattem-mode-line--default-attribute-bright
- "edge icons with inverted colors")
+  edge-reverse
+  thattem-mode-line--default-attribute-bright
+  "Edge icons with inverted colors.")
 
 (thattem-mode-line--define-face
- edge-reverse
- thattem-mode-line--default-attribute-bright
- "edge icons with inverted colors"
- 2)
+  edge-reverse
+  thattem-mode-line--default-attribute-bright
+  "Edge icons with inverted colors."
+  2)
 
 (thattem-mode-line--define-face
- error
- thattem-mode-line--default-attribute-bright
- "error symbols")
+  error
+  thattem-mode-line--default-attribute-bright
+  "Error symbols.")
 
 (thattem-mode-line--define-face
- warning
- thattem-mode-line--default-attribute-bright
- "warning symbols")
+  warning
+  thattem-mode-line--default-attribute-bright
+  "Warning symbols.")
 
 (thattem-mode-line--define-face
- note
- thattem-mode-line--default-attribute-bright
- "note symbols")
+  note
+  thattem-mode-line--default-attribute-bright
+  "Note symbols.")
 
 ;;; Define buffer-local face variable
 
@@ -178,6 +183,7 @@ And it will select INACTIVE-NAME face in inactive window
 
 At last, the function will return the selected face symbol
 with \\='thattem-mode-line--face-attribute--box\\=' attribute."
+  (declare (indent defun))
   (let* ((name-string (symbol-name name))
          (inactive-name-string
           (if inactive-name
@@ -216,30 +222,30 @@ with \\='thattem-mode-line--face-attribute--box\\=' attribute."
 
 
 (thattem-mode-line--define-face-select-function
- bright)
+  bright)
 
 (thattem-mode-line--define-face-select-function
- dark)
+  dark)
 
 (thattem-mode-line--define-face-select-function
- edge
- dark-inactive)
+  edge
+  dark-inactive)
 
 (thattem-mode-line--define-face-select-function
- edge-reverse
- bright-inactive)
+  edge-reverse
+  bright-inactive)
 
 (thattem-mode-line--define-face-select-function
- error
- bright-inactive)
+  error
+  bright-inactive)
 
 (thattem-mode-line--define-face-select-function
- warning
- bright-inactive)
+  warning
+  bright-inactive)
 
 (thattem-mode-line--define-face-select-function
- note
- bright-inactive)
+  note
+  bright-inactive)
 
 ;;; Define add face attribute function
 

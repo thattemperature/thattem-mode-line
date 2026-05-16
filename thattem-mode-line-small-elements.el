@@ -29,84 +29,84 @@
 
 
 (thattem-mode-line--define-mode-line-item
- left-cup
- '(:eval
-   (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                         :face (thattem-mode-line/edge-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A left half-circle used in mode line.")
+  left-cup
+  '(:eval
+    (nerd-icons-powerline "nf-ple-left_half_circle_thick"
+                          :face (thattem-mode-line/edge-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A left half-circle used in mode line.")
 
 (thattem-mode-line--define-mode-line-item
- left-cup-reverse
- '(:eval
-   (nerd-icons-powerline "nf-ple-left_half_circle_thick"
-                         :face (thattem-mode-line/edge-reverse-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A left half-circle used in mode line with inverted color.")
+  left-cup-reverse
+  '(:eval
+    (nerd-icons-powerline "nf-ple-left_half_circle_thick"
+                          :face (thattem-mode-line/edge-reverse-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A left half-circle used in mode line with inverted color.")
 
 (thattem-mode-line--define-mode-line-item
- right-cup
- '(:eval
-   (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                         :face (thattem-mode-line/edge-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A right half-circle used in mode line.")
+  right-cup
+  '(:eval
+    (nerd-icons-powerline "nf-ple-right_half_circle_thick"
+                          :face (thattem-mode-line/edge-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A right half-circle used in mode line.")
 
 (thattem-mode-line--define-mode-line-item
- right-cup-reverse
- '(:eval
-   (nerd-icons-powerline "nf-ple-right_half_circle_thick"
-                         :face (thattem-mode-line/edge-reverse-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A right half-circle used in mode line with inverted color.")
+  right-cup-reverse
+  '(:eval
+    (nerd-icons-powerline "nf-ple-right_half_circle_thick"
+                          :face (thattem-mode-line/edge-reverse-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A right half-circle used in mode line with inverted color.")
 
 (thattem-mode-line--define-mode-line-item
- left-slant
- '(:eval
-   (nerd-icons-powerline "nf-ple-lower_right_triangle"
-                         :face (thattem-mode-line/edge-reverse-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A left slant used in mode line.")
+  left-slant
+  '(:eval
+    (nerd-icons-powerline "nf-ple-lower_right_triangle"
+                          :face (thattem-mode-line/edge-reverse-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A left slant used in mode line.")
 
 (thattem-mode-line--define-mode-line-item
- left-slant-reverse
- '(:eval
-   (nerd-icons-powerline "nf-ple-lower_right_triangle"
-                         :face (thattem-mode-line/edge-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A left slant used in mode line with inverted color.")
+  left-slant-reverse
+  '(:eval
+    (nerd-icons-powerline "nf-ple-lower_right_triangle"
+                          :face (thattem-mode-line/edge-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A left slant used in mode line with inverted color.")
 
 (thattem-mode-line--define-mode-line-item
- right-slant
- '(:eval
-   (nerd-icons-powerline "nf-ple-lower_left_triangle"
-                         :face (thattem-mode-line/edge-reverse-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A right slant used in mode line.")
+  right-slant
+  '(:eval
+    (nerd-icons-powerline "nf-ple-lower_left_triangle"
+                          :face (thattem-mode-line/edge-reverse-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A right slant used in mode line.")
 
 (thattem-mode-line--define-mode-line-item
- right-slant-reverse
- '(:eval
-   (nerd-icons-powerline "nf-ple-lower_left_triangle"
-                         :face (thattem-mode-line/edge-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A right slant used in mode line with inverted color.")
+  right-slant-reverse
+  '(:eval
+    (nerd-icons-powerline "nf-ple-lower_left_triangle"
+                          :face (thattem-mode-line/edge-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A right slant used in mode line with inverted color.")
 
 (thattem-mode-line--define-mode-line-item
- fire
- '(:eval
-   (nerd-icons-powerline "nf-ple-flame_thick"
-                         :face (thattem-mode-line/edge-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A fire icon used in mode line.")
+  fire
+  '(:eval
+    (nerd-icons-powerline "nf-ple-flame_thick"
+                          :face (thattem-mode-line/edge-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A fire icon used in mode line.")
 
 (thattem-mode-line--define-mode-line-item
- fire-reverse
- '(:eval
-   (nerd-icons-powerline "nf-ple-flame_thick"
-                         :face (thattem-mode-line/edge-reverse-face-when-active)
-                         :height thattem-mode-line-nerd-height))
- "A fire icon used in mode line with inverted color.")
+  fire-reverse
+  '(:eval
+    (nerd-icons-powerline "nf-ple-flame_thick"
+                          :face (thattem-mode-line/edge-reverse-face-when-active)
+                          :height thattem-mode-line-nerd-height))
+  "A fire icon used in mode line with inverted color.")
 
 
 (provide 'thattem-mode-line-small-elements)

@@ -53,12 +53,14 @@
 (defmacro thattem-mode-line-define-wrapper-function (func)
   "Define a wrapper function of FUNC, \
 that temporarily select EVENT's window."
-  `(defun ,(intern
-            (concat
-             "thattem-mode-line-"
-             (replace-regexp-in-string
-              "\\`\\(thattem-\\)?" ""
-              (symbol-name func)))) (event)
+  (declare (indent defun))
+  `(defun
+       ,(intern (concat
+                 "thattem-mode-line-"
+                 (replace-regexp-in-string
+                  "\\`\\(thattem-\\)?" ""
+                  (symbol-name func))))
+       (event)
      ,(concat
        "Like \\='" (symbol-name func) "\\='.
 But temporarily select EVENT's window.")
@@ -138,7 +140,7 @@ Throw a user error otherwise."
       (projectile-previous-project-buffer)
     (user-error "No project selected")))
 (thattem-mode-line-define-wrapper-function
- thattem-projectile-previous-project-buffer)
+  thattem-projectile-previous-project-buffer)
 
 (defun thattem-projectile-next-project-buffer ()
   "Switch to the next project buffer \
@@ -148,7 +150,7 @@ Throw a user error otherwise."
       (projectile-next-project-buffer)
     (user-error "No project selected")))
 (thattem-mode-line-define-wrapper-function
- thattem-projectile-next-project-buffer)
+  thattem-projectile-next-project-buffer)
 
 (defun thattem-mode-line-dir-preprocess (dir-list)
   "Preprocessing the split file path DIR-LIST."

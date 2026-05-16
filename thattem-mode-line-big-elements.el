@@ -62,9 +62,9 @@ and has something unsaved."
 and all changes have been saved.")))))
 
 (thattem-mode-line--define-mode-line-item
- modified
- '(:eval (thattem-mode-line-modified--helper))
- "Mode line construct for indicating \
+  modified
+  '(:eval (thattem-mode-line-modified--helper))
+  "Mode line construct for indicating \
 if the buffer is read-only or modified.")
 
 
@@ -94,9 +94,9 @@ End of line style:
                                 (t "Unspecified")))))))
 
 (thattem-mode-line--define-mode-line-item
- coding-system
- '(:eval (thattem-mode-line-coding-system--helper))
- "Mode line constructor for indicating the coding system.")
+  coding-system
+  '(:eval (thattem-mode-line-coding-system--helper))
+  "Mode line constructor for indicating the coding system.")
 
 
 (defun thattem-mode-line-buffer-name--helper (&optional left-truncate)
@@ -144,14 +144,14 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
      'keymap thattem-mode-line-buffer-name-keymap)))
 
 (thattem-mode-line--define-mode-line-item
- buffer-name-left-truncate
- '(:eval (thattem-mode-line-buffer-name--helper t))
- "Mode line construct for displaying buffer name.")
+  buffer-name-left-truncate
+  '(:eval (thattem-mode-line-buffer-name--helper t))
+  "Mode line construct for displaying buffer name.")
 
 (thattem-mode-line--define-mode-line-item
- buffer-name-right-truncate
- '(:eval (thattem-mode-line-buffer-name--helper))
- "Mode line construct for displaying buffer name.")
+  buffer-name-right-truncate
+  '(:eval (thattem-mode-line-buffer-name--helper))
+  "Mode line construct for displaying buffer name.")
 
 
 (defun thattem-mode-line-major-mode--helper ()
@@ -180,9 +180,9 @@ If LEFT-TRUNCATE is non-nil, truncate the buffer name left side."
      'keymap thattem-mode-line-major-mode-keymap)))
 
 (thattem-mode-line--define-mode-line-item
- major-mode
- '(:eval (thattem-mode-line-major-mode--helper))
- "Mode line construct for displaying major mode.")
+  major-mode
+  '(:eval (thattem-mode-line-major-mode--helper))
+  "Mode line construct for displaying major mode.")
 
 
 (defun thattem-mode-line-line-and-column-number--helper ()
@@ -257,9 +257,9 @@ Wheel-down: forward char"
      (propertize " " 'face dark-face))))
 
 (thattem-mode-line--define-mode-line-item
- line-and-column-number
- '(:eval (thattem-mode-line-line-and-column-number--helper))
- "Mode line construct for displaying line and column information.")
+  line-and-column-number
+  '(:eval (thattem-mode-line-line-and-column-number--helper))
+  "Mode line construct for displaying line and column information.")
 
 
 (defun thattem-mode-line-project-name--helper ()
@@ -300,9 +300,9 @@ Wheel-down: Next project buffer")
      'keymap thattem-mode-line-project-name-keymap)))
 
 (thattem-mode-line--define-mode-line-item
- project-name
- '(:eval (thattem-mode-line-project-name--helper))
- "Mode line construct for displaying project name.")
+  project-name
+  '(:eval (thattem-mode-line-project-name--helper))
+  "Mode line construct for displaying project name.")
 
 
 (defun thattem-mode-line-flymake-info--helper ()
@@ -399,9 +399,9 @@ Wheel-down: Next project buffer")
        (propertize " " 'face bright-face)))))
 
 (thattem-mode-line--define-mode-line-item
- flymake-info
- '(:eval (thattem-mode-line-flymake-info--helper))
- "Mode line construct for displaying flymake diagnostics.")
+  flymake-info
+  '(:eval (thattem-mode-line-flymake-info--helper))
+  "Mode line construct for displaying flymake diagnostics.")
 
 
 (defun thattem-mode-line-file-dir--helper ()
@@ -489,9 +489,9 @@ Wheel-down: scroll down"
                 :height thattem-mode-line-nerd-height))))))
 
 (thattem-mode-line--define-mode-line-item
- file-dir
- '(:eval (thattem-mode-line-file-dir--helper))
- "Mode line construct for displaying full path to the file.")
+  file-dir
+  '(:eval (thattem-mode-line-file-dir--helper))
+  "Mode line construct for displaying full path to the file.")
 
 
 (defun thattem-mode-line-current-time--helper ()
@@ -515,9 +515,9 @@ Date: %d
 %A")))))
 
 (thattem-mode-line--define-mode-line-item
- current-time
- '(:eval (thattem-mode-line-current-time--helper))
- "Mode line constructor for displaying current time and date.")
+  current-time
+  '(:eval (thattem-mode-line-current-time--helper))
+  "Mode line constructor for displaying current time and date.")
 
 ;;; Define alignment items
 
@@ -534,14 +534,14 @@ If DARK-FACE is non-nil, show with dark face."
    'display '(space :align-to right-margin)))
 
 (thattem-mode-line--define-mode-line-item
- end-space-bright
- '(:eval (thattem-mode-line-end-space--helper))
- "Fill the end space of the mode line in bright face.")
+  end-space-bright
+  '(:eval (thattem-mode-line-end-space--helper))
+  "Fill the end space of the mode line in bright face.")
 
 (thattem-mode-line--define-mode-line-item
- end-space-dark
- '(:eval (thattem-mode-line-end-space--helper t))
- "Fill the end space of the mode line in dark face.")
+  end-space-dark
+  '(:eval (thattem-mode-line-end-space--helper t))
+  "Fill the end space of the mode line in dark face.")
 
 
 (defun thattem-mode-line-right-align--helper
@@ -575,27 +575,27 @@ If HEADER-LINE is non-nil, it will be used in header line."
                         (- right-margin (,rest-width))))))
 
 (thattem-mode-line--define-mode-line-item
- right-align-bright
- '(:eval (thattem-mode-line-right-align--helper))
- "Mode line constructor to right align all following constructs \
+  right-align-bright
+  '(:eval (thattem-mode-line-right-align--helper))
+  "Mode line constructor to right align all following constructs \
 in bright face.")
 
 (thattem-mode-line--define-mode-line-item
- right-align-dark
- '(:eval (thattem-mode-line-right-align--helper t))
- "Mode line constructor to right align all following constructs \
+  right-align-dark
+  '(:eval (thattem-mode-line-right-align--helper t))
+  "Mode line constructor to right align all following constructs \
 in dark face.")
 
 (thattem-mode-line--define-mode-line-item
- header-right-align-bright
- '(:eval (thattem-mode-line-right-align--helper nil t))
- "Header line constructor to right align all following constructs \
+  header-right-align-bright
+  '(:eval (thattem-mode-line-right-align--helper nil t))
+  "Header line constructor to right align all following constructs \
 in bright face.")
 
 (thattem-mode-line--define-mode-line-item
- header-right-align-dark
- '(:eval (thattem-mode-line-right-align--helper t t))
- "Header line constructor to right align all following constructs \
+  header-right-align-dark
+  '(:eval (thattem-mode-line-right-align--helper t t))
+  "Header line constructor to right align all following constructs \
 in dark face.")
 
 
