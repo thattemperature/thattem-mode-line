@@ -24,6 +24,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 ;;; Define font height
 
 (defcustom thattem-mode-line-small-font-height
@@ -40,27 +42,57 @@
 
 ;;; Define faces
 
+(eval-and-compile
+  (defvar thattem-mode-line--default-faces nil
+    "A plist of face that need to be styled.
+
+Each key in the plist is the name of the face without prefix.
+And the value is in format (attributes usage).
+See \\='thattem-mode-line--define-face\\='."))
+
 (defmacro thattem-mode-line--define-face
-    (name attributes usage &optional style)
+    (name attributes usage &optional basic special style)
   "Define face used in thattem-mode-line.
 
 The name of the face will be \"thattem-mode-line/{NAME}-{STYLE}\"
 \(or \"thattem-mode-line/{NAME}\" if STYLE is nil).
 The face is defined with ATTRIBUTES, and the docstring will be
-\"Face for {USAGE} in thattem-mode-line (with style {STYLE}).\"."
+\"Face for {USAGE} in thattem-mode-line (with style {STYLE}).\".
+
+If BASIC is non-nil, it will also define a \"inactive\" face.
+
+If the STYLE and SPECIAL is nil , it will register the face
+into the variable \\='thattem-mode-line--default-faces\\='."
   (declare (doc-string 3)
            (indent defun))
   (unless (or (not style) (> style 0))
     (error "STYLE should be nil or positive number"))
-  `(defface ,(intern (format "thattem-mode-line/%s%s"
-                             (symbol-name name)
-                             (if style (format "-%d" style) "")))
-     ,attributes
-     ,(format "Face for %s in thattem-mode-line%s."
-              (string-trim (downcase usage)
-                           "[^[:alpha:]]+"
-                           "[^[:alpha:]]+")
-              (if style (format " with style %d" style) ""))))
+  `(prog1
+       (defface ,(intern (format "thattem-mode-line/%s%s"
+                                 (symbol-name name)
+                                 (if style (format "-%d" style) "")))
+         ,attributes
+         ,(format "Face for %s in thattem-mode-line%s."
+                  (string-trim (downcase usage)
+                               "[^[:alpha:]]+"
+                               "[^[:alpha:]]+")
+                  (if style (format " with style %d" style) "")))
+     ,(when basic
+        `(thattem-mode-line--define-face
+           ,(intern (format "%s-inactive" (symbol-name name)))
+           ,attributes
+           ,(format "%s in inactive windows."
+                    (string-trim usage
+                                 "[^[:alpha:]]+"
+                                 "[^[:alpha:]]+"))
+           nil t))
+     ,(unless (or style special)
+        `(eval-and-compile
+           (setq thattem-mode-line--default-faces
+                 (plist-put
+                  (copy-sequence thattem-mode-line--default-faces)
+                  (quote ,name)
+                  (list (quote ,attributes) (quote ,usage))))))))
 
 (defvar thattem-mode-line--default-attribute-bright
   '((t
@@ -78,34 +110,14 @@ The face is defined with ATTRIBUTES, and the docstring will be
 (thattem-mode-line--define-face
   bright
   thattem-mode-line--default-attribute-bright
-  "Bright part.")
-
-(thattem-mode-line--define-face
-  bright
-  thattem-mode-line--default-attribute-bright
   "Bright part."
-  2)
-
-(thattem-mode-line--define-face
-  bright-inactive
-  thattem-mode-line--default-attribute-bright
-  "Bright part in inactive windows.")
-
-(thattem-mode-line--define-face
-  dark
-  thattem-mode-line--default-attribute-dark
-  "Dark part.")
+  t)
 
 (thattem-mode-line--define-face
   dark
   thattem-mode-line--default-attribute-dark
   "Dark part."
-  2)
-
-(thattem-mode-line--define-face
-  dark-inactive
-  thattem-mode-line--default-attribute-dark
-  "Dark part in inactive windows.")
+  t)
 
 (thattem-mode-line--define-face
   edge
@@ -113,21 +125,9 @@ The face is defined with ATTRIBUTES, and the docstring will be
   "Edge icons.")
 
 (thattem-mode-line--define-face
-  edge
-  thattem-mode-line--default-attribute-dark
-  "Edge icons."
-  2)
-
-(thattem-mode-line--define-face
   edge-reverse
   thattem-mode-line--default-attribute-bright
   "Edge icons with inverted colors.")
-
-(thattem-mode-line--define-face
-  edge-reverse
-  thattem-mode-line--default-attribute-bright
-  "Edge icons with inverted colors."
-  2)
 
 (thattem-mode-line--define-face
   error
@@ -143,6 +143,24 @@ The face is defined with ATTRIBUTES, and the docstring will be
   note
   thattem-mode-line--default-attribute-bright
   "Note symbols.")
+
+
+(defmacro thattem-mode-line--define-styled-faces (style)
+  "Define styled faces with STYLE.
+
+The basic unstyled faces are found in the variable
+\\='thattem-mode-line--default-faces\\='."
+  (declare (indent defun))
+  `(progn
+     ,@(cl-loop for (key val) on thattem-mode-line--default-faces
+                by #'cddr
+                collect `(thattem-mode-line--define-face
+                           ,key
+                           ,@val
+                           nil nil ,style))))
+
+
+(thattem-mode-line--define-styled-faces 2)
 
 ;;; Define buffer-local face variable
 
