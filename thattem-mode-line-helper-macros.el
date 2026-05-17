@@ -23,6 +23,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defmacro thattem-mode-line--define-mode-line-item
     (name value &optional docstring)
   "Define mode line item used in thattem-mode-line.
@@ -42,6 +44,53 @@ And the VALUE and DOCSTRING are used in \\='defvar-local\\='."
              ,value
            ,docstring)
        (put (quote ,variable) 'risky-local-variable t))))
+
+(defmacro thattem-mode-line--define-mode-line-big-item
+    (name arglist docstring variants &rest body)
+  "Define mode line big item used in thattem-mode-line.
+
+It will define a helper function based on ARGLIST, DOCSTRING and BODY
+named \"thattem-mode-line-{NAME}--helper\".
+And then define mode line item variables based on VARIANTS.
+
+The VARIANTS should be a plist. The key indicates the variant name
+and the value is the argument list to call the helper function.
+Here are the possibilities for the key:
+\\='nil\\=', for the original name.
+A symbol, it will be add as the suffix of the name.
+A cons cell, the car will be the prefix cdr the suffix."
+  (declare (doc-string 3) (indent 2))
+  (let* ((name-string (symbol-name name))
+         (function-string
+          (format "thattem-mode-line-%s--helper" name-string))
+         (function (intern function-string))
+         (variants
+          (cl-loop for (key val) on variants by #'cddr
+                   append (list
+                           (if (not key)
+                               name
+                             (if (atom key)
+                                 (intern
+                                  (format "%s-%s"
+                                          name-string
+                                          (symbol-name key)))
+                               (intern
+                                (format "%s-%s-%s"
+                                        (symbol-name (car key))
+                                        name-string
+                                        (symbol-name (cdr key))))))
+                           val))))
+    `(prog1
+         (defun
+             ,function
+             ,arglist
+           ,docstring
+           ,@body)
+       ,@(cl-loop for (key val) on variants by #'cddr
+                  collect `(thattem-mode-line--define-mode-line-item
+                             ,key
+                             (quote (:eval (,function ,@val)))
+                             ,docstring)))))
 
 
 (provide 'thattem-mode-line-helper-macros)
