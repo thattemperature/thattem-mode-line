@@ -436,7 +436,7 @@ Wheel-up: scroll up
 Wheel-down: scroll down"
             'keymap
             thattem-mode-line-file-dir-keymap
-            'seperator-keymap
+            'separator-keymap
             thattem-mode-line-file-dir-separator-keymap)))
        (concat (nerd-icons-powerline
                 "nf-ple-lower_right_triangle"
@@ -518,8 +518,8 @@ Date: %d
                      'thattem-mode-line-header-right-align-bright
                    'thattem-mode-line-right-align-bright)))
          (rest (cdr (memq item (if header-line
-				                   header-line-format
-				                 mode-line-format))))
+                                   header-line-format
+                                 mode-line-format))))
          (rest-str (format-mode-line `("" ,@rest)))
          (rest-width (progn
                        (add-face-text-property

@@ -23,6 +23,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 'flymake)
 (require 'projectile)
 
@@ -33,18 +34,14 @@
   (let ((error-count 0)
         (warning-count 0)
         (note-count 0))
-    (dolist (d (flymake-diagnostics))
-      (let ((d-type
-             (flymake--severity
-              (flymake-diagnostic-type d))))
-        (cond ((= d-type
-                  (flymake--severity ':error))
+    (dolist (diagnostic (flymake-diagnostics))
+      (let ((diagnositc-type
+             (flymake-diagnostic-type diagnostic)))
+        (cond ((eq diagnositc-type :error)
                (cl-incf error-count))
-              ((= d-type
-                  (flymake--severity ':warning))
+              ((eq diagnositc-type :warning)
                (cl-incf warning-count))
-              ((= d-type
-                  (flymake--severity ':note))
+              ((eq diagnositc-type :note)
                (cl-incf note-count)))))
     (list error-count warning-count note-count)))
 
@@ -225,14 +222,13 @@ with ELLIPSIS."
                       omission pseudo-root)))
           (cons (cons
                  (concat
-                  (concat
-                   (propertize
-                    (number-to-string scroll)
-                    'face (plist-get properties 'face)
-                    'keymap (plist-get properties 'seperator-keymap))
-                   (propertize
-                    ellipsis
-                    'keymap (plist-get properties 'seperator-keymap)))
+                  (propertize
+                   (number-to-string scroll)
+                   'face (plist-get properties 'face)
+                   'keymap (plist-get properties 'separator-keymap))
+                  (propertize
+                   ellipsis
+                   'keymap (plist-get properties 'separator-keymap))
                   (apply #'propertize pseudo-root
                          'directory right
                          (plist-put
