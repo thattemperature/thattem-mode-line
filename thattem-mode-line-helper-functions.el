@@ -23,7 +23,6 @@
 
 ;;; Code:
 
-(require 'dash)
 (require 'flymake)
 (require 'projectile)
 
@@ -152,36 +151,62 @@ Throw a user error otherwise."
 (thattem-mode-line-define-wrapper-function
   thattem-projectile-next-project-buffer)
 
-(defun thattem-mode-line-dir-preprocess (dir-list)
-  "Preprocessing the split file path DIR-LIST."
-  (while-let ((continue
-               (and (length> dir-list 1)
-                    (string-blank-p (car (last dir-list))))))
-    (setq dir-list (butlast dir-list)))
+(defun thattem-mode-line-dir-preprocess (dir)
+  "Preprocessing the split file path DIR."
+  (thattem-mode-line--dir-sub-directory
+   (thattem-mode-line--dir-scroll
+    (thattem-mode-line--dir-split dir))))
+
+(defun thattem-mode-line--dir-split (dir)
+  "Split the DIR into a normalized directory list.
+
+If DIR is a file, this function will remove the file name but keep the
+parent directory path.
+If DIR is a directory, it should end with slash to prevent the remove."
+  (let ((dir-list (butlast
+                   (file-name-split
+                    (expand-file-name dir)))))
+    (while-let ((continue
+                 (and (length> dir-list 1)
+                      (string-blank-p (car (last dir-list))))))
+      (setq dir-list (butlast dir-list)))
+    dir-list))
+
+(defun thattem-mode-line--dir-scroll (dir-list &optional do-set)
+  "Scroll the DIR-LIST (merge some beginning items into one).
+
+The number of merging items is controlled by the window parameter
+\\='thattem-mode-line-dir-scroll\\='.
+If DO-SET is non-nil, it will set the window parameter to a proper
+value when the original value is too large to apply."
   (let ((scroll (window-parameter
                  (selected-window) 'thattem-mode-line-dir-scroll)))
     (when scroll
       (unless (length> dir-list scroll)
         (setq scroll (1- (length dir-list)))
-        (set-window-parameter
-         (selected-window) 'thattem-mode-line-dir-scroll
-         (if (<= scroll 0) nil scroll)))
+        (when do-set
+          (set-window-parameter
+           (selected-window) 'thattem-mode-line-dir-scroll
+           (if (<= scroll 0) nil scroll))))
       (setq dir-list
             (cons
              (string-join (seq-take dir-list scroll) "/")
-             (nthcdr scroll dir-list)))))
-  (car
-   (-reduce-r
-    (lambda (item rights)
+             (nthcdr scroll dir-list))))
+    dir-list))
+
+(defun thattem-mode-line--dir-sub-directory (dir-list)
+  "Return a \"sub-directorized\" DIR-LIST.
+
+Each item will be added with a \\='sub-directory\\=' property that
+contains the directory list of its sub-directory."
+  (when dir-list
+    (let ((item (car dir-list))
+          (sub-dir-list (cdr dir-list)))
       (cons
-       (cons
-        (propertize (if (string-empty-p item) " " item)
-                    'sub-directory
-                    (cdr rights))
-        (car rights))
-       (cons item (cdr rights))))
-    (append dir-list
-            '((nil nil))))))
+       (propertize (if (string-empty-p item) " " item)
+                   'sub-directory
+                   sub-dir-list)
+       (thattem-mode-line--dir-sub-directory sub-dir-list)))))
 
 (defun thattem-mode-line-dir-deal-root
     (dir-list &optional ellipsis &rest properties)
@@ -267,10 +292,9 @@ of the string under the EVENT."
          (posn-string (posn-string event-start))
          (directory (get-text-property
                      (cdr posn-string) 'directory (car posn-string)))
-         (sub-dir-list (butlast
-                        (get-text-property
-                         (cdr posn-string) 'sub-directory
-                         (car posn-string)))))
+         (sub-dir-list (get-text-property
+                        (cdr posn-string) 'sub-directory
+                        (car posn-string))))
     (let ((menu (make-sparse-keymap))
           (temp-list nil)
           (current-path directory)

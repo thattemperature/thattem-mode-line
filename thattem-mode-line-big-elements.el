@@ -24,6 +24,7 @@
 
 ;;; Code:
 
+(require 'dash)
 (require 'nerd-icons)
 (require 'thattem-mode-line-faces)
 (require 'thattem-mode-line-keymaps)
@@ -422,10 +423,8 @@ Wheel-down: scroll down")
                 whole-path)))
            (thattem-mode-line-dir-deal-root
             (thattem-mode-line-dir-preprocess
-             (butlast
-              (file-name-split
-               (expand-file-name (or (buffer-file-name)
-                                     dired-directory)))))
+             (or (buffer-file-name)
+                 dired-directory))
             (nerd-icons-faicon "nf-fa-ellipsis_v"
                                :face bright-face)
             'face bright-face
