@@ -148,11 +148,19 @@ Throw a user error otherwise."
 (thattem-mode-line-define-wrapper-function
   thattem-projectile-next-project-buffer)
 
-(defun thattem-mode-line-dir-preprocess (dir)
-  "Preprocessing the split file path DIR."
-  (thattem-mode-line--dir-sub-directory
-   (thattem-mode-line--dir-scroll
-    (thattem-mode-line--dir-split dir))))
+(defun thattem-mode-line-dir-build
+    (dir &optional ellipsis separator &rest properties)
+  "Build the mode line item for the DIR.
+
+ELLIPSIS SEPARATOR and PROPERTIES are passed to
+\\='thattem-mode-line--dir-format-scroll\\='."
+  (apply #'thattem-mode-line--dir-format-scroll
+         (thattem-mode-line--dir-sub-directorize
+          (thattem-mode-line--dir-directorize
+           (thattem-mode-line--dir-scroll
+            (thattem-mode-line--dir-split dir)
+            t)))
+         ellipsis separator properties))
 
 (defun thattem-mode-line--dir-split (dir)
   "Split the DIR into a normalized directory list.
@@ -174,13 +182,21 @@ If DIR is a directory, it should end with slash to prevent the remove."
 
 The number of merging items is controlled by the window parameter
 \\='thattem-mode-line-dir-scroll\\='.
+
 If DO-SET is non-nil, it will set the window parameter to a proper
-value when the original value is too large to apply."
+value when the original value is too large to apply.
+And it will also set another window parameter
+\\='thattem-mode-line-dir-scroll-max\\='."
   (let ((scroll (window-parameter
-                 (selected-window) 'thattem-mode-line-dir-scroll)))
+                 (selected-window) 'thattem-mode-line-dir-scroll))
+        (scroll-max (1- (length dir-list))))
+    (when do-set
+      (set-window-parameter
+       (selected-window) 'thattem-mode-line-dir-scroll-max
+       scroll-max))
     (when scroll
-      (unless (length> dir-list scroll)
-        (setq scroll (1- (length dir-list)))
+      (when (< scroll-max scroll)
+        (setq scroll scroll-max)
         (when do-set
           (set-window-parameter
            (selected-window) 'thattem-mode-line-dir-scroll
@@ -191,81 +207,74 @@ value when the original value is too large to apply."
              (nthcdr scroll dir-list))))
     dir-list))
 
-(defun thattem-mode-line--dir-sub-directory (dir-list)
+(defun thattem-mode-line--dir-directorize (dir-list &optional head)
+  "Return a \"directorized\" DIR-LIST.
+
+Each item will be added with a \\='directory\\=' property that
+contains its full path.
+
+If HEAD is non-nil, it will be treated as the parent of the list."
+  (when dir-list
+    (let ((item (car dir-list))
+          (tail (cdr dir-list)))
+      (let ((full-path (if (and (not head) (file-remote-p item))
+                           (expand-file-name "" item)
+                         (expand-file-name item (or head "/")))))
+        (cons
+         (propertize (if (string-empty-p item) " " item)
+                     'directory
+                     full-path)
+         (thattem-mode-line--dir-directorize tail full-path))))))
+
+(defun thattem-mode-line--dir-sub-directorize (dir-list)
   "Return a \"sub-directorized\" DIR-LIST.
 
 Each item will be added with a \\='sub-directory\\=' property that
-contains the directory list of its sub-directory."
+contains the directory list of its sub-directory.
+
+The DIR-LIST should be a \"directorized\" directory list."
   (when dir-list
     (let ((item (car dir-list))
           (sub-dir-list (cdr dir-list)))
       (cons
-       (propertize (if (string-empty-p item) " " item)
-                   'sub-directory
-                   sub-dir-list)
-       (thattem-mode-line--dir-sub-directory sub-dir-list)))))
+       (propertize item 'sub-directory sub-dir-list)
+       (thattem-mode-line--dir-sub-directorize sub-dir-list)))))
 
-(defun thattem-mode-line-dir-deal-root
-    (dir-list &optional ellipsis &rest properties)
-  "Deal with the root (car) of the DIR-LIST, with PROPERTIES.
-Scroll by the window property `thattem-mode-line-dir-scroll',
-with ELLIPSIS."
-  (if (window-parameter
-       (selected-window) 'thattem-mode-line-dir-scroll)
-      (let ((omission (car dir-list))
-            (pseudo-root (cadr dir-list))
-            (tail (cddr dir-list))
-            (scroll
-             (window-parameter
-              (selected-window) 'thattem-mode-line-dir-scroll)))
-        (let ((right (thattem-mode-line-dir-builder
-                      omission pseudo-root)))
-          (cons (cons
-                 (concat
-                  (propertize
-                   (number-to-string scroll)
-                   'face (plist-get properties 'face)
-                   'keymap (plist-get properties 'separator-keymap))
-                  (propertize
-                   ellipsis
-                   'keymap (plist-get properties 'separator-keymap))
-                  (apply #'propertize pseudo-root
-                         'directory right
-                         (plist-put
-                          (copy-sequence properties)
-                          'help-echo
-                          (concat
-                           right (plist-get properties 'help-echo)))))
-                 right)
-                tail)))
-    (let ((root (car dir-list))
-          (tail (cdr dir-list)))
-      (let ((left (or (file-remote-p root 'method) root))
-            (right (if (file-remote-p root)
-                       (concat root "/")
-                     (thattem-mode-line-dir-builder root))))
-        (cons (cons
-               (apply #'propertize left
-                      'directory right
-                      (plist-put
-                       (copy-sequence properties)
-                       'help-echo
-                       (concat
-                        right
-                        (plist-get properties 'help-echo))))
-               right)
-              tail)))))
+(defun thattem-mode-line--dir-format-scroll
+    (dir-list &optional ellipsis separator &rest properties)
+  "Format the scroll identifier of the mode line file dir.
+And then call \\='thattem-mode-line--dir-format-items\\='.
 
-(defun thattem-mode-line-dir-builder (lefts &optional item)
-  "Build the whole path form the list \
-that \\='file-name-split\\=' generate.
-LEFTS should be the first element \
-or the return value of this function.
-ITEM is the next element."
-  (substring-no-properties
-   (file-name-concat
-    (if (string-blank-p lefts) "/" lefts)
-    item)))
+If the window property \\='thattem-mode-line-dir-scroll\\=' is
+non-nil, this function will replace the first item of DIR-LIST with an
+identifier (a number indicating the scroll depth and an ELLIPSIS) with
+PROPERTIES.
+
+The SEPARATOR and PROPERTIES will be passed to
+\\='thattem-mode-line--dir-format-items\\='."
+  (if-let (scroll (window-parameter
+                   (selected-window) 'thattem-mode-line-dir-scroll))
+      (concat (propertize
+               (number-to-string scroll)
+               'face (plist-get properties 'face)
+               'keymap (plist-get properties 'separator-keymap))
+              ellipsis
+              (apply #'thattem-mode-line--dir-format-items
+                     (cdr dir-list) separator properties))
+    (apply #'thattem-mode-line--dir-format-items
+           dir-list separator properties)))
+
+(defun thattem-mode-line--dir-format-items
+    (dir-list &optional separator &rest properties)
+  "Format each item in the DIR-LIST and return a string.
+
+Each item will be added with PROPERTIES and separated by SEPARATOR."
+  (when dir-list
+    (concat
+     (apply #'propertize (car dir-list) properties)
+     separator
+     (apply #'thattem-mode-line--dir-format-items
+            (cdr dir-list) separator properties))))
 
 (defun thattem-mode-line-goto-dir (event)
   "Open a Dired buffer.
@@ -286,49 +295,26 @@ of the string under the EVENT."
   (interactive "e")
   (let* ((event-start (event-start event))
          (posn-string (posn-string event-start))
-         (directory (get-text-property
-                     (cdr posn-string) 'directory (car posn-string)))
-         (sub-dir-list (get-text-property
-                        (cdr posn-string) 'sub-directory
-                        (car posn-string))))
-    (let ((menu (make-sparse-keymap))
-          (temp-list nil)
-          (current-path directory)
-          (current-id 0))
-      (dolist (sub-directory sub-dir-list)
-        (setq current-path
-              (thattem-mode-line-dir-builder
-               current-path sub-directory))
-        (setq temp-list
-              (cons (list current-id
-                          sub-directory
-                          current-path)
-                    temp-list))
-        (setq current-id (1+ current-id)))
-      (dolist (temp-item temp-list)
-        (bindings--define-key menu (vector (car temp-item))
-          `(menu-item ,(cadr temp-item)
-                      ,(lambda ()))))
+         (sub-dir-list (reverse
+                        (get-text-property
+                         (cdr posn-string) 'sub-directory
+                         (car posn-string)))))
+    (let ((menu (make-sparse-keymap "Sub-Directories"))
+          (id 0))
+      (dolist (sub-dir sub-dir-list)
+        (bindings--define-key menu (vector id)
+          `(menu-item ,sub-dir
+                      ,(lambda ())))
+        (setq id (1+ id)))
       (unless sub-dir-list
-        (bindings--define-key menu [0]
-          `(menu-item ,directory nil)))
-      (let ((target (cadr (alist-get
-                           (car (x-popup-menu event menu))
-                           temp-list))))
-        (when target
+        (bindings--define-key menu (vector id)
+          `(menu-item "null" nil)))
+      (if-let (target (x-popup-menu event menu))
           (with-selected-window
               (posn-window event-start)
-            (dired target)))))))
-
-(defun thattem-mode-line-dir-length ()
-  "Return the length of default directory."
-  (let ((dir-list (file-name-split
-                   (expand-file-name default-directory))))
-    (while-let ((continue
-                 (and (length> dir-list 1)
-                      (string-blank-p (car (last dir-list))))))
-      (setq dir-list (butlast dir-list)))
-    (1- (length dir-list))))
+            (dired (get-text-property
+                    0 'directory
+                    (nth (car target) sub-dir-list))))))))
 
 (defun thattem-mode-line-scroll-up-dir (event)
   "Scroll up the dir item in the window under the EVENT."
@@ -350,8 +336,8 @@ of the string under the EVENT."
   (let* ((window (posn-window (event-start event)))
          (scroll (window-parameter
                   window 'thattem-mode-line-dir-scroll))
-         (scroll-max (with-selected-window window
-                       (thattem-mode-line-dir-length))))
+         (scroll-max (window-parameter
+                      window 'thattem-mode-line-dir-scroll-max)))
     (if (and (< 0 scroll-max)
              (or (not scroll)
                  (< scroll scroll-max)))

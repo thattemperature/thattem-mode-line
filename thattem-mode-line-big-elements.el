@@ -24,7 +24,6 @@
 
 ;;; Code:
 
-(require 'dash)
 (require 'nerd-icons)
 (require 'thattem-mode-line-faces)
 (require 'thattem-mode-line-keymaps)
@@ -380,81 +379,50 @@ Wheel-down: Next project buffer")
         (dark-face (thattem-mode-line/dark-face-when-active))
         (edge-face (thattem-mode-line/edge-face-when-active))
         (edge-reverse-face (thattem-mode-line/edge-reverse-face-when-active)))
-    (concat
-     (propertize " " 'face bright-face)
-     (if (or (buffer-file-name) dired-directory)
-         (car
-          (-reduce
-           (lambda (lefts item)
-             "Build mode line item from directory list item.
-LEFTS should be a cons cell, whose car is built mode line item,
-and cdr is corresponding whole path. ITEM is the next directory item"
-             (let ((whole-path (thattem-mode-line-dir-builder
-                                (cdr lefts) item)))
-               (cons
-                (concat
-                 (car lefts)
-                 (propertize
-                  (concat
-                   (nerd-icons-powerline
-                    "nf-ple-lower_right_triangle"
-                    :face edge-reverse-face
-                    :height thattem-mode-line-nerd-height)
-                   (nerd-icons-powerline
-                    "nf-ple-lower_right_triangle"
-                    :face edge-face
-                    :height thattem-mode-line-nerd-height))
-                  'keymap
-                  thattem-mode-line-file-dir-separator-keymap)
-                 (propertize item
-                             'face bright-face
-                             'mouse-face thattem-mode-line--face-attribute--mouse-box
-                             'help-echo
-                             (concat
-                              whole-path
-                              "\n\nMouse-1: Go to directory
-Mouse-3: Go to sub-directories
-Wheel-up: scroll up
-Wheel-down: scroll down")
-                             'directory
-                             whole-path
-                             'keymap
-                             thattem-mode-line-file-dir-keymap))
-                whole-path)))
-           (thattem-mode-line-dir-deal-root
-            (thattem-mode-line-dir-preprocess
-             (or (buffer-file-name)
-                 dired-directory))
-            (nerd-icons-faicon "nf-fa-ellipsis_v"
-                               :face bright-face)
+    (let ((left-slash (nerd-icons-powerline
+                       "nf-ple-lower_right_triangle"
+                       :face edge-reverse-face
+                       :height thattem-mode-line-nerd-height))
+          (right-slash (nerd-icons-powerline
+                        "nf-ple-lower_right_triangle"
+                        :face edge-face
+                        :height thattem-mode-line-nerd-height)))
+      (concat
+       (propertize " " 'face bright-face)
+       (if-let (dir (or (buffer-file-name) dired-directory))
+           (thattem-mode-line-dir-build
+            dir
+            (propertize
+             (nerd-icons-faicon "nf-fa-ellipsis_v"
+                                :face bright-face)
+             'keymap
+             thattem-mode-line-file-dir-separator-keymap)
+            (propertize
+             (concat left-slash right-slash)
+             'keymap
+             thattem-mode-line-file-dir-separator-keymap)
             'face bright-face
             'mouse-face thattem-mode-line--face-attribute--mouse-box
             'help-echo
-            "\n\nMouse-1: Go to directory
+            "Mouse-1: Go to directory
 Mouse-3: Go to sub-directories
 Wheel-up: scroll up
 Wheel-down: scroll down"
             'keymap
             thattem-mode-line-file-dir-keymap
             'separator-keymap
-            thattem-mode-line-file-dir-separator-keymap)))
-       (concat (nerd-icons-powerline
-                "nf-ple-lower_right_triangle"
-                :face edge-reverse-face
-                :height thattem-mode-line-nerd-height)
-               (propertize (nerd-icons-codicon
-                            (if (eq major-mode 'dired-mode)
-                                "nf-cod-triangle_down"
-                              "nf-cod-dash")
-                            :face dark-face
-                            :height thattem-mode-line-nerd-height)
-                           'mouse-face thattem-mode-line--face-attribute--mouse-box
-                           'help-echo
-                           "No directory of this buffer.")
-               (nerd-icons-powerline
-                "nf-ple-lower_right_triangle"
-                :face edge-face
-                :height thattem-mode-line-nerd-height))))))
+            thattem-mode-line-file-dir-separator-keymap)
+         (concat
+          left-slash
+          (propertize (nerd-icons-codicon
+                       "nf-cod-dash"
+                       :face dark-face
+                       :height thattem-mode-line-nerd-height)
+                      'mouse-face
+                      thattem-mode-line--face-attribute--mouse-box
+                      'help-echo
+                      "No directory of this buffer.")
+          right-slash))))))
 
 
 (thattem-mode-line--define-mode-line-big-item current-time ()
