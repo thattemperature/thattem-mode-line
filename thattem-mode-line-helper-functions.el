@@ -35,13 +35,13 @@
         (warning-count 0)
         (note-count 0))
     (dolist (diagnostic (flymake-diagnostics))
-      (let ((diagnositc-type
+      (let ((diagnostic-type
              (flymake-diagnostic-type diagnostic)))
-        (cond ((eq diagnositc-type :error)
+        (cond ((eq diagnostic-type :error)
                (cl-incf error-count))
-              ((eq diagnositc-type :warning)
+              ((eq diagnostic-type :warning)
                (cl-incf warning-count))
-              ((eq diagnositc-type :note)
+              ((eq diagnostic-type :note)
                (cl-incf note-count)))))
     (list error-count warning-count note-count)))
 
