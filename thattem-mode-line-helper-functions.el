@@ -289,32 +289,52 @@ of the string under the EVENT."
       (dired directory))))
 
 (defun thattem-mode-line-dir-menu (event)
-  "Build menu of sub-directory.
+  "Build menu of sub-directory, pop it up, and do the action.
+
 The sub-directory is specified by the property \\='sub-directory\\='
-of the string under the EVENT."
+of the string under the EVENT.
+If the item has no sub-directory, the menu will be built with the
+content of the directory."
   (interactive "e")
   (let* ((event-start (event-start event))
          (posn-string (posn-string event-start))
+         (directory (get-text-property
+                     (cdr posn-string) 'directory
+                     (car posn-string)))
          (sub-dir-list (reverse
                         (get-text-property
                          (cdr posn-string) 'sub-directory
-                         (car posn-string)))))
-    (let ((menu (make-sparse-keymap "Sub-Directories"))
+                         (car posn-string))))
+         (item-list (or sub-dir-list
+                        (reverse
+                         (mapcar
+                          (lambda (file)
+                            (propertize (file-name-nondirectory file)
+                                        'directory file))
+                          (directory-files
+                           directory
+                           t directory-files-no-dot-files-regexp))))))
+    (let ((menu (make-sparse-keymap (if sub-dir-list
+                                        "Sub-Directories"
+                                      "Contents")))
           (id 0))
-      (dolist (sub-dir sub-dir-list)
+      (dolist (item item-list)
         (bindings--define-key menu (vector id)
-          `(menu-item ,sub-dir
+          `(menu-item ,item
                       ,(lambda ())))
         (setq id (1+ id)))
-      (unless sub-dir-list
+      (unless item-list
         (bindings--define-key menu (vector id)
-          `(menu-item "null" nil)))
-      (if-let (target (x-popup-menu event menu))
+          `(menu-item "Empty" nil)))
+      (if-let* ((result (x-popup-menu event menu))
+                (target (get-text-property
+                         0 'directory
+                         (nth (car result) item-list))))
           (with-selected-window
               (posn-window event-start)
-            (dired (get-text-property
-                    0 'directory
-                    (nth (car target) sub-dir-list))))))))
+            (if (file-directory-p target)
+                (dired target)
+              (find-file target)))))))
 
 (defun thattem-mode-line-scroll-up-dir (event)
   "Scroll up the dir item in the window under the EVENT."
