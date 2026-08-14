@@ -478,21 +478,12 @@ Date: %d
 
    (header . dark)
    (t t))
-  (let* ((item (if dark-face
-                   (if header-line
-                       'thattem-mode-line-header-right-align-dark
-                     'thattem-mode-line-right-align-dark)
-                 (if header-line
-                     'thattem-mode-line-header-right-align-bright
-                   'thattem-mode-line-right-align-bright)))
-         (rest (cdr (memq item (if header-line
-                                   header-line-format
-                                 mode-line-format))))
+  (let* ((position (if header-line
+                       header-line-format
+                     mode-line-format))
+         (rest (cdr (memq variant-symbol position)))
          (rest-str (format-mode-line `("" ,@rest)))
-         (rest-width (progn
-                       (add-face-text-property
-                        0 (length rest-str) 'mode-line t rest-str)
-                       (string-pixel-width rest-str))))
+         (rest-width (string-pixel-width rest-str)))
     (propertize " "
                 'face (if dark-face
                           (thattem-mode-line/dark-face-when-active)

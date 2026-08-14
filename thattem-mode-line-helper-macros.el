@@ -25,6 +25,11 @@
 
 (require 'cl-lib)
 
+
+(defconst thattem-mode-line--item-format
+  "thattem-mode-line-%s"
+  "The format string for the mode line variable items.")
+
 (defmacro thattem-mode-line--define-mode-line-item
     (name value &optional docstring)
   "Define mode line item used in thattem-mode-line.
@@ -36,7 +41,7 @@ And the VALUE and DOCSTRING are used in \\='defvar-local\\='."
   (declare (doc-string 3) (indent defun))
   (let* ((name-string (symbol-name name))
          (variable-string
-          (format "thattem-mode-line-%s" name-string))
+          (format thattem-mode-line--item-format name-string))
          (variable (intern variable-string)))
     `(prog1
          (defvar-local
@@ -44,6 +49,11 @@ And the VALUE and DOCSTRING are used in \\='defvar-local\\='."
              ,value
            ,docstring)
        (put (quote ,variable) 'risky-local-variable t))))
+
+
+(defconst thattem-mode-line--helper-format
+  "thattem-mode-line-%s--helper"
+  "The format string for the helper functions of mode line items.")
 
 (defmacro thattem-mode-line--define-mode-line-big-item
     (name arglist docstring variants &rest body)
@@ -58,11 +68,14 @@ and the value is the argument list to call the helper function.
 Here are the possibilities for the key:
 \\='nil\\=', for the original name.
 A symbol, it will be add as the suffix of the name.
-A cons cell, the car will be the prefix cdr the suffix."
+A cons cell, the car will be the prefix cdr the suffix.
+
+In the BODY, variable \\='variants-symbol\\=' is defined as the symbol
+of the variant."
   (declare (doc-string 3) (indent 2))
   (let* ((name-string (symbol-name name))
          (function-string
-          (format "thattem-mode-line-%s--helper" name-string))
+          (format thattem-mode-line--helper-format name-string))
          (function (intern function-string))
          (variants
           (cl-loop for (key val) on variants by #'cddr
@@ -79,13 +92,25 @@ A cons cell, the car will be the prefix cdr the suffix."
                                         (symbol-name (car key))
                                         name-string
                                         (symbol-name (cdr key))))))
-                           val))))
+                           val)))
+         (reverse-variants
+          (cl-loop for (key val) on variants by #'cddr
+                   append (list
+                           val
+                           (intern
+                            (format thattem-mode-line--item-format
+                                    key))))))
     `(prog1
          (defun
              ,function
              ,arglist
            ,docstring
-           ,@body)
+           (let ((variant-symbol
+                  (plist-get (quote ,reverse-variants)
+                             (list ,@arglist)
+                             #'equal)))
+             (ignore variant-symbol)
+             ,@body))
        ,@(cl-loop for (key val) on variants by #'cddr
                   collect `(thattem-mode-line--define-mode-line-item
                              ,key
