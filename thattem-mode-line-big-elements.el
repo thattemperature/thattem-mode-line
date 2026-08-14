@@ -389,7 +389,7 @@ Wheel-down: Next project buffer")
                         :height thattem-mode-line-nerd-height)))
       (concat
        (propertize " " 'face bright-face)
-       (if-let (dir (or (buffer-file-name) dired-directory))
+       (if-let* ((dir (or (buffer-file-name) dired-directory)))
            (thattem-mode-line-dir-build
             dir
             (propertize

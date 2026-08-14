@@ -252,8 +252,8 @@ PROPERTIES.
 
 The SEPARATOR and PROPERTIES will be passed to
 \\='thattem-mode-line--dir-format-items\\='."
-  (if-let (scroll (window-parameter
-                   (selected-window) 'thattem-mode-line-dir-scroll))
+  (if-let* ((scroll (window-parameter
+                     (selected-window) 'thattem-mode-line-dir-scroll)))
       (concat (propertize
                (number-to-string scroll)
                'face (plist-get properties 'face)
