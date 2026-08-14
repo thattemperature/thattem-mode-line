@@ -54,22 +54,28 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
 (defvar thattem-mode-line-major-mode-keymap
   (let ((map (make-sparse-keymap)))
     ;; mouse-1 to list active local minor modes
-    (bindings--define-key map [mode-line down-mouse-1]
-      `(menu-item "" nil
-                  :filter thattem-mode-line-local-minor-mode-menu))
-    (bindings--define-key map [header-line down-mouse-1]
-      `(menu-item "" nil
-                  :filter thattem-mode-line-local-minor-mode-menu))
+    (define-key map [mode-line down-mouse-1]
+                `(menu-item "" nil
+                            :filter
+                            thattem-mode-line-local-minor-mode-menu))
+    (define-key map [header-line down-mouse-1]
+                `(menu-item "" nil
+                            :filter
+                            thattem-mode-line-local-minor-mode-menu))
     ;; mouse-2 to show major mode help
-    (define-key map [mode-line down-mouse-2] #'thattem-mode-line-describe-mode)
-    (define-key map [header-line down-mouse-2] #'thattem-mode-line-describe-mode)
+    (define-key map [mode-line down-mouse-2]
+                #'thattem-mode-line-describe-mode)
+    (define-key map [header-line down-mouse-2]
+                #'thattem-mode-line-describe-mode)
     ;; mouse-3 to list active global minor modes
-    (bindings--define-key map [mode-line down-mouse-3]
-      `(menu-item "" nil
-                  :filter thattem-mode-line-global-minor-mode-menu))
-    (bindings--define-key map [header-line down-mouse-3]
-      `(menu-item "" nil
-                  :filter thattem-mode-line-global-minor-mode-menu))
+    (define-key map [mode-line down-mouse-3]
+                `(menu-item "" nil
+                            :filter
+                            thattem-mode-line-global-minor-mode-menu))
+    (define-key map [header-line down-mouse-3]
+                `(menu-item "" nil
+                            :filter
+                            thattem-mode-line-global-minor-mode-menu))
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-major-mode\\='.")

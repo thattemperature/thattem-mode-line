@@ -92,11 +92,11 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
                (replace-regexp-in-string
                 "\\(\\(-minor\\)?-mode\\)?\\'" ""
                 (symbol-name minor-mode))))))
-        (bindings--define-key menu (vector minor-mode)
-          `(menu-item ,pretty-minors
-                      ,(lambda ()
-                         (interactive)
-                         (describe-function minor-mode))))))
+        (define-key menu (vector minor-mode)
+                    `(menu-item ,pretty-minors
+                                ,(lambda ()
+                                   (interactive)
+                                   (describe-function minor-mode))))))
     menu))
 
 (defun thattem-mode-line-local-minor-mode-menu (&optional buffer)
@@ -335,13 +335,13 @@ content of the directory."
                                       "Contents")))
           (id 0))
       (dolist (item item-list)
-        (bindings--define-key menu (vector id)
-          `(menu-item ,item
-                      ,(lambda ())))
+        (define-key menu (vector id)
+                    `(menu-item ,item
+                                ,(lambda ())))
         (setq id (1+ id)))
       (unless item-list
-        (bindings--define-key menu (vector id)
-          `(menu-item "Empty" nil)))
+        (define-key menu (vector id)
+                    `(menu-item "Empty" nil)))
       (if-let* ((result (x-popup-menu event menu))
                 (target (get-text-property
                          0 'directory
