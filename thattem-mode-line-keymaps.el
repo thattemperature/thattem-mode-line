@@ -25,27 +25,33 @@
 (require 'thattem-mode-line-helper-functions)
 
 
+(defmacro thattem-mode-line--define-key (key def)
+  "Define keys used in the keymaps of thattem-mode-line.
+
+It will use \\='define-key\\=' internal.
+The keymap name will be \"map\", key will be [mode-line KEY] and
+[header-line KEY], and DEF will pass through."
+  `(progn
+     (define-key map [mode-line ,key] ,def)
+     (define-key map [header-line ,key] ,def)))
+
 (defvar thattem-mode-line-buffer-name-keymap
   (let ((map (make-sparse-keymap)))
     ;; mouse-3 to copy buffer name
-    (define-key map [mode-line down-mouse-3]
-                #'thattem-mode-line-kill-buffer-name-save)
-    (define-key map [header-line down-mouse-3]
-                #'thattem-mode-line-kill-buffer-name-save)
+    (thattem-mode-line--define-key
+     down-mouse-3
+     #'thattem-mode-line-kill-buffer-name-save)
     ;; show copied message when release mouse
-    (define-key map [mode-line mouse-3]
-                #'thattem-mode-line-kill-buffer-name-save-message)
-    (define-key map [header-line mouse-3]
-                #'thattem-mode-line-kill-buffer-name-save-message)
+    (thattem-mode-line--define-key
+     mouse-3
+     #'thattem-mode-line-kill-buffer-name-save-message)
     ;; wheel to go to buffer
-    (define-key map [mode-line wheel-up]
-                #'mode-line-previous-buffer)
-    (define-key map [mode-line wheel-down]
-                #'mode-line-next-buffer)
-    (define-key map [header-line wheel-up]
-                #'mode-line-previous-buffer)
-    (define-key map [header-line wheel-down]
-                #'mode-line-next-buffer)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'mode-line-previous-buffer)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'mode-line-next-buffer)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-buffer-name-left-truncate\\='.
@@ -54,56 +60,45 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
 (defvar thattem-mode-line-major-mode-keymap
   (let ((map (make-sparse-keymap)))
     ;; mouse-1 to list active local minor modes
-    (define-key map [mode-line down-mouse-1]
-                `(menu-item "" nil
-                            :filter
-                            thattem-mode-line-local-minor-mode-menu))
-    (define-key map [header-line down-mouse-1]
-                `(menu-item "" nil
-                            :filter
-                            thattem-mode-line-local-minor-mode-menu))
+    (thattem-mode-line--define-key
+     down-mouse-1
+     `(menu-item "" nil
+                 :filter
+                 thattem-mode-line-local-minor-mode-menu))
     ;; mouse-2 to show major mode help
-    (define-key map [mode-line down-mouse-2]
-                #'thattem-mode-line-describe-mode)
-    (define-key map [header-line down-mouse-2]
-                #'thattem-mode-line-describe-mode)
+    (thattem-mode-line--define-key
+     down-mouse-2
+     #'thattem-mode-line-describe-mode)
     ;; mouse-3 to list active global minor modes
-    (define-key map [mode-line down-mouse-3]
-                `(menu-item "" nil
-                            :filter
-                            thattem-mode-line-global-minor-mode-menu))
-    (define-key map [header-line down-mouse-3]
-                `(menu-item "" nil
-                            :filter
-                            thattem-mode-line-global-minor-mode-menu))
+    (thattem-mode-line--define-key
+     down-mouse-3
+     `(menu-item "" nil
+                 :filter
+                 thattem-mode-line-global-minor-mode-menu))
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-major-mode\\='.")
 
 (defvar thattem-mode-line-line-number-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-previous-line)
-    (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-next-line)
-    (define-key map [header-line wheel-up]
-                #'thattem-mode-line-previous-line)
-    (define-key map [header-line wheel-down]
-                #'thattem-mode-line-next-line)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'thattem-mode-line-previous-line)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'thattem-mode-line-next-line)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-line-and-column-number\\='.")
 
 (defvar thattem-mode-line-column-number-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-backward-char)
-    (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-forward-char)
-    (define-key map [header-line wheel-up]
-                #'thattem-mode-line-backward-char)
-    (define-key map [header-line wheel-down]
-                #'thattem-mode-line-forward-char)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'thattem-mode-line-backward-char)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'thattem-mode-line-forward-char)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-line-and-column-number\\='.")
@@ -111,56 +106,47 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
 (defvar thattem-mode-line-project-name-keymap
   (let ((map (make-sparse-keymap)))
     ;; mouse-1 to open the root Dir of the project
-    (define-key map [mode-line down-mouse-1]
-                #'projectile-dired)
-    (define-key map [header-line down-mouse-1]
-                #'projectile-dired)
+    (thattem-mode-line--define-key
+     down-mouse-1
+     #'projectile-dired)
     ;; wheel to switch buffer
-    (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-projectile-previous-project-buffer)
-    (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-projectile-next-project-buffer)
-    (define-key map [header-line wheel-up]
-                #'thattem-mode-line-projectile-previous-project-buffer)
-    (define-key map [header-line wheel-down]
-                #'thattem-mode-line-projectile-next-project-buffer)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'thattem-mode-line-projectile-previous-project-buffer)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'thattem-mode-line-projectile-next-project-buffer)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-project-name\\='.")
 
 (defvar thattem-mode-line-flymake-info-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line wheel-down]
-                #'flymake--mode-line-counter-scroll-next)
-    (define-key map [mode-line wheel-up]
-                #'flymake--mode-line-counter-scroll-prev)
-    (define-key map [header-line wheel-down]
-                #'flymake--mode-line-counter-scroll-next)
-    (define-key map [header-line wheel-up]
-                #'flymake--mode-line-counter-scroll-prev)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'flymake--mode-line-counter-scroll-next)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'flymake--mode-line-counter-scroll-prev)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-flymake-info\\='.")
 
 (defvar thattem-mode-line-file-dir-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line down-mouse-1]
-                #'thattem-mode-line-goto-dir)
-    (define-key map [header-line down-mouse-1]
-                #'thattem-mode-line-goto-dir)
-    (define-key map [mode-line down-mouse-3]
-                #'thattem-mode-line-dir-menu)
-    (define-key map [header-line down-mouse-3]
-                #'thattem-mode-line-dir-menu)
+    (thattem-mode-line--define-key
+     down-mouse-1
+     #'thattem-mode-line-goto-dir)
+    (thattem-mode-line--define-key
+     down-mouse-3
+     #'thattem-mode-line-dir-menu)
     ;; wheel to scroll dir
-    (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-scroll-down-dir)
-    (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-scroll-up-dir)
-    (define-key map [header-line wheel-down]
-                #'thattem-mode-line-scroll-down-dir)
-    (define-key map [header-line wheel-up]
-                #'thattem-mode-line-scroll-up-dir)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'thattem-mode-line-scroll-down-dir)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'thattem-mode-line-scroll-up-dir)
     map)
   "Keymap for what is displayed by \
 \\='thattem-mode-line-file-dir\\='.")
@@ -168,14 +154,12 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
 (defvar thattem-mode-line-file-dir-separator-keymap
   (let ((map (make-sparse-keymap)))
     ;; wheel to scroll dir
-    (define-key map [mode-line wheel-down]
-                #'thattem-mode-line-scroll-down-dir)
-    (define-key map [mode-line wheel-up]
-                #'thattem-mode-line-scroll-up-dir)
-    (define-key map [header-line wheel-down]
-                #'thattem-mode-line-scroll-down-dir)
-    (define-key map [header-line wheel-up]
-                #'thattem-mode-line-scroll-up-dir)
+    (thattem-mode-line--define-key
+     wheel-down
+     #'thattem-mode-line-scroll-down-dir)
+    (thattem-mode-line--define-key
+     wheel-up
+     #'thattem-mode-line-scroll-up-dir)
     map)
   "Keymap for what is displayed by separator of \
 \\='thattem-mode-line-file-dir\\='.")
