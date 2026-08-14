@@ -36,12 +36,16 @@
         (note-count 0))
     (dolist (diagnostic (flymake-diagnostics))
       (let ((diagnostic-type
-             (flymake-diagnostic-type diagnostic)))
-        (cond ((eq diagnostic-type :error)
+             (flymake-diagnostic-type diagnostic))
+            (severity-eq
+             (lambda (type1 type2)
+               (eq (get type1 'flymake-category)
+                   (get type2 'flymake-category)))))
+        (cond ((funcall severity-eq diagnostic-type :error)
                (cl-incf error-count))
-              ((eq diagnostic-type :warning)
+              ((funcall severity-eq diagnostic-type :warning)
                (cl-incf warning-count))
-              ((eq diagnostic-type :note)
+              ((funcall severity-eq diagnostic-type :note)
                (cl-incf note-count)))))
     (list error-count warning-count note-count)))
 
@@ -338,7 +342,7 @@ content of the directory."
         (define-key menu (vector id)
                     `(menu-item ,item
                                 ,(lambda ())))
-        (setq id (1+ id)))
+        (cl-incf id))
       (unless item-list
         (define-key menu (vector id)
                     `(menu-item "Empty" nil)))
