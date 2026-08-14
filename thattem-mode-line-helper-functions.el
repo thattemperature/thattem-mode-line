@@ -261,6 +261,22 @@ The SEPARATOR and PROPERTIES will be passed to
               ellipsis
               (apply #'thattem-mode-line--dir-format-items
                      (cdr dir-list) separator properties))
+    (apply #'thattem-mode-line--dir-format-remote
+           dir-list separator properties)))
+
+(defun thattem-mode-line--dir-format-remote
+    (dir-list &optional separator &rest properties)
+  "Format the root item of DIR-LIST if it is remote file.
+
+The SEPARATOR and PROPERTIES will be passed to
+\\='thattem-mode-line--dir-format-items\\='."
+  (if-let* ((root (car dir-list))
+            (method (file-remote-p root 'method)))
+      (concat
+       (apply #'propertize method properties)
+       separator
+       (apply #'thattem-mode-line--dir-format-items
+              (cdr dir-list) separator properties))
     (apply #'thattem-mode-line--dir-format-items
            dir-list separator properties)))
 
