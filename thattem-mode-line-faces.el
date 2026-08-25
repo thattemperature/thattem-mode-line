@@ -42,6 +42,11 @@
 
 ;;; Define faces
 
+(defgroup thattem-mode-line-faces nil
+  "Faces used in thattem-mode-line."
+  :group 'faces
+  :group 'thattem-mode-line)
+
 (eval-and-compile
   (defvar thattem-mode-line--default-faces nil
     "A plist of face that need to be styled.
@@ -76,7 +81,9 @@ into the variable \\='thattem-mode-line--default-faces\\='."
                   (string-trim (downcase usage)
                                "[^[:alpha:]]+"
                                "[^[:alpha:]]+")
-                  (if style (format " with style %d" style) "")))
+                  (if style (format " with style %d" style) ""))
+         :group
+         'thattem-mode-line-faces)
      ,(when basic
         `(thattem-mode-line--define-face
            ,(intern (format "%s-inactive" (symbol-name name)))
