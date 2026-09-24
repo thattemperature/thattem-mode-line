@@ -34,10 +34,10 @@
     (name value &optional docstring)
   "Define mode line item used in thattem-mode-line.
 
-It will call \\='defvar-local\\=' and put \
+It will call `defvar-local' and put \
 \"risky-local-variable\" to \"t\".
 The variable name will be \"thattem-mode-line-{NAME}\".
-And the VALUE and DOCSTRING are used in \\='defvar-local\\='."
+And the VALUE and DOCSTRING are used in `defvar-local'."
   (declare (doc-string 3) (indent defun))
   (let* ((name-string (symbol-name name))
          (variable-string
@@ -66,11 +66,11 @@ And then define mode line item variables based on VARIANTS.
 The VARIANTS should be a plist. The key indicates the variant name
 and the value is the argument list to call the helper function.
 Here are the possibilities for the key:
-\\='nil\\=', for the original name.
+nil, for the original name.
 A symbol, it will be add as the suffix of the name.
 A cons cell, the car will be the prefix cdr the suffix.
 
-In the BODY, variable \\='variants-symbol\\=' is defined as the symbol
+In the BODY, variable `variants-symbol' is defined as the symbol
 of the variant."
   (declare (doc-string 3) (indent 2))
   (let* ((name-string (symbol-name name))

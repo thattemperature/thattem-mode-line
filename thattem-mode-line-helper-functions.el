@@ -62,7 +62,7 @@ that temporarily select EVENT's window."
                   (symbol-name func))))
        (event)
      ,(concat
-       "Like \\='" (symbol-name func) "\\='.
+       "Like `" (symbol-name func) "'.
 But temporarily select EVENT's window.")
      (interactive "e")
      (with-selected-window (posn-window (event-start event))
@@ -76,7 +76,7 @@ temporarily select EVENT's windows."
     (kill-new (buffer-name))))
 
 (defun thattem-mode-line-kill-buffer-name-save-message (&optional event)
-  "Message the result of \\='thattem-mode-line-kill-buffer-name-save\\='.
+  "Message the result of `thattem-mode-line-kill-buffer-name-save'.
 Temporarily select EVENT's windows."
   (interactive "e")
   (with-selected-window (posn-window (event-start event))
@@ -119,12 +119,12 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
 (thattem-mode-line-define-wrapper-function describe-mode)
 
 (defun thattem-previous-line ()
-  "Like \\='previous-line\\='."
+  "Like `previous-line'."
   (forward-line -1))
 (thattem-mode-line-define-wrapper-function thattem-previous-line)
 
 (defun thattem-next-line ()
-  "Like \\='next-line\\='."
+  "Like `next-line'."
   (forward-line 1))
 (thattem-mode-line-define-wrapper-function thattem-next-line)
 
@@ -157,7 +157,7 @@ Throw a user error otherwise."
   "Build the mode line item for the DIR.
 
 ELLIPSIS SEPARATOR and PROPERTIES are passed to
-\\='thattem-mode-line--dir-format-scroll\\='."
+`thattem-mode-line--dir-format-scroll'."
   (apply #'thattem-mode-line--dir-format-scroll
          (thattem-mode-line--dir-sub-directorize
           (thattem-mode-line--dir-directorize
@@ -185,12 +185,12 @@ If DIR is a directory, it should end with slash to prevent the remove."
   "Scroll the DIR-LIST (merge some beginning items into one).
 
 The number of merging items is controlled by the window parameter
-\\='thattem-mode-line-dir-scroll\\='.
+`thattem-mode-line-dir-scroll'.
 
 If DO-SET is non-nil, it will set the window parameter to a proper
 value when the original value is too large to apply.
 And it will also set another window parameter
-\\='thattem-mode-line-dir-scroll-max\\='."
+`thattem-mode-line-dir-scroll-max'."
   (let ((scroll (window-parameter
                  (selected-window) 'thattem-mode-line-dir-scroll))
         (scroll-max (1- (length dir-list))))
@@ -214,7 +214,7 @@ And it will also set another window parameter
 (defun thattem-mode-line--dir-directorize (dir-list &optional head)
   "Return a \"directorized\" DIR-LIST.
 
-Each item will be added with a \\='directory\\=' property that
+Each item will be added with a `directory' property that
 contains its full path.
 
 If HEAD is non-nil, it will be treated as the parent of the list."
@@ -233,7 +233,7 @@ If HEAD is non-nil, it will be treated as the parent of the list."
 (defun thattem-mode-line--dir-sub-directorize (dir-list)
   "Return a \"sub-directorized\" DIR-LIST.
 
-Each item will be added with a \\='sub-directory\\=' property that
+Each item will be added with a `sub-directory' property that
 contains the directory list of its sub-directory.
 
 The DIR-LIST should be a \"directorized\" directory list."
@@ -247,15 +247,15 @@ The DIR-LIST should be a \"directorized\" directory list."
 (defun thattem-mode-line--dir-format-scroll
     (dir-list &optional ellipsis separator &rest properties)
   "Format the scroll identifier of the mode line file dir.
-And then call \\='thattem-mode-line--dir-format-items\\='.
+And then call `thattem-mode-line--dir-format-items'.
 
-If the window property \\='thattem-mode-line-dir-scroll\\=' is
+If the window property `thattem-mode-line-dir-scroll' is
 non-nil, this function will replace the first item of DIR-LIST with an
 identifier (a number indicating the scroll depth and an ELLIPSIS) with
 PROPERTIES.
 
 The SEPARATOR and PROPERTIES will be passed to
-\\='thattem-mode-line--dir-format-items\\='."
+`thattem-mode-line--dir-format-items'."
   (if-let* ((scroll (window-parameter
                      (selected-window) 'thattem-mode-line-dir-scroll)))
       (concat (propertize
@@ -273,7 +273,7 @@ The SEPARATOR and PROPERTIES will be passed to
   "Format the root item of DIR-LIST if it is remote file.
 
 The SEPARATOR and PROPERTIES will be passed to
-\\='thattem-mode-line--dir-format-items\\='."
+`thattem-mode-line--dir-format-items'."
   (if-let* ((root (car dir-list))
             (method (file-remote-p root 'method)))
       (concat
@@ -298,7 +298,7 @@ Each item will be added with PROPERTIES and separated by SEPARATOR."
 
 (defun thattem-mode-line-goto-dir (event)
   "Open a Dired buffer.
-The directory is specified by the property \\='directory\\='
+The directory is specified by the property `directory'
 of the string under the EVENT."
   (interactive "e")
   (let* ((event-start (event-start event))
@@ -311,7 +311,7 @@ of the string under the EVENT."
 (defun thattem-mode-line-dir-menu (event)
   "Build menu of sub-directory, pop it up, and do the action.
 
-The sub-directory is specified by the property \\='sub-directory\\='
+The sub-directory is specified by the property `sub-directory'
 of the string under the EVENT.
 If the item has no sub-directory, the menu will be built with the
 content of the directory."

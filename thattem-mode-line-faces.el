@@ -53,7 +53,7 @@
 
 Each key in the plist is the name of the face without prefix.
 And the value is in format (attributes usage).
-See \\='thattem-mode-line--define-face\\='."))
+See `thattem-mode-line--define-face'."))
 
 (defmacro thattem-mode-line--define-face
     (name attributes usage &optional basic special style)
@@ -67,7 +67,7 @@ The face is defined with ATTRIBUTES, and the docstring will be
 If BASIC is non-nil, it will also define a \"inactive\" face.
 
 If the STYLE and SPECIAL is nil , it will register the face
-into the variable \\='thattem-mode-line--default-faces\\='."
+into the variable `thattem-mode-line--default-faces'."
   (declare (doc-string 3)
            (indent defun))
   (unless (or (not style) (> style 0))
@@ -156,7 +156,7 @@ into the variable \\='thattem-mode-line--default-faces\\='."
   "Define styled faces with STYLE.
 
 The basic unstyled faces are found in the variable
-\\='thattem-mode-line--default-faces\\='."
+`thattem-mode-line--default-faces'."
   (declare (indent defun))
   `(progn
      ,@(cl-loop for (key val) on thattem-mode-line--default-faces
@@ -202,12 +202,12 @@ mouse-face.")
 The name of the function will be
 \"thattem-mode-line/{NAME}-face-when-active\".
 The function will select the styled face (if defined) based on
-\\='thattem-mode-line--buffer-style\\='.
+`thattem-mode-line--buffer-style'.
 And it will select INACTIVE-NAME face in inactive window
 \(default is {NAME}-inactive face).
 
 At last, the function will return the selected face symbol
-with \\='thattem-mode-line--face-attribute--box\\=' attribute."
+with `thattem-mode-line--face-attribute--box' attribute."
   (declare (indent defun))
   (let* ((name-string (symbol-name name))
          (inactive-name-string

@@ -28,7 +28,7 @@
 (defmacro thattem-mode-line--define-key (key def)
   "Define keys used in the keymaps of thattem-mode-line.
 
-It will use \\='define-key\\=' internal.
+It will use `define-key' internal.
 The keymap name will be \"map\", key will be [mode-line KEY] and
 [header-line KEY], and DEF will pass through."
   `(progn
@@ -54,8 +54,8 @@ The keymap name will be \"map\", key will be [mode-line KEY] and
      #'mode-line-next-buffer)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-buffer-name-left-truncate\\='.
-And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
+`thattem-mode-line-buffer-name-left-truncate'.
+And `thattem-mode-line-buffer-name-right-truncate'.")
 
 (defvar thattem-mode-line-major-mode-keymap
   (let ((map (make-sparse-keymap)))
@@ -77,7 +77,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
                  thattem-mode-line-global-minor-mode-menu))
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-major-mode\\='.")
+`thattem-mode-line-major-mode'.")
 
 (defvar thattem-mode-line-line-number-keymap
   (let ((map (make-sparse-keymap)))
@@ -89,7 +89,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'thattem-mode-line-next-line)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-line-and-column-number\\='.")
+`thattem-mode-line-line-and-column-number'.")
 
 (defvar thattem-mode-line-column-number-keymap
   (let ((map (make-sparse-keymap)))
@@ -101,7 +101,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'thattem-mode-line-forward-char)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-line-and-column-number\\='.")
+`thattem-mode-line-line-and-column-number'.")
 
 (defvar thattem-mode-line-project-name-keymap
   (let ((map (make-sparse-keymap)))
@@ -118,7 +118,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'thattem-mode-line-projectile-next-project-buffer)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-project-name\\='.")
+`thattem-mode-line-project-name'.")
 
 (defvar thattem-mode-line-flymake-info-keymap
   (let ((map (make-sparse-keymap)))
@@ -130,7 +130,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'flymake--mode-line-counter-scroll-prev)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-flymake-info\\='.")
+`thattem-mode-line-flymake-info'.")
 
 (defvar thattem-mode-line-file-dir-keymap
   (let ((map (make-sparse-keymap)))
@@ -149,7 +149,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'thattem-mode-line-scroll-up-dir)
     map)
   "Keymap for what is displayed by \
-\\='thattem-mode-line-file-dir\\='.")
+`thattem-mode-line-file-dir'.")
 
 (defvar thattem-mode-line-file-dir-separator-keymap
   (let ((map (make-sparse-keymap)))
@@ -162,7 +162,7 @@ And \\='thattem-mode-line-buffer-name-right-truncate\\='.")
      #'thattem-mode-line-scroll-up-dir)
     map)
   "Keymap for what is displayed by separator of \
-\\='thattem-mode-line-file-dir\\='.")
+`thattem-mode-line-file-dir'.")
 
 
 (provide 'thattem-mode-line-keymaps)
