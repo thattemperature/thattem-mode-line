@@ -80,8 +80,8 @@ temporarily select EVENT's windows."
 Temporarily select EVENT's windows."
   (interactive "e")
   (with-selected-window (posn-window (event-start event))
-    (message (format "Buffer name: \"%s\" has been copied."
-                     (buffer-name)))))
+    (message "Buffer name: %S has been copied."
+             (buffer-name))))
 
 (defun thattem-mode-line--mode-list-menu
     (mode-list name &optional global)
