@@ -132,6 +132,8 @@ If GLOBAL is not nil, remove \"global-\" prefix in each items."
 
 (thattem-mode-line-define-wrapper-function forward-char)
 
+(thattem-mode-line-define-wrapper-function projectile-dired)
+
 (defun thattem-projectile-previous-project-buffer ()
   "Switch to the previous project buffer \
 if current buffer belongs to a project.

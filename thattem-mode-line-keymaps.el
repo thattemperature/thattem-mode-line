@@ -108,7 +108,7 @@ And `thattem-mode-line-buffer-name-right-truncate'.")
     ;; mouse-1 to open the root Dir of the project
     (thattem-mode-line--define-key
      down-mouse-1
-     #'projectile-dired)
+     #'thattem-mode-line-projectile-dired)
     ;; wheel to switch buffer
     (thattem-mode-line--define-key
      wheel-up
