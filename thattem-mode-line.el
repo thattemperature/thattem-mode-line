@@ -65,6 +65,35 @@
   :type '(repeat (choice string symbol))
   :group 'thattem-mode-line)
 
+;;; Define backup variable
+
+(defvar thattem-mode-line--backup-flag
+  nil
+  "Non-nil means the original mode line settings are backed up.")
+
+(defvar thattem-mode-line--header-line-format-backup
+  nil
+  "Backup the original header line format.")
+
+(defvar thattem-mode-line--mode-line-format-backup
+  nil
+  "Backup the original mode line format.")
+
+(defvar thattem-mode-line--default-help-echo-backup
+  nil
+  "Backup the original help echo.")
+
+;;; Define keymap
+
+(defvar thattem-mode-line-mode-map
+  (let ((map (make-sparse-keymap)))
+    (dolist (position '(mode-line header-line))
+      (dolist (action '(mouse-1 mouse-2 mouse-3))
+        (define-key map (vector position action)
+                    #'ignore)))
+    map)
+  "Keymap active while `thattem-mode-line-mode' is enabled.")
+
 ;;; Define minor mode
 
 (define-minor-mode thattem-mode-line-mode
@@ -73,14 +102,34 @@
 
   (when thattem-mode-line-mode
     ;; Set default mode line format
+    (unless thattem-mode-line--backup-flag
+      (setq thattem-mode-line--header-line-format-backup
+            (default-value 'header-line-format))
+      (setq thattem-mode-line--mode-line-format-backup
+            (default-value 'mode-line-format)))
     (setq-default header-line-format thattem-default-header-line-format)
     (setq-default mode-line-format thattem-default-mode-line-format)
-    ;; Unset global key binding
-    (dolist (position '(mode-line header-line))
-      (dolist (action '(mouse-1 mouse-2 mouse-3))
-        (global-set-key (vector position action)
-                        'ignore)))
-    (setq mode-line-default-help-echo nil)))
+    ;; Unset key binding help echo
+    (unless thattem-mode-line--backup-flag
+      (setq thattem-mode-line--default-help-echo-backup
+            mode-line-default-help-echo))
+    (setq mode-line-default-help-echo nil)
+    ;; Set backup flag
+    (setq thattem-mode-line--backup-flag t))
+
+  (unless thattem-mode-line-mode
+    ;; Restore default mode line format
+    (when thattem-mode-line--backup-flag
+      (setq-default header-line-format
+                    thattem-mode-line--header-line-format-backup)
+      (setq-default mode-line-format
+                    thattem-mode-line--mode-line-format-backup))
+    ;; Restore key binding help echo
+    (when thattem-mode-line--backup-flag
+      (setq mode-line-default-help-echo
+            thattem-mode-line--default-help-echo-backup))
+    ;; Set backup flag
+    (setq thattem-mode-line--backup-flag nil)))
 
 
 (provide 'thattem-mode-line)
